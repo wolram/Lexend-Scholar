@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Reports &amp; Analytics - Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#137fec",
+                        "outline": "#e5e7eb",
+                        "surface-variant": "#f1f3fd",
+                        "on-tertiary-fixed": "#312e81",
+                        "primary-container": "#dbeafe",
+                        "primary": "#137fec",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f6f7f8",
+                        "surface-container-highest": "#dbeafe",
+                        "secondary-container": "#e5e7eb",
+                        "on-surface": "#111418",
+                        "on-secondary-fixed": "#111418",
+                        "tertiary-container": "#e0e7ff",
+                        "on-tertiary-fixed-variant": "#4338ca",
+                        "inverse-surface": "#1a2634",
+                        "on-tertiary-container": "#312e81",
+                        "on-primary-fixed": "#001b3c",
+                        "on-surface-variant": "#617589",
+                        "secondary": "#617589",
+                        "primary-fixed": "#dbeafe",
+                        "surface-bright": "#ffffff",
+                        "on-primary-fixed-variant": "#0b5ed7",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#ffffff",
+                        "background": "#f6f7f8",
+                        "secondary-fixed-dim": "#617589",
+                        "on-primary-container": "#0b5ed7",
+                        "on-error-container": "#991b1b",
+                        "on-secondary-container": "#111418",
+                        "tertiary-fixed": "#e0e7ff",
+                        "tertiary": "#4f46e5",
+                        "error": "#ef4444",
+                        "on-background": "#111418",
+                        "primary-fixed-dim": "#137fec",
+                        "surface-container-low": "#f6f7f8",
+                        "secondary-fixed": "#e5e7eb",
+                        "outline-variant": "#374151",
+                        "on-secondary-fixed-variant": "#374151",
+                        "tertiary-fixed-dim": "#4f46e5",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a8c8ff",
+                        "error-container": "#fee2e2",
+                        "surface-dim": "#f6f7f8",
+                        "surface-container-high": "#e5e7eb",
+                        "surface-container": "#f1f3fd",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="docked left-0 h-screen w-72 fixed bg-[#f6f7f8] dark:bg-slate-950 flex flex-col py-6 px-4 space-y-2 font-['Lexend'] text-[14px] font-medium z-50">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h1 class="text-xl font-extrabold text-[#111418] dark:text-white leading-none">Lexend Scholar</h1>
+<p class="text-xs text-secondary mt-1">District Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span>Student Performance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span>Attendance Data</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span>Staff Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-[#137fec] border-r-4 border-[#137fec] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>System Reports</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-semibold shadow-sm hover:opacity-90 transition-opacity mb-6 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Report</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617589] dark:text-slate-500 hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</aside>
+<main class="ml-72 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 sticky z-40 bg-[#f6f7f8] dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-8 w-full font-['Lexend'] text-[14px] leading-tight">
+<div class="flex items-center gap-8 flex-1">
+<h2 class="text-xl font-bold text-[#111418] dark:text-white shrink-0">Scholar Analytics</h2>
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search analytics or reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-bold hover:bg-opacity-90 transition-all active:scale-95">Export All</button>
+<button class="text-[#617589] dark:text-slate-400 px-4 py-2 rounded-lg border border-outline hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Quick Filter</button>
+<div class="h-6 w-px bg-outline mx-2"></div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-[#617589] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 text-[#617589] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"><span class="material-symbols-outlined">help_outline</span></button>
+<div class="flex items-center gap-2 ml-2 pl-2 border-l border-outline">
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full bg-slate-200" data-alt="close-up portrait of a professional male educator in a modern office setting with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwsPikrQT93G4kqtZOhkuOTMSkcs4q1v6Q0jY5waUPYxt8zPSSHjoab0pMF4IFW5x6MZGUc531Fshc0dMGeEFfyNiB8HKJY8jbrt-bkxbaF3Vy8VK_FgmpjThNqypdCs-7tjlnOKkhF-mfDgLAOFornw3jz2VYQH-Apm9MK3kWpvOsjEARAiBuedRzs9wL6nT5Z_DFx8kCcIEEWWzzSZlk313il2XpFEIVIhJn7J55VKFOAShO1gaUBaX0kB8MpXjFAVwLqzMK4M2"/>
+<span class="material-symbols-outlined text-[#617589]">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 space-y-8 max-w-7xl mx-auto w-full">
+<!-- Page Title Section -->
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight">Academic Reports &amp; Analytics</h1>
+<p class="text-on-surface-variant mt-1">Real-time data visualization of institutional performance metrics.</p>
+</div>
+<div class="flex gap-2">
+<div class="flex bg-surface-container rounded-lg p-1">
+<button class="px-4 py-1.5 text-xs font-bold bg-white shadow-sm rounded-md text-primary">Last 30 Days</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-on-surface">This Term</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-on-surface">Academic Year</button>
+</div>
+</div>
+</div>
+<!-- Metric Overview (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Average GPA -->
+<div class="bg-surface p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-blue-50 text-primary rounded-lg">
+<span class="material-symbols-outlined">grade</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+0.2 vs LW</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant text-sm font-medium">Average GPA</p>
+<h3 class="text-3xl font-extrabold text-on-surface">3.2</h3>
+</div>
+</div>
+<!-- Attendance Rate -->
+<div class="bg-surface p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-green-50 text-green-600 rounded-lg">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+1.4%</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant text-sm font-medium">Attendance Rate</p>
+<h3 class="text-3xl font-extrabold text-on-surface">94.2%</h3>
+</div>
+</div>
+<!-- Total Credits -->
+<div class="bg-surface p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant bg-surface-container-low px-2 py-1 rounded-full">Target: 15k</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant text-sm font-medium">Total Credits Earned</p>
+<h3 class="text-3xl font-extrabold text-on-surface">12,450</h3>
+</div>
+</div>
+<!-- At-Risk Students -->
+<div class="bg-surface p-6 rounded-xl shadow-sm border border-transparent hover:border-error/20 transition-all flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-error-container text-error rounded-lg">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded-full">-5 students</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant text-sm font-medium">At-Risk Students</p>
+<h3 class="text-3xl font-extrabold text-on-surface">45</h3>
+</div>
+</div>
+</section>
+<!-- Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Grade Distribution Line Chart -->
+<div class="lg:col-span-2 bg-surface p-6 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-on-surface">Performance Trends</h3>
+<div class="flex items-center gap-4 text-xs font-medium">
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span> GPA</div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span> Passing</div>
+</div>
+</div>
+<div class="relative h-64 w-full flex items-end justify-between gap-2 px-2">
+<!-- Abstract Visual Representation of a Line Chart -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q25,60 40,70 T70,40 T100,20" fill="none" stroke="#137fec" stroke-width="2"></path>
+<path d="M0,90 Q20,80 50,85 T80,60 T100,50" fill="none" stroke="#4f46e5" stroke-dasharray="4" stroke-width="2"></path>
+</svg>
+<div class="flex flex-col items-center flex-1 z-10">
+<div class="w-1 h-full bg-transparent"></div>
+<span class="text-[10px] text-on-surface-variant mt-2">Fall 2022</span>
+</div>
+<div class="flex flex-col items-center flex-1 z-10">
+<div class="w-1 h-full bg-transparent"></div>
+<span class="text-[10px] text-on-surface-variant mt-2">Spring 2023</span>
+</div>
+<div class="flex flex-col items-center flex-1 z-10">
+<div class="w-1 h-full bg-transparent"></div>
+<span class="text-[10px] text-on-surface-variant mt-2">Fall 2023</span>
+</div>
+<div class="flex flex-col items-center flex-1 z-10">
+<div class="w-1 h-full bg-transparent"></div>
+<span class="text-[10px] text-on-surface-variant mt-2">Spring 2024</span>
+</div>
+</div>
+</div>
+<!-- Monthly Attendance Heatmap Mockup -->
+<div class="bg-surface p-6 rounded-xl shadow-sm">
+<h3 class="text-lg font-bold text-on-surface mb-6">Attendance Trends</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between text-xs">
+<span class="font-medium text-on-surface-variant">Grade 9</span>
+<div class="flex-1 mx-4 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 96%"></div>
+</div>
+<span class="font-bold">96%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="font-medium text-on-surface-variant">Grade 10</span>
+<div class="flex-1 mx-4 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 92%"></div>
+</div>
+<span class="font-bold">92%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="font-medium text-on-surface-variant">Grade 11</span>
+<div class="flex-1 mx-4 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 88%"></div>
+</div>
+<span class="font-bold">88%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="font-medium text-on-surface-variant">Grade 12</span>
+<div class="flex-1 mx-4 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 94%"></div>
+</div>
+<span class="font-bold">94%</span>
+</div>
+<div class="pt-6 mt-6 border-t border-outline">
+<div class="flex justify-between items-center">
+<span class="text-xs font-medium text-on-surface-variant">Peak Month</span>
+<span class="text-xs font-bold text-primary">September</span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-xs font-medium text-on-surface-variant">Lowest Month</span>
+<span class="text-xs font-bold text-error">December</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Report Generation Table -->
+<section class="bg-surface rounded-xl shadow-sm overflow-hidden">
+<div class="p-6 flex justify-between items-center border-b border-outline">
+<h3 class="text-lg font-bold text-on-surface">Available Reports</h3>
+<div class="flex gap-2">
+<button class="p-2 border border-outline rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+<button class="p-2 border border-outline rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined text-sm">refresh</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 text-[12px] font-semibold text-secondary tracking-wider uppercase">Report Name</th>
+<th class="px-6 py-4 text-[12px] font-semibold text-secondary tracking-wider uppercase">Last Generated</th>
+<th class="px-6 py-4 text-[12px] font-semibold text-secondary tracking-wider uppercase">Frequency</th>
+<th class="px-6 py-4 text-[12px] font-semibold text-secondary tracking-wider uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-blue-50 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">description</span>
+</div>
+<span class="font-medium text-on-surface">End-of-Term Grade Report</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-blue-50 text-[#137fec]">Termly</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 text-xs font-bold border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">PDF</button>
+<button class="px-3 py-1.5 text-xs font-bold border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container-high transition-colors">Excel</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-green-50 text-green-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</div>
+<span class="font-medium text-on-surface">District Attendance Summary</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Nov 01, 2023</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-green-50 text-green-700">Monthly</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 text-xs font-bold border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">PDF</button>
+<button class="px-3 py-1.5 text-xs font-bold border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container-high transition-colors">Excel</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-purple-50 text-purple-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">person_search</span>
+</div>
+<span class="font-medium text-on-surface">Teacher Performance Review</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Sep 15, 2023</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-purple-50 text-purple-700">Termly</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 text-xs font-bold border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">PDF</button>
+<button class="px-3 py-1.5 text-xs font-bold border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container-high transition-colors">Excel</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-amber-50 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+</div>
+<span class="font-medium text-on-surface">Annual Growth Analytics</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Aug 20, 2023</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-50 text-amber-700">Annual</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 text-xs font-bold border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">PDF</button>
+<button class="px-3 py-1.5 text-xs font-bold border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container-high transition-colors">Excel</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline bg-surface-container-low flex items-center justify-between">
+<span class="text-xs text-on-surface-variant">Showing 4 of 12 report types</span>
+<button class="text-xs font-bold text-primary hover:underline">View All Report Types</button>
+</div>
+</section>
+</div>
+</main>
+</body></html>

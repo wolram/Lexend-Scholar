@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attendance - Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#374151",
+                    "tertiary-fixed": "#e0e7ff",
+                    "on-surface": "#111418",
+                    "primary": "#137fec",
+                    "inverse-on-surface": "#f6f7f8",
+                    "error": "#ef4444",
+                    "tertiary-container": "#e0e7ff",
+                    "on-primary-fixed": "#001b3c",
+                    "error-container": "#fee2e2",
+                    "on-secondary": "#ffffff",
+                    "surface": "#ffffff",
+                    "surface-tint": "#137fec",
+                    "surface-container-highest": "#dbeafe",
+                    "on-secondary-fixed-variant": "#374151",
+                    "on-secondary-fixed": "#111418",
+                    "surface-dim": "#f6f7f8",
+                    "primary-fixed-dim": "#137fec",
+                    "on-surface-variant": "#617589",
+                    "on-error-container": "#991b1b",
+                    "primary-container": "#dbeafe",
+                    "on-tertiary-fixed-variant": "#4338ca",
+                    "surface-variant": "#f1f3fd",
+                    "surface-container": "#f1f3fd",
+                    "primary-fixed": "#dbeafe",
+                    "outline": "#e5e7eb",
+                    "surface-bright": "#ffffff",
+                    "on-tertiary-fixed": "#312e81",
+                    "tertiary": "#4f46e5",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#1a2634",
+                    "secondary-container": "#e5e7eb",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f6f7f8",
+                    "tertiary-fixed-dim": "#4f46e5",
+                    "background": "#f6f7f8",
+                    "secondary-fixed-dim": "#617589",
+                    "on-background": "#111418",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#0b5ed7",
+                    "on-tertiary-container": "#312e81",
+                    "secondary-fixed": "#e5e7eb",
+                    "on-secondary-container": "#111418",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#0b5ed7",
+                    "surface-container-high": "#e5e7eb",
+                    "inverse-primary": "#a8c8ff",
+                    "secondary": "#617589"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "body": ["Lexend"],
+                    "label": ["Lexend"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 py-6 px-4 fixed left-0 top-0">
+<div class="flex items-center gap-3 px-2 mb-10">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-gray-900 dark:text-white leading-tight">Lexend Academy</h1>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Academic Year 2023/24</p>
+</div>
+</div>
+<nav class="flex-grow space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<!-- Students -->
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm">Students</span>
+</a>
+<!-- Attendance (ACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="text-sm">Attendance</span>
+</a>
+<!-- Classes -->
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="text-sm">Classes</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm">Reports</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-800 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="flex justify-between items-center px-6 h-16 w-full bg-white dark:bg-gray-950 shadow-sm sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<div class="md:hidden">
+<span class="material-symbols-outlined text-on-surface" data-icon="menu">menu</span>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-48 lg:w-64 transition-all" placeholder="Search students..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden lg:flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Add New Student
+                </button>
+<div class="flex items-center gap-1 border-l border-outline pl-3 ml-2">
+<button class="p-2 text-on-surface-variant hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="ml-2">
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full border border-outline" data-alt="professional portrait of a confident middle-aged school administrator with a warm smile in a brightly lit academic office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-_0NjqTAmo99CIx9tniVIONXvIuUxJHB4z8bL4h44SMziqadUGVcqfve318EEGqors8WbqcohQKdDtnIXw_ZbkYW8hKnoE9jHwegpO5ZkNHQkGb1b5TcPChtp_G3qDS8vUxp0-o5gNCnigZcr5qiIPV-ZQ_NHctVm4swT-yy2CrGPHQOZ-u5CHwEnVMkCP3P_OmmbWytt2K5CxyjKoi5rBqqQg6W7uhLNeDoeXtuKElGp3HEO3Si1VEvbE0ThFzneYMmHsqwC4A_E"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Attendance Content Area -->
+<div class="p-6 lg:p-10 flex-1 flex flex-col max-w-7xl mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex text-xs text-on-surface-variant mb-2 gap-2">
+<span>Attendance</span>
+<span>/</span>
+<span>Classes</span>
+<span>/</span>
+<span class="text-primary font-medium">Grade 10-A</span>
+</nav>
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Grade 10-A: Advanced Algebra II</h2>
+<div class="flex items-center gap-3 mt-2">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="calendar_today">calendar_today</span>
+<p class="text-on-surface-variant font-medium">October 25, 2023</p>
+<span class="h-4 w-[1px] bg-outline mx-2"></span>
+<span class="bg-primary-container text-primary px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider">Morning Session</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-green-100 flex items-center justify-center text-[10px] font-bold text-green-700" title="Present">22</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-red-100 flex items-center justify-center text-[10px] font-bold text-red-700" title="Absent">2</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-amber-100 flex items-center justify-center text-[10px] font-bold text-amber-700" title="Late">1</div>
+</div>
+<button class="flex items-center gap-2 border border-outline px-4 py-2 rounded-lg text-sm font-medium text-secondary hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        Export List
+                    </button>
+<button class="flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                        Save Attendance
+                    </button>
+</div>
+</div>
+<!-- Bento-style Statistics Grid (Subtle) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-primary">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Total Enrolled</p>
+<p class="text-2xl font-extrabold text-on-surface">25 <span class="text-xs font-normal text-on-surface-variant">Students</span></p>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Current Presence</p>
+<p class="text-2xl font-extrabold text-green-600">88% <span class="text-xs font-normal text-on-surface-variant">Confirmed</span></p>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Pending Status</p>
+<p class="text-2xl font-extrabold text-amber-600">0 <span class="text-xs font-normal text-on-surface-variant">Remaining</span></p>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-tertiary">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Period</p>
+<p class="text-2xl font-extrabold text-tertiary">2nd <span class="text-xs font-normal text-on-surface-variant">09:15 AM</span></p>
+</div>
+</div>
+<!-- Main Students List Table -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden flex-1 flex flex-col">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 bg-surface-container-low border-b border-outline">
+<div class="col-span-4 flex items-center gap-2">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Student Information</p>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-center min-w-[60px]">Present</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-center min-w-[60px]">Absent</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-center min-w-[60px]">Late</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Notes &amp; Observations</p>
+</div>
+</div>
+<!-- Scrollable Body -->
+<div class="overflow-y-auto max-h-[600px] divide-y divide-outline">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group">
+<div class="col-span-4 flex items-center gap-4">
+<img alt="Student" class="w-10 h-10 rounded-full object-cover" data-alt="headshot of a teenage boy with dark hair and a polite expression wearing a school uniform against a soft gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR63GHvwuSu0Q-QPBPzAl1eh_XL5rMVtvGJrNdgqSvAk5of0ScmvvCncNOZeyavx4PVXptdss9pqhFm7QsVldGNvwE4YBjWPpISkqJzUaW5yReYEB-cQgknnkOwyJQ9fxGpjFcoogDHzD6dfmJ5rJK65wMijbkW2fbEQDX3ny4vdUocq6boqTYBym845r_M8CCCP_phHuK9SPRVhAIg05BMXIRUPcPRIxOuW7JZeqCi7QYEQg2DpSLWxGDanXJ1ZH71pQD_c_MWv62"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Alex Thompson</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10492</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-1" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-1" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-1" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-surface-container-low border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-primary" placeholder="Add note..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 2 (Late example) -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group">
+<div class="col-span-4 flex items-center gap-4">
+<img alt="Student" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a teenage girl with glasses and braided hair looking attentive in a bright classroom setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk57UtXyZI1nK7aArQ_yd06Z7_dv7V9DSdtpUZEiiIq0PIBtyCU-59xA68uzM9tFMDKq1KAC78NH_FtnZel2U5OBn1dkKiatZwIC_O4jiYiXwOPYcndcmdanVZ0p8Yak66RT7stkOxpjrTYmLZzpEfkVMsmCZd1-Yb-lGR6jXKxYJ7V_KTxCUpjpNPtTMTiL7BLzhciRCSBhND3pweG4RhT8YJfsJbGQ58MRCF2uHnkoWQXbmXihcFUZ4cQG0WQgJlJ9P4WNB1rNZi"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Chloe Richards</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10511</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-2" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-2" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-2" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-amber-50 text-amber-900 border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-amber-500" type="text" value="Arrived 5 mins late from bus"/>
+</div>
+</div>
+</div>
+<!-- Row 3 (Absent example) -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group bg-red-50/10">
+<div class="col-span-4 flex items-center gap-4">
+<img alt="Student" class="w-10 h-10 rounded-full object-cover grayscale" data-alt="studio portrait of a teenage boy with curly hair in a navy blue blazer, high resolution school photo style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9xvhPjrGUhhYszhSlKpt8LmYYzRYpcI4tAJb3YsUYEEx6y1ix1itPe6vutffLuQaHwrlusd74YdSmR0R_Np8X9Ud9RB0ZszpvSagES2kArv3yktnvBuI2LNq-4dAh75vETMhga2pq5CYqL9C8rnRNk6r5my8LILW33RRcqqG2np0viIB9ODi13rXZ58lkMi397CUziHYjxB0gH5dQy7icZx0EDuHCNnMC9mpcEYC6gvmO5XpbH8qXst92OxrnsG1tH7DvniHAt_hH"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Daniel Miller</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10388</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-3" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-3" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-3" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-red-50 text-red-900 border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-red-500 italic" placeholder="Parent called - medical leave" type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group">
+<div class="col-span-4 flex items-center gap-4">
+<img alt="Student" class="w-10 h-10 rounded-full object-cover" data-alt="candid shot of a teenage girl smiling in a bright corridor, natural daylight and scholarly environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYb54o0vtsftZaywjmnba3sLWEqj4Dh62bJs5Eixz9Lx8yhBZo5omCbfzHk3yixQvFf0zSm3OCfKIwjkBS7sWc56R0UVPjIR5KPoQke2K3IpqFsYBRvtYnwJuDURs6WTitNwWPTG3GDiygS-Ejk28ehllwrLBbKIuDjyg-8XO6bGN-oDrn_DVjdJtmSLFaglbNlTT-5rWT01EihukS4wpkbSAZIrvUGTwUwXvnj7jHq7OKbgx3dHpj9Sd9uWrjW33-QCVy-ElKlNL0"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Elena Rodriguez</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10622</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-4" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-4" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-4" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-surface-container-low border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-primary" placeholder="Add note..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 5 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary font-bold">FW</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Franklin Wright</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10703</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-5" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-5" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-5" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-surface-container-low border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-primary" placeholder="Add note..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 6 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest transition-colors group">
+<div class="col-span-4 flex items-center gap-4">
+<img alt="Student" class="w-10 h-10 rounded-full object-cover" data-alt="smiling teenage boy with short hair wearing a white collared shirt in a clean studio environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZVi3_WgVGxte5hyuHihLt9Jhh0uCl8RAze-DpHUTPAmnsLMSJqnrfcvp8W79RU1qNecix_0f4B0vow13p2gf4cM0_Xqh7bRae35rOXaozh-0_LzUq42jHY1GLwfK6Zept3UNmmsQ99tXQLBsAWbdC8H_zbYH4Dk8SZvtvXF7_orXi9acjS0tmSj-1Irf3mmTACLfPdgphJuoCpJiztlB8n2Mr5IpKMmEYR3i1QdYoo2sV-ec1Mcwr0Yg1VHat9ru8JTDM02-vixDQ"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Gabriel Santos</p>
+<p class="text-xs font-mono text-on-surface-variant tracking-wider">#SCH-10441</p>
+</div>
+</div>
+<div class="col-span-5 flex items-center justify-center gap-12">
+<label class="cursor-pointer">
+<input checked="" class="w-6 h-6 text-green-600 border-outline focus:ring-green-500 rounded-full" name="status-6" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-red-600 border-outline focus:ring-red-500 rounded-full" name="status-6" type="radio"/>
+</label>
+<label class="cursor-pointer">
+<input class="w-6 h-6 text-amber-600 border-outline focus:ring-amber-500 rounded-full" name="status-6" type="radio"/>
+</label>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="relative w-full">
+<input class="w-full text-xs bg-surface-container-low border-none rounded-lg px-3 py-2 focus:ring-1 focus:ring-primary" placeholder="Add note..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Summary -->
+<div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-outline">
+<p class="text-xs text-on-surface-variant italic">Last updated: Today at 09:22 AM by Prof. Sarah Jenkins</p>
+<div class="flex items-center gap-4">
+<p class="text-xs font-bold text-on-surface-variant">Class Average Attendance: <span class="text-primary">94.2%</span></p>
+<div class="flex items-center gap-1">
+<button class="p-1 hover:bg-gray-200 rounded disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-lg" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="text-xs font-medium px-2">Page 1 of 3</span>
+<button class="p-1 hover:bg-gray-200 rounded">
+<span class="material-symbols-outlined text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Bar (Contextual) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-blue-50 border border-blue-100 p-6 rounded-xl flex items-start gap-4">
+<div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-blue-900 mb-1">Quick Actions</h4>
+<p class="text-xs text-blue-700 leading-relaxed mb-3">Mark all remaining students as present to save time.</p>
+<button class="text-xs font-bold text-blue-700 underline hover:text-blue-900">Mark All Present</button>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline flex items-start gap-4">
+<div class="p-2 bg-purple-50 rounded-lg text-purple-600">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface mb-1">Absence Alerts</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-3">Notify parents of students marked absent for this session.</p>
+<button class="text-xs font-bold text-primary hover:underline">Draft Notifications (2)</button>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline flex items-start gap-4">
+<div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface mb-1">Attendance Policy</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-3">3 consecutive absences trigger an automatic academic review.</p>
+<button class="text-xs font-bold text-primary hover:underline">View Policy Details</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for quick student addition (Suppressed based on rules for Details/Settings but keeping for main dashboard context if needed) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all md:hidden">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

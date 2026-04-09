@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Profile | Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#f1f3fd",
+                    "on-primary-container": "#0b5ed7",
+                    "on-tertiary-fixed-variant": "#4338ca",
+                    "surface-container": "#f1f3fd",
+                    "secondary-container": "#e5e7eb",
+                    "secondary-fixed-dim": "#617589",
+                    "secondary-fixed": "#e5e7eb",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a8c8ff",
+                    "error-container": "#fee2e2",
+                    "tertiary-fixed": "#e0e7ff",
+                    "on-surface": "#111418",
+                    "on-primary-fixed-variant": "#0b5ed7",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#e0e7ff",
+                    "on-tertiary-container": "#312e81",
+                    "surface-bright": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-background": "#111418",
+                    "surface-container-high": "#e5e7eb",
+                    "primary-fixed": "#dbeafe",
+                    "outline": "#e5e7eb",
+                    "primary": "#137fec",
+                    "inverse-on-surface": "#f6f7f8",
+                    "tertiary": "#4f46e5",
+                    "surface-container-low": "#f6f7f8",
+                    "on-surface-variant": "#617589",
+                    "error": "#ef4444",
+                    "outline-variant": "#374151",
+                    "on-tertiary-fixed": "#312e81",
+                    "on-secondary-fixed-variant": "#374151",
+                    "primary-fixed-dim": "#137fec",
+                    "surface": "#ffffff",
+                    "on-primary-fixed": "#001b3c",
+                    "background": "#f6f7f8",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#dbeafe",
+                    "surface-container-highest": "#dbeafe",
+                    "inverse-surface": "#1a2634",
+                    "secondary": "#617589",
+                    "on-secondary-fixed": "#111418",
+                    "surface-tint": "#137fec",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#f6f7f8",
+                    "on-secondary-container": "#111418",
+                    "on-error-container": "#991b1b",
+                    "tertiary-fixed-dim": "#4f46e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "body": ["Lexend"],
+                    "label": ["Lexend"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col h-screen p-4 space-y-2 bg-surface-container-low border-r border-outline/30 w-64 shrink-0 sticky top-0">
+<div class="flex items-center gap-3 px-2 mb-8 mt-2">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h1 class="text-lg font-semibold text-on-surface leading-tight">Admin Portal</h1>
+<p class="text-[12px] text-on-surface-variant">Institutional View</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span class="font-lexend text-[14px]">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">group</span>
+<span class="font-lexend text-[14px]">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 bg-primary/10 text-primary font-semibold rounded-lg group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-lexend text-[14px]">Teachers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">menu_book</span>
+<span class="font-lexend text-[14px]">Curriculum</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">analytics</span>
+<span class="font-lexend text-[14px]">Reports</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-outline/20">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-lexend text-[14px]">Help Center</span>
+</a>
+<button class="w-full mt-4 bg-primary text-on-primary py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:brightness-110 transition-all">
+                Add New Student
+            </button>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center w-full px-6 h-16 bg-surface-container-low sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">search</span>
+<input class="bg-surface-container border-none rounded-xl pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search teacher or ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center space-x-1 mr-4 border-r border-outline/50 pr-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface-container-low"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-on-surface-variant">Systems Manager</p>
+</div>
+<img alt="Administrator Profile" class="w-9 h-9 rounded-full object-cover border-2 border-primary/20" data-alt="close-up portrait of a professional school administrator with glasses and a friendly smile in a bright modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtih6rPXyhhsjvy97GNarMSTutc3ekyPmPTquMeqBl7_Xt3M2RcadWjGXbIeEhyfrh_6NLy98HZLsrkEh7OXKzepZ84V26_6IYAQKrg8Ein_WSD0Cpn0T-KypFAUpthPooJo4qvuDCKFGKSTG3iSzcJ6poERzAYybKzwVAYCkUYTB7DpFZzXkeyGJT2mU7whNW9At3MLL86hsIYRsPobUa6vBtdETpBFRcKzoz4EWLecMCOhEgAtAiJodunZDdMOgcINSx_fRIeQuo"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="p-6 md:p-8 flex-1">
+<div class="max-w-5xl mx-auto">
+<!-- Back Link -->
+<div class="mb-6">
+<a class="flex items-center gap-1 text-primary text-sm font-semibold hover:gap-2 transition-all" href="#">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Back to Teacher Directory
+                    </a>
+</div>
+<!-- Teacher Profile Header & Content Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Profile Identity Card -->
+<section class="lg:col-span-12 bg-surface shadow-sm rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 border border-outline/10">
+<div class="relative shrink-0">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-surface-container ring-1 ring-primary/20 shadow-lg">
+<img alt="Dr. Sarah Jenkins" class="w-full h-full object-cover" data-alt="professional portrait of a middle-aged female professor with a kind expression, wearing professional attire in a softly lit academic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfVEQG7fpsnq09oLwa2uc2Wy1kQrthteuXfIKtyJbuT7nubtEm4MehlN3Xg_y36FmTCesKQ2PvZlsjop9e9iF_-7s8nj0CY2lzu9dOHUaK9JheP9HfiwbtKSyIQu89-4qM6XlwdvLs9afYHPGvOzmPhqlDjiNeHdKOn9n-86y368tb5IvB9GWui_YZz1va8k_ScUu0ZQMVHHhEYM7U_CWY_5a2g0LlcHptpm0mkai3VgL1gLVuGqJOvuGP6YwZP5w3mR-jCalFVKxT"/>
+</div>
+<div class="absolute bottom-2 right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center border-4 border-surface shadow-md">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="text-center md:text-left flex-1">
+<div class="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Dr. Sarah Jenkins</h2>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-container text-on-primary-container w-fit mx-auto md:mx-0">Senior Faculty</span>
+</div>
+<p class="text-primary font-medium text-lg mb-4">Mathematics Department</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
+<div class="flex flex-col items-center md:items-start px-4 border-r border-outline/30 last:border-0">
+<span class="text-xs text-on-surface-variant font-label uppercase tracking-wider">Experience</span>
+<span class="text-sm font-bold">12 Years</span>
+</div>
+<div class="flex flex-col items-center md:items-start px-4 border-r border-outline/30 last:border-0">
+<span class="text-xs text-on-surface-variant font-label uppercase tracking-wider">Students</span>
+<span class="text-sm font-bold">142</span>
+</div>
+<div class="flex flex-col items-center md:items-start px-4">
+<span class="text-xs text-on-surface-variant font-label uppercase tracking-wider">Performance</span>
+<span class="text-sm font-bold text-on-tertiary-fixed-variant">98% Satisfactory</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 w-full md:w-auto">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-xl">send</span>
+                                Send Message
+                            </button>
+<button class="bg-surface-container text-on-surface px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-secondary-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-xl">calendar_month</span>
+                                View Full Schedule
+                            </button>
+</div>
+</section>
+<!-- Assigned Subjects Card -->
+<section class="lg:col-span-8 bg-surface shadow-sm rounded-xl p-6 border border-outline/10">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+                                Assigned Subjects
+                            </h3>
+<button class="text-primary text-xs font-bold hover:underline">Edit Assignment</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 rounded-xl border border-outline/20 bg-surface-container-low flex items-start gap-4 hover:border-primary/30 transition-all group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">calculate</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm">Advanced Algebra II</h4>
+<p class="text-xs text-on-surface-variant mt-1">Section A &amp; B • Room 402</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] bg-tertiary-container text-on-tertiary-container px-1.5 py-0.5 rounded font-bold">MON / WED</span>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-outline/20 bg-surface-container-low flex items-start gap-4 hover:border-primary/30 transition-all group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">function</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm">Calculus AB</h4>
+<p class="text-xs text-on-surface-variant mt-1">AP Level • Room 210</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] bg-tertiary-container text-on-tertiary-container px-1.5 py-0.5 rounded font-bold">TUE / THU</span>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-outline/20 bg-surface-container-low flex items-start gap-4 hover:border-primary/30 transition-all group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm">Geometry &amp; Proofs</h4>
+<p class="text-xs text-on-surface-variant mt-1">Freshman Core • Room 305</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] bg-tertiary-container text-on-tertiary-container px-1.5 py-0.5 rounded font-bold">FRIDAY</span>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-dashed border-outline/50 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-variant cursor-pointer transition-all">
+<span class="material-symbols-outlined mr-2">add_circle</span>
+<span class="text-sm font-semibold">Assign Subject</span>
+</div>
+</div>
+</section>
+<!-- Contact Information Card -->
+<section class="lg:col-span-4 bg-surface shadow-sm rounded-xl p-6 border border-outline/10 h-full">
+<h3 class="text-xl font-bold text-on-surface flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">contact_page</span>
+                            Contact Info
+                        </h3>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="bg-surface-container rounded-lg p-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">mail</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-label uppercase text-on-surface-variant tracking-wider">Professional Email</p>
+<p class="text-sm font-bold text-primary break-all">s.jenkins@lexendscholar.edu</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-surface-container rounded-lg p-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">call</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-label uppercase text-on-surface-variant tracking-wider">Office Extension</p>
+<p class="text-sm font-bold text-on-surface">+1 (555) 482-0192</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-surface-container rounded-lg p-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">meeting_room</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-label uppercase text-on-surface-variant tracking-wider">Office Location</p>
+<p class="text-sm font-bold text-on-surface">Academic Block B, Suite 412</p>
+</div>
+</div>
+<div class="pt-4 border-t border-outline/20">
+<p class="text-xs font-label uppercase text-on-surface-variant tracking-wider mb-2 text-center">Available Hours</p>
+<div class="flex justify-between items-center text-xs px-2">
+<span class="text-on-surface-variant">Mon-Fri</span>
+<span class="font-bold text-on-surface">3:00 PM - 4:30 PM</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Professional Bio / Recent Activity Asymmetric Row -->
+<section class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container shadow-sm rounded-xl p-6 border border-outline/10">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+                                Professional Summary
+                            </h3>
+<p class="text-sm leading-relaxed text-on-surface">
+                                Dr. Sarah Jenkins joined Lexend Scholar in 2012, specializing in mathematical logic and algebraic structures. She serves as the Lead Curriculum Coordinator for the Upper School Mathematics Department and oversees the regional Math Olympiad preparation team.
+                            </p>
+</div>
+<div class="bg-surface shadow-sm rounded-xl p-6 border border-outline/10">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">bolt</span>
+                                Quick Actions
+                            </h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-surface-container hover:bg-secondary-container rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">file_download</span> Download CV
+                                </button>
+<button class="px-4 py-2 bg-surface-container hover:bg-secondary-container rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">edit</span> Edit Profile
+                                </button>
+<button class="px-4 py-2 bg-surface-container hover:bg-secondary-container rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">print</span> Print Transcript
+                                </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation (Responsive Pivot) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-[0_-2px_10px_rgba(0,0,0,0.05)] h-16 flex items-center justify-around z-50 px-4">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-medium">Students</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-[10px] font-bold">Teachers</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-medium">Curriculum</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Reports</span>
+</a>
+</nav>
+</body></html>

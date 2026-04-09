@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sophia Anderson - Student Profile | Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#111418",
+                        "on-primary": "#ffffff",
+                        "outline": "#e5e7eb",
+                        "on-tertiary-fixed": "#312e81",
+                        "tertiary-fixed": "#e0e7ff",
+                        "tertiary": "#4f46e5",
+                        "error": "#ef4444",
+                        "inverse-on-surface": "#f6f7f8",
+                        "primary-fixed": "#dbeafe",
+                        "surface-variant": "#f1f3fd",
+                        "surface-container-low": "#f6f7f8",
+                        "on-secondary-fixed-variant": "#374151",
+                        "on-secondary-fixed": "#111418",
+                        "surface-bright": "#ffffff",
+                        "background": "#f6f7f8",
+                        "on-tertiary-fixed-variant": "#4338ca",
+                        "on-error-container": "#991b1b",
+                        "secondary-fixed-dim": "#617589",
+                        "tertiary-fixed-dim": "#4f46e5",
+                        "primary": "#137fec",
+                        "secondary-container": "#e5e7eb",
+                        "on-tertiary-container": "#312e81",
+                        "outline-variant": "#374151",
+                        "on-secondary-container": "#111418",
+                        "on-surface-variant": "#617589",
+                        "on-primary-fixed-variant": "#0b5ed7",
+                        "surface-container-high": "#e5e7eb",
+                        "secondary-fixed": "#e5e7eb",
+                        "primary-container": "#dbeafe",
+                        "on-surface": "#111418",
+                        "tertiary-container": "#e0e7ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#617589",
+                        "on-primary-container": "#0b5ed7",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#f6f7f8",
+                        "inverse-primary": "#a8c8ff",
+                        "inverse-surface": "#1a2634",
+                        "error-container": "#fee2e2",
+                        "surface-tint": "#137fec",
+                        "primary-fixed-dim": "#137fec",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#dbeafe",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3c",
+                        "surface": "#ffffff",
+                        "surface-container": "#f1f3fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar (Authority: JSON & Design System) -->
+<aside class="fixed left-0 top-0 flex flex-col h-full py-6 w-64 bg-[#f6f7f8] dark:bg-slate-900 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-[#111418] dark:text-white leading-tight">Lexend Academy</h1>
+<p class="text-xs text-[#617589] dark:text-slate-400 font-medium uppercase tracking-wider">Admin Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active Item: Students (Semantic Mapping) -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#137fec]/10 text-[#137fec] border-r-4 border-[#137fec] font-medium transition-all duration-200 ease-in-out rounded-l-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span>Teachers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="class">class</span>
+<span>Classes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<button class="w-full mb-6 bg-[#137fec] text-white py-2.5 rounded-lg font-bold text-sm shadow-sm flex items-center justify-center gap-2 hover:bg-blue-600 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add New Student
+            </button>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#617589] dark:text-slate-400 font-medium hover:bg-[#f1f3fd] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-error font-medium hover:bg-red-50 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar (Authority: JSON) -->
+<header class="sticky top-0 z-40 flex justify-between items-center px-8 py-4 w-full bg-[#f6f7f8] dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 text-[12px] font-medium text-[#617589] dark:text-slate-400 mb-1">
+<span>Students</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span>Profile</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-bold">Sophia Anderson</span>
+</div>
+<h2 class="text-xl font-bold text-[#111418] dark:text-white">Student Profile</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-[#617589]">
+<span class="material-symbols-outlined text-lg">search</span>
+</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-[#617589]" placeholder="Search students..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-[#617589] hover:bg-surface-variant rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-[#617589] hover:bg-surface-variant rounded-full">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-[1px] bg-outline mx-1"></div>
+<div class="flex items-center gap-3">
+<img alt="User profile avatar" class="w-10 h-10 rounded-full object-cover border-2 border-white" data-alt="Close up professional headshot of a female education administrator with friendly expression in office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ZVpGorL0uNVJhuxJAZ3bd5IDdeukUCn_kitAfz5N1VEiQJP-FNS0kVusmGvAzqoZ78w0m2cYBqYNC9DTXG8KjJ9PjdY9gEl2q73S4iJq0wRiVU9y1wroMulzsa0KsO55lmEnu6nwW_qZgpGqSbqnocGeoEK-10aCLkrmVZTc3fitHpCm1ujy_Ccs1LHavVpTX6dFfvWMqMjAAxguSP28ibdae7olVCEbp-APrq_nC2XZbUht9VIclPx5CpfKJz27sf8DWQfhZ778"/>
+<div class="hidden lg:block text-right">
+<p class="text-sm font-bold text-[#111418]">Admin User</p>
+<p class="text-xs text-[#617589]">Principal Office</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-8 max-w-7xl mx-auto space-y-6">
+<!-- Top Bento Row: Profile Header & Academic Summary -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Student Header Card -->
+<div class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-outline flex flex-col md:flex-row gap-8 items-center md:items-start">
+<div class="relative">
+<img alt="Sophia Anderson" class="w-32 h-32 rounded-2xl object-cover border-4 border-surface-container shadow-lg" data-alt="Headshot of a smiling teenage girl with brown hair and glasses, wearing a blue sweater, professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcPD8TLvmST308GsC27Wr52FyooJrUTq1kHOTtDcAiWfe90HIdrtVqUxKn85gTthtyvrVo8OCKFYGG61xgWSBF1tzV9HsX9BZ8SSlUPkbTG2fTxpgUrhCe4ihN6acbQ3MzbW3b99vqHOFHjmK70qoEj2PHmAzGamsBmXty05UmQtWP-fkLwMu3AYWWlai3s11_9tqH4JnRERDfLW54GUD4NqplfF--n1ia3CmINrui80tyyhnoQ55yaN8DFC--v-BYl-8PkGOMLGvt"/>
+<span class="absolute -bottom-2 -right-2 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-full border-2 border-white uppercase tracking-wider">Active</span>
+</div>
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+<h3 class="text-3xl font-black text-on-background">Sophia Anderson</h3>
+<div class="flex gap-2 justify-center">
+<span class="bg-primary-container text-primary text-xs font-bold px-3 py-1 rounded-lg">GRADE 10-A</span>
+<span class="bg-surface-variant text-secondary text-xs font-bold px-3 py-1 rounded-lg">#STU-2023-001</span>
+</div>
+</div>
+<p class="text-secondary mb-6 leading-relaxed">Sophomore student specializing in STEM tracks. Active member of the Robotics Club and Varsity Debate Team. Maintains consistent excellence in mathematics and physics.</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-tighter mb-1">GPA</p>
+<p class="text-xl font-black text-primary">3.8</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-tighter mb-1">Attendance</p>
+<p class="text-xl font-black text-primary">98%</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-tighter mb-1">Class Rank</p>
+<p class="text-xl font-black text-primary">12 / 145</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-tighter mb-1">Credits</p>
+<p class="text-xl font-black text-primary">64.0</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Academic Performance Card -->
+<div class="col-span-12 lg:col-span-4 bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-outline flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-bold text-on-background">Performance Trend</h4>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<div class="flex-1 flex items-end gap-1 px-2 h-32 mb-6">
+<!-- Mini Bar Chart as a Line/Trend visual -->
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[60%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[75%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[70%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[85%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[80%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary rounded-t-sm h-[95%] transition-all hover:opacity-80"></div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-2 border-b border-outline">
+<span class="text-sm text-secondary">Sem 1 Average</span>
+<span class="text-sm font-bold">92.4%</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-outline">
+<span class="text-sm text-secondary">Sem 2 Average</span>
+<span class="text-sm font-bold">94.8%</span>
+</div>
+<p class="text-[11px] text-[#617589] italic">Academic standing: Distinguished Honors</p>
+</div>
+</div>
+</div>
+<!-- Middle Row: Contact & Attendance -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Quick Contact Card -->
+<div class="col-span-12 md:col-span-5 bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-outline">
+<h4 class="font-bold text-on-background mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">contact_page</span>
+                        Contact Information
+                    </h4>
+<div class="space-y-5">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5">mail</span>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-wider">Email</p>
+<p class="text-sm font-medium">sophia.a@student.edu</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5">call</span>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-wider">Phone</p>
+<p class="text-sm font-medium">+1 (555) 123-4567</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5">location_on</span>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-wider">Address</p>
+<p class="text-sm font-medium leading-tight">1248 Oakwood Ave, Apt 4B<br/>Riverside, CA 92501</p>
+</div>
+</div>
+<div class="pt-4 mt-2 border-t border-outline">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5">family_history</span>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-wider">Parent/Guardian</p>
+<p class="text-sm font-bold text-on-background">Robert Anderson (Father)</p>
+<p class="text-xs text-secondary">+1 (555) 987-6543</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Attendance Overview Card -->
+<div class="col-span-12 md:col-span-7 bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-outline">
+<h4 class="font-bold text-on-background mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">event_available</span>
+                        Attendance Record
+                    </h4>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="text-center p-4 bg-primary/5 rounded-xl border border-primary/10">
+<p class="text-2xl font-black text-primary">98%</p>
+<p class="text-[10px] font-bold text-secondary uppercase">Overall</p>
+</div>
+<div class="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+<p class="text-2xl font-black text-green-700">176</p>
+<p class="text-[10px] font-bold text-green-600 uppercase">Present</p>
+</div>
+<div class="text-center p-4 bg-red-50 rounded-xl border border-red-100">
+<p class="text-2xl font-black text-red-700">4</p>
+<p class="text-[10px] font-bold text-red-600 uppercase">Absent</p>
+</div>
+<div class="text-center p-4 bg-orange-50 rounded-xl border border-orange-100">
+<p class="text-2xl font-black text-orange-700">2</p>
+<p class="text-[10px] font-bold text-orange-600 uppercase">Late</p>
+</div>
+</div>
+<!-- Calendar heatmap visualization -->
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-3">Last 30 Days Engagement</p>
+<div class="flex gap-1">
+<!-- Simulated 30 days of squares -->
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-orange-400"></div>
+<div class="flex-1 aspect-square rounded-sm bg-outline/20"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-outline/20"></div>
+<div class="flex-1 aspect-square rounded-sm bg-outline/20"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-red-400"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+<div class="flex-1 aspect-square rounded-sm bg-primary"></div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Academic History & Notes -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Academic History Table -->
+<div class="col-span-12 lg:col-span-9 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-outline overflow-hidden">
+<div class="p-6 border-b border-outline flex justify-between items-center bg-surface-container-low/50">
+<h4 class="font-bold text-on-background">Academic History</h4>
+<button class="text-primary text-xs font-bold hover:underline">Download Transcript</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-[11px] font-bold text-secondary uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">Course Name</th>
+<th class="px-6 py-4">Instructor</th>
+<th class="px-6 py-4">Term</th>
+<th class="px-6 py-4">Grade</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined text-sm">functions</span>
+</div>
+<span class="text-sm font-medium text-on-background">Advanced Algebra II</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-secondary">Dr. Emily Wick</td>
+<td class="px-6 py-4 text-sm text-secondary">Fall 2023</td>
+<td class="px-6 py-4"><span class="text-sm font-black text-on-background">A</span></td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface-variant transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600">
+<span class="material-symbols-outlined text-sm">biotech</span>
+</div>
+<span class="text-sm font-medium text-on-background">Organic Chemistry</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-secondary">Prof. Marcus Chen</td>
+<td class="px-6 py-4 text-sm text-secondary">Fall 2023</td>
+<td class="px-6 py-4"><span class="text-sm font-black text-on-background">A-</span></td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface-variant transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-amber-100 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+</div>
+<span class="text-sm font-medium text-on-background">Modern World History</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-secondary">Sarah Jenkins</td>
+<td class="px-6 py-4 text-sm text-secondary">Spring 2023</td>
+<td class="px-6 py-4"><span class="text-sm font-black text-on-background">B+</span></td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface-variant transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-indigo-100 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+</div>
+<span class="text-sm font-medium text-on-background">English Literature</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-secondary">Dr. Alan Turing</td>
+<td class="px-6 py-4 text-sm text-secondary">Spring 2023</td>
+<td class="px-6 py-4"><span class="text-sm font-black text-on-background">A</span></td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Completed</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Notes/Comments Section -->
+<div class="col-span-12 lg:col-span-3 bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-outline flex flex-col">
+<h4 class="font-bold text-on-background mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">sticky_note_2</span>
+                        Administrative Notes
+                    </h4>
+<div class="flex-1">
+<textarea class="w-full h-40 bg-surface-container-low border-none rounded-lg text-sm text-on-background focus:ring-2 focus:ring-primary/20 placeholder:text-secondary resize-none" placeholder="Add a private note about this student..."></textarea>
+</div>
+<div class="mt-4 space-y-4">
+<div class="p-3 bg-surface-variant/50 rounded-lg border border-outline/50">
+<p class="text-[11px] font-bold text-on-background mb-1">Dec 12, 2023</p>
+<p class="text-[12px] text-secondary leading-tight">Applied for Science Fair sponsorship. Approved by Dept. Head.</p>
+</div>
+<button class="w-full py-2 bg-primary text-white font-bold rounded-lg text-xs hover:bg-blue-600 transition-colors">Save Note</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB Suppression (Instruction: Suppress on Detail pages) -->
+<!-- FAB is NOT rendered here as per suppression rules for focused detail views -->
+</body></html>

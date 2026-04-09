@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog - Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#137fec",
+                    "on-primary-fixed-variant": "#0b5ed7",
+                    "primary-fixed": "#dbeafe",
+                    "error": "#ef4444",
+                    "on-tertiary-container": "#312e81",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#617589",
+                    "inverse-primary": "#a8c8ff",
+                    "surface-bright": "#ffffff",
+                    "on-tertiary-fixed": "#312e81",
+                    "secondary-container": "#e5e7eb",
+                    "on-surface-variant": "#617589",
+                    "surface": "#ffffff",
+                    "inverse-surface": "#1a2634",
+                    "primary-container": "#dbeafe",
+                    "error-container": "#fee2e2",
+                    "surface-container": "#f1f3fd",
+                    "on-secondary-fixed": "#111418",
+                    "tertiary-container": "#e0e7ff",
+                    "on-background": "#111418",
+                    "surface-tint": "#137fec",
+                    "primary-fixed-dim": "#137fec",
+                    "on-tertiary-fixed-variant": "#4338ca",
+                    "tertiary-fixed": "#e0e7ff",
+                    "surface-variant": "#f1f3fd",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#4f46e5",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#617589",
+                    "surface-container-highest": "#dbeafe",
+                    "tertiary": "#4f46e5",
+                    "surface-container-high": "#e5e7eb",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f6f7f8",
+                    "on-error-container": "#991b1b",
+                    "outline": "#e5e7eb",
+                    "background": "#f6f7f8",
+                    "secondary-fixed": "#e5e7eb",
+                    "surface-dim": "#f6f7f8",
+                    "on-surface": "#111418",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-container": "#0b5ed7",
+                    "on-secondary-container": "#111418",
+                    "on-secondary-fixed-variant": "#374151",
+                    "inverse-on-surface": "#f6f7f8",
+                    "outline-variant": "#374151",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "body": ["Lexend"],
+                    "label": ["Lexend"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 4px 20px -2px rgba(19, 127, 236, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
+<div class="text-xl font-bold text-slate-900 dark:text-white tracking-tighter">Lexend Scholar</div>
+<div class="hidden md:flex items-center space-x-8 font-lexend text-sm font-medium tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors duration-200" href="#">Features</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors duration-200" href="#">Pricing</a>
+<a class="text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 py-1 transition-colors duration-200" href="#">Blog</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors duration-200" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block text-sm font-lexend font-medium text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity">Log In</button>
+<button class="px-5 py-2 bg-primary text-on-primary rounded-lg text-sm font-medium scale-95 active:opacity-80 transition-transform">Get Started</button>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-20 px-6 max-w-7xl mx-auto">
+<!-- Featured Post Section -->
+<section class="mb-16">
+<div class="relative group cursor-pointer overflow-hidden rounded-xl bg-surface editorial-shadow border border-outline/50 flex flex-col lg:flex-row">
+<div class="lg:w-3/5 overflow-hidden">
+<img alt="Featured Scholar Article" class="w-full h-[400px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern minimalist library with soft natural lighting and geometric book shelves reflecting institutional excellence and scholarly focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzz7_6w4zKh2L6ZpX9X5smmKkvCJ2o1xj4zh3cGkrpjFNX7iTChmMNjAjh-jRfrAb218FM0oln5NbQG_yGMRcuy5YwKlLG0QwRG8oWvLYamLTHATkLn3kyoE8Fd6ReZasrN66dnfFB8LpMCE9ieLjrhUTTvr4EVSZ7V1e8KUsEQXM4U0Si6IHDcqJL4ymfCB-g6ID5Wilu2VxWgNFvOhzNcIszTRGvmnnCL47oKbl7rFhdqt6WcuRi1Bky3-9yPt3yn7_Uyku10_OU"/>
+</div>
+<div class="lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center bg-white">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-primary-container text-on-primary-container text-xs font-semibold mb-6">
+<span class="material-symbols-outlined text-sm mr-1">star</span>
+                        Featured Analysis
+                    </div>
+<h1 class="text-3xl lg:text-4xl font-headline font-bold text-on-surface leading-tight tracking-tight mb-6">
+                        The Future of Pedagogy: Integrating AI without Sacrificing Critical Inquiry
+                    </h1>
+<p class="text-secondary text-base leading-relaxed mb-8">
+                        As generative AI becomes ubiquitous in academic settings, institutions must redefine the boundaries between assistive technology and the core cognitive work of learning.
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-outline">
+<span class="material-symbols-outlined text-secondary">person</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface">Dr. Sarah Jenkins</p>
+<p class="text-xs text-secondary">12 min read • May 24, 2024</p>
+</div>
+</div>
+<a class="text-primary font-semibold text-sm flex items-center hover:translate-x-1 transition-transform" href="#">
+                            Read Full Article <span class="material-symbols-outlined ml-1">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Grid with Sidebar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Articles Column -->
+<div class="lg:col-span-8 space-y-12">
+<div class="flex items-center justify-between border-b border-outline pb-4">
+<h2 class="text-xl font-headline font-bold text-on-surface uppercase tracking-widest">Recent Journals</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface hover:bg-surface-container border border-outline transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">grid_view</span>
+</button>
+<button class="p-2 rounded-lg bg-surface hover:bg-surface-container border border-outline transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">list</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Blog Card 1: Tech -->
+<article class="group">
+<div class="rounded-xl overflow-hidden bg-surface editorial-shadow border border-outline/50 mb-4 h-56">
+<img alt="Tech Article" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Overhead view of a clean workspace with high-tech coding setup and professional diagnostic tools for software development" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9LSD25zEuMCpzX8LR9LCQPPMU5n25sxARQ4mM346P5DGQmz_lcxa8D6b2sDgRySGXjbE-sC7_7QmOWDrdYzZWY6su3J6X6sXFpSlhRBz-OuW0MVKH-axPHAIi-O4_gWmSdx8iw4FCrLWPvd8viNyqyjnco08aMic_M_PekEq_1MR4vKIrVQ_wOTEGmpKCcswCWtZz6F9nStqpdmvKMZ_L98kV8kWvu5pPkp6t7a9kuJX2k9S48MoPScRr-J23ui8PWa4iYvdZZj0w"/>
+</div>
+<div class="flex items-center gap-2 mb-3">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Tech</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[10px] text-secondary">May 20, 2024</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface group-hover:text-primary transition-colors mb-3 leading-snug">
+                            Systematic Infrastructure for Remote Campus Management
+                        </h3>
+<p class="text-sm text-secondary line-clamp-2 mb-4 leading-relaxed">
+                            Exploring the robust backend architectures required to support synchronous remote learning for over 10,000 students.
+                        </p>
+<a class="inline-flex items-center text-xs font-bold text-on-surface hover:text-primary transition-colors" href="#">
+                            READ MORE <span class="material-symbols-outlined text-sm ml-1">trending_flat</span>
+</a>
+</article>
+<!-- Blog Card 2: Management -->
+<article class="group">
+<div class="rounded-xl overflow-hidden bg-surface editorial-shadow border border-outline/50 mb-4 h-56">
+<img alt="Management Article" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Professional office meeting room with focused academics discussing strategic institutional planning around a large wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo5qy_-V8RZuMeOs-h-2mAMlBPe8KbWcX6NW_VzHt69UXtTdTLJlqqosiw9edAsS2twgWSjrkibhlp4c-9UwHFvhyon2qRJ9jLeSxrQlEMbbcIGQ-bW5RsEYhf0IKAzKWx5iuO8JQ2pBhTGTwveoVFepDo4eDRbj4d1jfD2as99U66JHFa2LM4MArZFbkjVAjTUsg7E8xyjNRVSFZv0VsPUHN0LeNJOC_33eViakGhmoTUAeE5m361qCL10-2FUP4kGjO1OZGTijav"/>
+</div>
+<div class="flex items-center gap-2 mb-3">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Management</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[10px] text-secondary">May 18, 2024</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface group-hover:text-primary transition-colors mb-3 leading-snug">
+                            Budgeting for Excellence: A Quantitative Approach to Depts
+                        </h3>
+<p class="text-sm text-secondary line-clamp-2 mb-4 leading-relaxed">
+                            New methodologies for resource allocation that prioritize research output and student retention metrics.
+                        </p>
+<a class="inline-flex items-center text-xs font-bold text-on-surface hover:text-primary transition-colors" href="#">
+                            READ MORE <span class="material-symbols-outlined text-sm ml-1">trending_flat</span>
+</a>
+</article>
+<!-- Blog Card 3: Pedagogy -->
+<article class="group">
+<div class="rounded-xl overflow-hidden bg-surface editorial-shadow border border-outline/50 mb-4 h-56">
+<img alt="Pedagogy Article" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Abstract art piece representing cognitive flow and structured learning pathways with soft pastel blue and white tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAROcecRVpnDomuEQtXHl-9axUjVAFJPh3A2Sdis-03LwFcBl8L1ucDEtgYDA1tqDSGq7m3GEOVHhjWSidE7HutoEQ8kAMB35jRHmhA_lTZ2dktKRP13r8R-Haz2DYGHQ3B7KMbV1_PV7KoucsS8u-8ZHobbJxUe5uuUqRnHwII80R-AO6MkfPFtPnvLQIDaWPI_SITzMnmTYfFNtiGW9GMxB8h_H1c8CdjlAEv3xuCTgrQ4db2Jp9rpp4xDi6PpdWVn5ZaCZn71SrI"/>
+</div>
+<div class="flex items-center gap-2 mb-3">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Pedagogy</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[10px] text-secondary">May 15, 2024</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface group-hover:text-primary transition-colors mb-3 leading-snug">
+                            The Socratic Method in Digital Environments
+                        </h3>
+<p class="text-sm text-secondary line-clamp-2 mb-4 leading-relaxed">
+                            Adapting classical debate techniques for asynchronous discussion boards and virtual seminars.
+                        </p>
+<a class="inline-flex items-center text-xs font-bold text-on-surface hover:text-primary transition-colors" href="#">
+                            READ MORE <span class="material-symbols-outlined text-sm ml-1">trending_flat</span>
+</a>
+</article>
+<!-- Blog Card 4: Tech -->
+<article class="group">
+<div class="rounded-xl overflow-hidden bg-surface editorial-shadow border border-outline/50 mb-4 h-56">
+<img alt="Tech Article" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="High-resolution digital interface showing complex data analytics for educational tracking and student performance metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCED6_dM0Dnhegy26p9rm6emvkwY2X2w5OQFEpcjR5LEOgiSYDVfA1oHUopduUaux6rV3Q1XeFfDYFpXLsCo1fW1oRqRhoEbcrTsW-XtqfSmlKHDBjI1i8j3v08_IYEBW7baMvJZI1xvfqT8gtbMU5XxdwTJLTsL8JcH2--JeNFJlKsuMAy-uFmK7tgVgZ5u2giH-2OuzSuPlk4Z-FYXROyiiDDjDsZKnJdojUevp02emwClEO5qI0agyc9NWEXogJMdklwUFL1wncy"/>
+</div>
+<div class="flex items-center gap-2 mb-3">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Tech</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[10px] text-secondary">May 12, 2024</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface group-hover:text-primary transition-colors mb-3 leading-snug">
+                            Data Privacy Standards for 21st Century Institutions
+                        </h3>
+<p class="text-sm text-secondary line-clamp-2 mb-4 leading-relaxed">
+                            Navigating the complex landscape of FERPA compliance in an era of cloud-hosted student records.
+                        </p>
+<a class="inline-flex items-center text-xs font-bold text-on-surface hover:text-primary transition-colors" href="#">
+                            READ MORE <span class="material-symbols-outlined text-sm ml-1">trending_flat</span>
+</a>
+</article>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-center pt-8">
+<nav class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline bg-surface text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface border border-outline text-on-surface hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface border border-outline text-on-surface hover:bg-surface-container transition-colors">3</button>
+<span class="px-2 text-secondary">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline bg-surface text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+<!-- Sidebar -->
+<aside class="lg:col-span-4 space-y-10">
+<!-- Search Widget -->
+<div class="bg-white p-6 rounded-xl border border-outline/50 editorial-shadow">
+<h3 class="text-sm font-bold text-on-surface uppercase tracking-widest mb-4">Search Archive</h3>
+<div class="relative">
+<input class="w-full bg-background border-outline rounded-lg py-3 pl-10 pr-4 text-sm focus:ring-primary focus:border-primary" placeholder="Topics, authors, or keywords..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-lg">search</span>
+</div>
+</div>
+<!-- Categories Widget -->
+<div class="bg-white p-6 rounded-xl border border-outline/50 editorial-shadow">
+<h3 class="text-sm font-bold text-on-surface uppercase tracking-widest mb-4">Categories</h3>
+<div class="space-y-2">
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="text-sm text-secondary group-hover:text-primary transition-colors">Management</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface">12</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="text-sm text-secondary group-hover:text-primary transition-colors">Pedagogy</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface">08</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="text-sm text-secondary group-hover:text-primary transition-colors">Tech &amp; Innovation</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface">24</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="text-sm text-secondary group-hover:text-primary transition-colors">Institutional Policy</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-bold text-on-surface">05</span>
+</a>
+</div>
+</div>
+<!-- Recent Posts Widget -->
+<div class="bg-white p-6 rounded-xl border border-outline/50 editorial-shadow">
+<h3 class="text-sm font-bold text-on-surface uppercase tracking-widest mb-4">Recent Journals</h3>
+<div class="space-y-6">
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden border border-outline">
+<img alt="Post" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Close up of digital dashboard on a tablet showing educational progress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBde0yweK5HvK-Mkeux-37916D1IiVdqJ2RbldU1TDpfPDd-q8cV9xFQIuq_gtmg9NNSdOmTtPDglVaxkbghQeLRTR4DU6KKklQnIZBf9VJGwWgIXxBNh91NKVcdPLrJBatGZWbWtQAEoHkIIIC-NN9Nzer7QxEOszjEefnHh3gBWXDekjjIIkFs8ECdUxYTc_bqyFU4oOvLh5sBQAOw9Aoe_ANmuDsqXzNQFYMlaGeHgWAkcPIPt9zxB9q2ZWuUEVsgYV5elxFUDnq"/>
+</div>
+<div>
+<h4 class="text-xs font-bold text-on-surface line-clamp-2 leading-tight group-hover:text-primary transition-colors">The Shift Toward Outcome-Based Assessment Models</h4>
+<span class="text-[10px] text-secondary">May 10, 2024</span>
+</div>
+</div>
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden border border-outline">
+<img alt="Post" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Group of diverse educators collaborating in a modern faculty lounge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEiJOP-tCMGqAYD9k72iPWMUHCKomoLnPcjHxXot7Xf-wyJtpcblw9T-r15L5U7AI4VHgP7TCPubpS7vnBrmhzz4xad87rCiCmyjSsMHV2WI5CyKW-KbNqx1Rv-QRNtPCzxMYKqWHTKQfcLG6q1VMTEk9pv60ImzyC_4_UEIUFfGcNSF0ie4EHhOUnKeO_Ge1cpdQG--YtNvZOCMuqzzwMOKXV-DB7m-AbMS7hNLse5L9nsgs0HvUt78hd_T_QVdNcxiBRic9YAlDI"/>
+</div>
+<div>
+<h4 class="text-xs font-bold text-on-surface line-clamp-2 leading-tight group-hover:text-primary transition-colors">Collaborative Faculty Networks: A Case Study</h4>
+<span class="text-[10px] text-secondary">May 08, 2024</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Newsletter Widget -->
+<div class="p-6 rounded-xl bg-primary text-on-primary">
+<h3 class="text-sm font-bold uppercase tracking-widest mb-2">Scholar Weekly</h3>
+<p class="text-xs text-on-primary/80 mb-4 leading-relaxed">The latest institutional research delivered directly to your inbox every Monday.</p>
+<div class="space-y-2">
+<input class="w-full bg-white/10 border-white/20 rounded-lg py-2 px-3 text-xs placeholder:text-white/50 focus:ring-white" placeholder="Your academic email" type="email"/>
+<button class="w-full py-2 bg-white text-primary rounded-lg text-xs font-bold hover:bg-primary-container transition-colors">SUBSCRIBE</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 max-w-7xl mx-auto px-6 py-12">
+<div class="col-span-2">
+<div class="text-lg font-bold text-slate-900 dark:text-white mb-4">Lexend Scholar</div>
+<p class="font-lexend text-xs text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
+                    Advancing institutional excellence through rigorous pedagogical research and technological innovation for modern academic systems.
+                </p>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-on-surface uppercase tracking-widest mb-4">Platform</h4>
+<ul class="space-y-2 font-lexend text-xs">
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Features</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Pricing</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Integrations</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-on-surface uppercase tracking-widest mb-4">Resources</h4>
+<ul class="space-y-2 font-lexend text-xs">
+<li><a class="text-blue-600 font-bold" href="#">Blog</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Documentation</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-on-surface uppercase tracking-widest mb-4">Company</h4>
+<ul class="space-y-2 font-lexend text-xs">
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">About</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-on-surface uppercase tracking-widest mb-4">Social</h4>
+<ul class="space-y-2 font-lexend text-xs">
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">Twitter</a></li>
+<li><a class="text-slate-500 hover:text-blue-600 transition-opacity" href="#">LinkedIn</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 py-6 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<span class="font-lexend text-xs text-slate-500 dark:text-slate-400">© 2024 Lexend Scholar. Built for Institutional Excellence.</span>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary text-sm">public</span>
+<span class="material-symbols-outlined text-secondary text-sm">school</span>
+</div>
+</div>
+</footer>
+</body></html>
