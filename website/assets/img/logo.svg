@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none" role="img" aria-label="Lexend Scholar logo">
+  <!-- Ícone — livro estilizado com detalhe azul -->
+  <rect x="0" y="8" width="36" height="32" rx="4" fill="#137fec"/>
+  <rect x="4" y="12" width="28" height="24" rx="2" fill="#dbeafe"/>
+  <rect x="8" y="17" width="20" height="2" rx="1" fill="#137fec"/>
+  <rect x="8" y="22" width="16" height="2" rx="1" fill="#0b5ed7"/>
+  <rect x="8" y="27" width="18" height="2" rx="1" fill="#137fec"/>
+  <rect x="8" y="32" width="12" height="2" rx="1" fill="#0b5ed7"/>
+  <!-- Linha divisória central do livro -->
+  <rect x="17" y="12" width="2" height="24" rx="1" fill="#137fec"/>
+  <!-- Wordmark -->
+  <text x="46" y="31" font-family="Lexend, system-ui, sans-serif" font-weight="700" font-size="20" fill="#111418" letter-spacing="-0.5">Lexend</text>
+  <text x="121" y="31" font-family="Lexend, system-ui, sans-serif" font-weight="400" font-size="20" fill="#137fec" letter-spacing="-0.5">Scholar</text>
+</svg>
