@@ -85,3 +85,8 @@ fun FoldableAwareLayout(
         FoldState.Normal -> normalContent()
     }
 }
+
+// LS-159: Galaxy Z Fold support — WindowInfoTracker detects FoldingFeature state and orientation.
+// Tabletop posture: content splits at horizontal hinge (top=content, bottom=controls).
+// Book posture: content splits at vertical hinge (left=list, right=detail).
+// App does not crash on foldables — gracefully degrades to FoldState.Normal when no hinge detected.
