@@ -5,10 +5,28 @@
 
 -- ──────────────────────────────────────────────────────────────
 -- 1. ADD deleted_at SOFT-DELETE COLUMNS
---    Tables that don't already use `active` boolean and benefit
---    from timestamp-based soft delete.
+--    Core entities + tables from LS-79/LS-80 that need soft delete.
 -- ──────────────────────────────────────────────────────────────
 
+-- Core entity tables
+ALTER TABLE students
+  ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+ALTER TABLE classes
+  ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+-- occurrences (ocorrencias)
+ALTER TABLE occurrences
+  ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+-- messages — already created in 001; add deleted_at for soft delete
+ALTER TABLE messages
+  ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+
+-- Supporting tables
 ALTER TABLE grade_records
   ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
 
@@ -234,3 +252,64 @@ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL;
 END;
 $$;
+
+-- ──────────────────────────────────────────────────────────────
+-- 7. INDEXES FOR NEW SOFT-DELETE COLUMNS (LS-83)
+-- ──────────────────────────────────────────────────────────────
+
+-- students with deleted_at
+CREATE INDEX IF NOT EXISTS idx_students_deleted_at
+  ON students(school_id, deleted_at)
+  WHERE deleted_at IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_students_school_created
+  ON students(school_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+-- users with deleted_at
+CREATE INDEX IF NOT EXISTS idx_users_school_created
+  ON users(school_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+-- classes with deleted_at
+CREATE INDEX IF NOT EXISTS idx_classes_deleted_at
+  ON classes(school_id, deleted_at)
+  WHERE deleted_at IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_classes_school_created
+  ON classes(school_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+-- occurrences
+CREATE INDEX IF NOT EXISTS idx_occurrences_school
+  ON occurrences(school_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX IF NOT EXISTS idx_occurrences_student
+  ON occurrences(student_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX IF NOT EXISTS idx_occurrences_class
+  ON occurrences(class_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+-- messages with deleted_at
+CREATE INDEX IF NOT EXISTS idx_messages_recipient_active
+  ON messages(recipient_id, read, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX IF NOT EXISTS idx_messages_sender_active
+  ON messages(sender_id, created_at DESC)
+  WHERE deleted_at IS NULL;
+
+-- ──────────────────────────────────────────────────────────────
+-- 8. VIEW: alunos_ativos — exclui registros com deleted_at
+-- ──────────────────────────────────────────────────────────────
+CREATE OR REPLACE VIEW alunos_ativos AS
+  SELECT *
+  FROM students
+  WHERE deleted_at IS NULL
+    AND active = TRUE;
+
+COMMENT ON VIEW alunos_ativos IS
+  'Alunos ativos e não excluídos logicamente. Use esta view para consultas de negócio padrão.';
