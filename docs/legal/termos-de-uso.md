@@ -8,7 +8,7 @@
 
 ## 1. Partes e Objeto
 
-**1.1.** Estes Termos de Uso ("Termos") regulam a relação contratual entre a **Lexend Scholar Tecnologia Ltda.**, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº [●], com sede na cidade de [●], doravante denominada **"Lexend Scholar"** ou **"Operadora"**, e a **instituição de ensino** que assinou o Contrato de Prestação de Serviços ou aderiu digitalmente à plataforma, doravante denominada **"Escola"** ou **"Contratante"**.
+**1.1.** Estes Termos de Uso ("Termos") regulam a relação contratual entre a **Lexend Educação Ltda.**, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº [●], com sede na cidade de [●], doravante denominada **"Lexend Scholar"** ou **"Contratada"**, e a **instituição de ensino** que assinou o Contrato de Prestação de Serviços ou aderiu digitalmente à plataforma, identificada por CNPJ próprio, doravante denominada **"Escola"** ou **"Contratante"**.
 
 **1.2.** O objeto destes Termos é a licença de uso da plataforma SaaS **Lexend Scholar** — sistema de gestão escolar que compreende módulos de secretaria, gestão acadêmica, comunicação com responsáveis e relatórios pedagógicos — acessível via aplicativo iOS e interface web.
 
@@ -29,7 +29,7 @@ Para os fins destes Termos, aplicam-se as seguintes definições:
 | **Responsável** | Pessoa física — pai, mãe ou responsável legal — pelo Aluno menor de idade |
 | **LGPD** | Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) |
 | **Controladora** | A Escola, na qualidade de quem determina as finalidades e os meios do tratamento dos Dados |
-| **Operadora** | A Lexend Scholar, na qualidade de quem realiza o tratamento em nome da Controladora |
+| **Operadora** | A Lexend Scholar (Lexend Educação Ltda.), na qualidade de quem realiza o tratamento em nome da Controladora |
 
 ---
 
@@ -191,4 +191,4 @@ d) Conteúdo inserido na Plataforma pela Escola.
 
 ---
 
-*Lexend Scholar Tecnologia Ltda. — Todos os direitos reservados.*
+*Lexend Educação Ltda. (Lexend Scholar) — Todos os direitos reservados.*
