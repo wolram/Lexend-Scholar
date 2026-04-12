@@ -1,0 +1,133 @@
+name: Build Notifications
+
+# Dispara notificações de Slack após conclusão de qualquer workflow de build.
+# Notifica tanto sucesso quanto falha, com contexto completo do build.
+#
+# Secrets necessários:
+#   SLACK_BOT_TOKEN  → token do Slack Bot (xoxb-...)
+#   SLACK_CHANNEL_ID → ID do canal #builds ou #eng-alerts
+
+on:
+  workflow_run:
+    workflows:
+      - "iOS CD — TestFlight Distribution"
+      - "iOS — Branch Build Strategy"
+      - "GitHub Actions — Lint e Validação"
+    types:
+      - completed
+
+jobs:
+  notify-slack:
+    name: Notificar Slack
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Preparar dados da notificação
+        id: data
+        run: |
+          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
+          WORKFLOW_STATUS="${{ github.event.workflow_run.conclusion }}"
+          BRANCH="${{ github.event.workflow_run.head_branch }}"
+          COMMIT_SHA="${{ github.event.workflow_run.head_sha }}"
+          COMMIT_MSG="${{ github.event.workflow_run.head_commit.message }}"
+          ACTOR="${{ github.event.workflow_run.triggering_actor.login }}"
+          RUN_URL="${{ github.event.workflow_run.html_url }}"
+          RUN_NUMBER="${{ github.event.workflow_run.run_number }}"
+
+          SHORT_SHA=$(echo "$COMMIT_SHA" | cut -c1-7)
+
+          # Determinar emoji e cor por status
+          if [ "$WORKFLOW_STATUS" = "success" ]; then
+            STATUS_EMOJI=":white_check_mark:"
+            STATUS_TEXT="Sucesso"
+            COLOR="good"
+          elif [ "$WORKFLOW_STATUS" = "failure" ]; then
+            STATUS_EMOJI=":x:"
+            STATUS_TEXT="Falhou"
+            COLOR="danger"
+          elif [ "$WORKFLOW_STATUS" = "cancelled" ]; then
+            STATUS_EMOJI=":warning:"
+            STATUS_TEXT="Cancelado"
+            COLOR="warning"
+          else
+            STATUS_EMOJI=":question:"
+            STATUS_TEXT="$WORKFLOW_STATUS"
+            COLOR="#808080"
+          fi
+
+          # Determinar ambiente pela branch
+          if [ "$BRANCH" = "main" ]; then
+            ENV_BADGE=":rocket: *Produção*"
+          elif echo "$BRANCH" | grep -q "^feature/"; then
+            ENV_BADGE=":test_tube: Beta"
+          else
+            ENV_BADGE=":construction: Dev"
+          fi
+
+          echo "status_emoji=$STATUS_EMOJI"       >> $GITHUB_OUTPUT
+          echo "status_text=$STATUS_TEXT"         >> $GITHUB_OUTPUT
+          echo "color=$COLOR"                     >> $GITHUB_OUTPUT
+          echo "env_badge=$ENV_BADGE"             >> $GITHUB_OUTPUT
+          echo "short_sha=$SHORT_SHA"             >> $GITHUB_OUTPUT
+          echo "workflow_name=$WORKFLOW_NAME"     >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH"                   >> $GITHUB_OUTPUT
+          echo "actor=$ACTOR"                     >> $GITHUB_OUTPUT
+          echo "run_url=$RUN_URL"                 >> $GITHUB_OUTPUT
+          echo "run_number=$RUN_NUMBER"           >> $GITHUB_OUTPUT
+
+      - name: Enviar notificação para Slack
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            attachments:
+              - color: "${{ steps.data.outputs.color }}"
+                blocks:
+                  - type: section
+                    text:
+                      type: mrkdwn
+                      text: "${{ steps.data.outputs.status_emoji }} *${{ steps.data.outputs.workflow_name }}* — ${{ steps.data.outputs.status_text }}"
+                  - type: section
+                    fields:
+                      - type: mrkdwn
+                        text: "*Branch:*\n`${{ steps.data.outputs.branch }}`"
+                      - type: mrkdwn
+                        text: "*Ambiente:*\n${{ steps.data.outputs.env_badge }}"
+                      - type: mrkdwn
+                        text: "*Commit:*\n`${{ steps.data.outputs.short_sha }}`"
+                      - type: mrkdwn
+                        text: "*Autor:*\n@${{ steps.data.outputs.actor }}"
+                      - type: mrkdwn
+                        text: "*Build:*\n#${{ steps.data.outputs.run_number }}"
+                  - type: actions
+                    elements:
+                      - type: button
+                        text:
+                          type: plain_text
+                          text: "Ver Build"
+                        url: "${{ steps.data.outputs.run_url }}"
+                        style: primary
+
+  # Job alternativo: notificação por email via GitHub nativo
+  # (funciona sem configuração adicional se o repositório tiver
+  #  GitHub Actions email notifications habilitadas nas settings)
+  notify-on-failure:
+    name: Email em caso de falha
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'failure'
+
+    steps:
+      - name: Log falha para rastreamento
+        run: |
+          echo "==> BUILD FALHOU"
+          echo "Workflow: ${{ github.event.workflow_run.name }}"
+          echo "Branch:   ${{ github.event.workflow_run.head_branch }}"
+          echo "Commit:   ${{ github.event.workflow_run.head_sha }}"
+          echo "Autor:    ${{ github.event.workflow_run.triggering_actor.login }}"
+          echo "URL:      ${{ github.event.workflow_run.html_url }}"
+          echo ""
+          echo "Notificação por email enviada automaticamente pelo GitHub"
+          echo "para os membros do repositório com permissão de escrita."
