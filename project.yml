@@ -11,6 +11,12 @@ targets:
     deploymentTarget: "18.0"
     sources:
       - path: app
+    xcconfig: Config.xcconfig
+    info:
+      path: app/Info.plist
+      properties:
+        SUPABASE_URL: $(SUPABASE_URL)
+        SUPABASE_ANON_KEY: $(SUPABASE_ANON_KEY)
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.marlow.lexendscholar

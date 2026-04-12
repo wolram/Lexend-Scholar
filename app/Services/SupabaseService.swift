@@ -5,8 +5,18 @@ import SwiftUI
 // MARK: - Supabase Configuration
 
 enum SupabaseConfig {
-    static let url = URL(string: "https://your-project.supabase.co")!
-    static let anonKey = "your-anon-key"
+    static let url: URL = {
+        let urlString = Bundle.main.infoDictionary?["SUPABASE_URL"] as? String
+            ?? ProcessInfo.processInfo.environment["SUPABASE_URL"]
+            ?? "https://your-project.supabase.co"
+        return URL(string: urlString)!
+    }()
+
+    static let anonKey: String = {
+        return Bundle.main.infoDictionary?["SUPABASE_ANON_KEY"] as? String
+            ?? ProcessInfo.processInfo.environment["SUPABASE_ANON_KEY"]
+            ?? "your-anon-key"
+    }()
 }
 
 // MARK: - Auth Models

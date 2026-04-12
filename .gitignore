@@ -1,5 +1,6 @@
 .DS_Store
 *.zip
+Config.xcconfig
 
 build/
 DerivedData/

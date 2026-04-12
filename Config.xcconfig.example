@@ -1,0 +1,3 @@
+// Config.xcconfig.example — copie para Config.xcconfig e preencha com suas credenciais
+SUPABASE_URL = https://your-project.supabase.co
+SUPABASE_ANON_KEY = your-anon-key-here
