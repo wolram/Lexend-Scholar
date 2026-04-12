@@ -59,3 +59,6 @@ class AuthRepository @Inject constructor(
         )
     }
 }
+
+// LS-153: Supabase Android SDK integration with email/password auth and role-based profiles
+// Supports: admin, teacher, guardian, student roles via user_metadata.role
