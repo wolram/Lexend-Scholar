@@ -27,3 +27,7 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
     dependencies:
       - sdk: Charts.framework
+    entitlements:
+      path: app/LexendScholar.entitlements
+    capabilities:
+      push-notifications: {}
