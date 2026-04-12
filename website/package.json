@@ -1,0 +1,16 @@
+{
+  "name": "lexend-scholar-website",
+  "version": "0.1.0",
+  "description": "Website público do Lexend Scholar — HTML + Tailwind CSS",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./input.css -o ./assets/css/style.css --minify",
+    "dev":   "tailwindcss -i ./input.css -o ./assets/css/style.css --watch",
+    "lint":  "npx htmlhint '*.html'"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/forms": "^0.5.9"
+  }
+}

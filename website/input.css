@@ -1,0 +1,93 @@
+/* Lexend Scholar — Tailwind CSS entry point
+ *
+ * Build: npm run build  (output → assets/css/style.css)
+ * Watch: npm run dev
+ *
+ * ATENÇÃO: Os arquivos HTML ainda carregam o CDN do Tailwind como fallback.
+ * Quando o build local estiver configurado no CI, substitua o CDN pelo
+ * arquivo compilado:
+ *   <!-- Remover: <script src="https://cdn.tailwindcss.com..."></script> -->
+ *   <!-- Adicionar: <link rel="stylesheet" href="/assets/css/style.css"/> -->
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Estilos base globais ── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Lexend', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Material Symbols — configuração padrão */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Foco acessível */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+}
+
+/* ── Componentes reutilizáveis ── */
+@layer components {
+  /* Botão primário */
+  .btn-primary {
+    @apply bg-primary text-on-primary px-6 py-3 rounded-lg font-semibold text-sm
+           hover:bg-on-primary-fixed-variant transition-all shadow-sm
+           focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+
+  /* Botão secundário / outline */
+  .btn-outline {
+    @apply border border-outline text-on-surface px-6 py-3 rounded-lg font-semibold text-sm
+           hover:bg-surface-container transition-colors;
+  }
+
+  /* Card padrão */
+  .card {
+    @apply bg-surface rounded-2xl border border-outline p-8 shadow-sm
+           hover:shadow-md transition-shadow;
+  }
+
+  /* Badge / pill */
+  .badge {
+    @apply inline-block px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase;
+  }
+
+  /* Container de seção */
+  .section-container {
+    @apply max-w-7xl mx-auto px-6;
+  }
+
+  /* Heading de seção */
+  .section-heading {
+    @apply text-3xl md:text-4xl font-extrabold tracking-tight;
+  }
+
+  /* Subheading de seção */
+  .section-subheading {
+    @apply text-secondary text-lg max-w-2xl mx-auto;
+  }
+}
+
+/* ── Utilitários customizados ── */
+@layer utilities {
+  /* Scroll margin para links âncora com header fixo */
+  .scroll-mt-header {
+    scroll-margin-top: 4rem; /* 64px = altura do header */
+  }
+
+  /* Gradiente de texto */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent;
+  }
+}
