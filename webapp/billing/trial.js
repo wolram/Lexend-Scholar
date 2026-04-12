@@ -2,194 +2,120 @@
  * Lexend Scholar — Trial Gratuito de 14 dias
  *
  * Gerencia o ciclo de vida do trial:
- *   - Ativação automática ao criar escola
- *   - Verificação de trial ativo
- *   - Notificações de expiração (D-7, D-3, D-1)
- *   - Bloqueio após expiração sem assinatura
+ *   - startTrial: cria subscription Stripe com trial de 14 dias
+ *   - checkTrialStatus: retorna status atual do trial
+ *   - sendTrialReminder: gera objeto de email de lembrete (D-3 e D-1)
  *
- * As colunas usadas em `schools`:
- *   subscription_status   ENUM trialing|active|past_due|canceled|unpaid
- *   trial_ends_at         TIMESTAMPTZ
- *   stripe_subscription_id TEXT
+ * Não exige cartão no cadastro inicial:
+ *   payment_method_collection: 'if_required' na Checkout Session.
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-function getSupabase() {
-  return createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
-  );
-}
+import { stripe } from './stripe_client.js';
 
 export const TRIAL_DAYS = 14;
 
-// ---------------------------------------------------------------------------
-// activateTrial
-// Chamado ao registrar uma nova escola. Define trial_ends_at e status trialing.
-// ---------------------------------------------------------------------------
-export async function activateTrial(schoolId) {
-  const supabase = getSupabase();
+/**
+ * startTrial
+ * Cria subscription no Stripe com período de trial de 14 dias.
+ * Não exige cartão imediatamente (default_incomplete + if_required).
+ *
+ * @param {string} customerId — Stripe customer ID (cus_xxx)
+ * @param {string} planId     — price ID do plano selecionado
+ * @returns {Promise<Stripe.Subscription>}
+ */
+export async function startTrial(customerId, planId) {
+  const subscription = await stripe.subscriptions.create({
+    customer:         customerId,
+    items:            [{ price: planId }],
+    trial_period_days: TRIAL_DAYS,
+    payment_behavior: 'default_incomplete',
+    expand:           ['latest_invoice.payment_intent'],
+    payment_settings: {
+      save_default_payment_method: 'on_subscription',
+    },
+  });
 
-  const trialEndsAt = new Date();
-  trialEndsAt.setDate(trialEndsAt.getDate() + TRIAL_DAYS);
-
-  const { data, error } = await supabase
-    .from('schools')
-    .update({
-      subscription_status: 'trialing',
-      trial_ends_at: trialEndsAt.toISOString(),
-      updated_at: new Date().toISOString(),
-    })
-    .eq('id', schoolId)
-    .select('id, name, email, trial_ends_at')
-    .single();
-
-  if (error) throw new Error(`activateTrial failed: ${error.message}`);
-  return data;
+  return subscription;
 }
 
-// ---------------------------------------------------------------------------
-// getTrialStatus
-// Retorna informações do trial para exibir no dashboard.
-// ---------------------------------------------------------------------------
-export async function getTrialStatus(schoolId) {
-  const supabase = getSupabase();
+/**
+ * checkTrialStatus
+ * Retorna informações do trial a partir da subscription Stripe.
+ *
+ * @param {string} subscriptionId
+ * @returns {Promise<{ isTrialing: boolean, daysLeft: number, endsAt: Date|null }>}
+ */
+export async function checkTrialStatus(subscriptionId) {
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-  const { data: school, error } = await supabase
-    .from('schools')
-    .select('subscription_status, trial_ends_at, stripe_subscription_id, plan')
-    .eq('id', schoolId)
-    .single();
+  const isTrialing = subscription.status === 'trialing';
+  const trialEnd   = subscription.trial_end
+    ? new Date(subscription.trial_end * 1000)
+    : null;
 
-  if (error || !school) throw new Error('Escola não encontrada');
-
-  const now = new Date();
-  const trialEnd = school.trial_ends_at ? new Date(school.trial_ends_at) : null;
-
-  const isTrialing = school.subscription_status === 'trialing';
-  const hasSubscription = !!school.stripe_subscription_id;
-  const isExpired = trialEnd ? now > trialEnd : false;
-  const daysRemaining = trialEnd
-    ? Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)))
+  const daysLeft = trialEnd
+    ? Math.max(0, Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24)))
     : 0;
 
   return {
-    status: school.subscription_status,
-    plan: school.plan,
     isTrialing,
-    hasSubscription,
-    isExpired: isTrialing && isExpired,
-    trialEndsAt: trialEnd,
-    daysRemaining,
-    // Urgency level for UI banners
-    urgency: daysRemaining <= 1 ? 'critical' : daysRemaining <= 3 ? 'high' : daysRemaining <= 7 ? 'medium' : 'low',
+    daysLeft,
+    endsAt: trialEnd,
   };
 }
 
-// ---------------------------------------------------------------------------
-// checkTrialAccess
-// Middleware helper: retorna true se escola pode usar o sistema.
-// Bloqueia apenas se trial expirou E não tem assinatura ativa.
-// ---------------------------------------------------------------------------
-export async function checkTrialAccess(schoolId) {
-  const trial = await getTrialStatus(schoolId);
-
-  if (trial.status === 'active') return { allowed: true, trial };
-  if (trial.isTrialing && !trial.isExpired) return { allowed: true, trial };
-
-  // Trial expirado sem assinatura
-  if (trial.isExpired || trial.status === 'canceled' || trial.status === 'unpaid') {
-    return {
-      allowed: false,
-      trial,
-      reason: 'trial_expired',
-      message: 'Seu período de teste encerrou. Assine um plano para continuar.',
-    };
-  }
-
-  return { allowed: true, trial };
-}
-
-// ---------------------------------------------------------------------------
-// expireTrials (cron job — executar diariamente via Supabase pg_cron ou Edge Function)
-// Atualiza escolas cujo trial expirou sem assinatura.
-// ---------------------------------------------------------------------------
-export async function expireTrials() {
-  const supabase = getSupabase();
-
-  const { data, error } = await supabase
-    .from('schools')
-    .update({
-      subscription_status: 'canceled',
-      updated_at: new Date().toISOString(),
-    })
-    .eq('subscription_status', 'trialing')
-    .is('stripe_subscription_id', null)
-    .lt('trial_ends_at', new Date().toISOString())
-    .select('id, name, email');
-
-  if (error) throw new Error(`expireTrials failed: ${error.message}`);
-
-  console.log(`[Trial] Expired ${data?.length || 0} trial(s)`);
-  return data || [];
-}
-
-// ---------------------------------------------------------------------------
-// getSchoolsNearTrialEnd
-// Retorna escolas que expiram em N dias (para envio de e-mails de lembrete).
-// ---------------------------------------------------------------------------
-export async function getSchoolsNearTrialEnd(daysAhead = 7) {
-  const supabase = getSupabase();
-
-  const fromDate = new Date();
-  const toDate = new Date();
-  toDate.setDate(toDate.getDate() + daysAhead);
-
-  const { data, error } = await supabase
-    .from('schools')
-    .select('id, name, email, trial_ends_at, plan')
-    .eq('subscription_status', 'trialing')
-    .is('stripe_subscription_id', null)
-    .gte('trial_ends_at', fromDate.toISOString())
-    .lte('trial_ends_at', toDate.toISOString())
-    .order('trial_ends_at', { ascending: true });
-
-  if (error) throw new Error(`getSchoolsNearTrialEnd failed: ${error.message}`);
-  return data || [];
-}
-
-// ---------------------------------------------------------------------------
-// TrialBanner component data — usado pelo frontend para mostrar banner no app
-// ---------------------------------------------------------------------------
-export function getTrialBannerData(trialStatus) {
-  if (!trialStatus.isTrialing) return null;
-
-  const { daysRemaining, urgency, trialEndsAt } = trialStatus;
-  const formattedDate = trialEndsAt
-    ? trialEndsAt.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })
-    : '';
-
-  const messages = {
-    critical: `Seu trial encerra hoje! Assine agora para não perder o acesso.`,
-    high: `Restam ${daysRemaining} dia(s) no seu trial (até ${formattedDate}). Assine para continuar.`,
-    medium: `Você tem ${daysRemaining} dias de trial restantes. Experimente todos os recursos!`,
-    low: `Trial ativo — ${daysRemaining} dias restantes.`,
+/**
+ * sendTrialReminder
+ * Gera objeto de email de lembrete adaptado para D-3 e D-1.
+ *
+ * @param {string} email
+ * @param {string} schoolName
+ * @param {number} daysLeft — 3 ou 1
+ * @returns {{ to: string, subject: string, html: string }}
+ */
+export function sendTrialReminder(email, schoolName, daysLeft) {
+  const urgencyMap = {
+    3: {
+      subject: `⚠️ Seu trial Lexend Scholar encerra em 3 dias — ${schoolName}`,
+      heading: 'Faltam apenas 3 dias para o fim do seu trial!',
+      body: `Aproveite os últimos dias para explorar todos os recursos do Lexend Scholar.
+Assine agora e garanta continuidade sem interrupções. Planos a partir de R$ 297/mês.`,
+      cta: 'Escolher meu plano',
+    },
+    1: {
+      subject: `🚨 Último dia do seu trial Lexend Scholar — ${schoolName}`,
+      heading: 'Seu trial encerra HOJE!',
+      body: `Não perca o acesso ao sistema. Assine agora para continuar gerenciando
+${schoolName} sem perder nenhum dado. Leva menos de 2 minutos.`,
+      cta: 'Assinar agora',
+    },
   };
 
-  const colors = {
-    critical: 'bg-red-50 border-red-300 text-red-800',
-    high: 'bg-orange-50 border-orange-300 text-orange-800',
-    medium: 'bg-yellow-50 border-yellow-300 text-yellow-800',
-    low: 'bg-blue-50 border-blue-200 text-blue-700',
-  };
+  const content = urgencyMap[daysLeft] || urgencyMap[3];
+  const appUrl  = process.env.APP_URL || 'https://app.lexendscholar.com.br';
 
   return {
-    show: true,
-    urgency,
-    message: messages[urgency],
-    colorClass: colors[urgency],
-    ctaText: urgency === 'critical' || urgency === 'high' ? 'Assinar agora' : 'Ver planos',
-    ctaUrl: '/billing/checkout',
+    to:      email,
+    subject: content.subject,
+    html: `<!DOCTYPE html>
+<html lang="pt-BR">
+<body style="font-family: sans-serif; color: #1a1a1a; background: #f5f5f5; padding: 24px;">
+  <div style="max-width: 560px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 32px;">
+    <img src="${appUrl}/logo.png" alt="Lexend Scholar" style="height: 40px; margin-bottom: 24px;" />
+    <h2 style="color: #1E3A5F;">${content.heading}</h2>
+    <p>Olá, equipe <strong>${schoolName}</strong>!</p>
+    <p style="line-height: 1.6;">${content.body}</p>
+    <a href="${appUrl}/billing/checkout"
+       style="display: inline-block; margin-top: 16px; padding: 12px 24px;
+              background: #1E3A5F; color: #fff; border-radius: 6px;
+              text-decoration: none; font-weight: bold;">
+      ${content.cta}
+    </a>
+    <p style="margin-top: 32px; font-size: 12px; color: #999;">
+      Dúvidas? Fale conosco pelo WhatsApp ou email suporte@lexendscholar.com.br
+    </p>
+  </div>
+</body>
+</html>`,
   };
 }
