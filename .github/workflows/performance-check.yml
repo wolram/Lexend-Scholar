@@ -1,0 +1,214 @@
+name: Performance Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:       # Permite rodar manualmente
+
+# Nota: monitoramento diário via cron pode ser configurado no Vercel Cron Jobs (vercel.json)
+# para uso nativo da plataforma. Este workflow cobre PRs e pushes para main.
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit & Regression Check
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write  # Para comentar no PR
+      contents: read
+      issues: write         # Para criar issues em caso de regressão
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install -g lighthouse
+          npm install -g @lhci/cli@0.14.x
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 'stable'
+
+      - name: Run Lighthouse audit
+        run: |
+          chmod +x scripts/qa/run-lighthouse.sh
+          ./scripts/qa/run-lighthouse.sh
+        env:
+          CHROME_PATH: ${{ env.CHROME_PATH }}
+
+      - name: Check performance regression
+        id: regression_check
+        run: |
+          set +e
+          python3 scripts/qa/check-performance-regression.py \
+            docs/quality/lighthouse-index.json \
+            2>&1 | tee regression-output.txt
+          REGRESSION_EXIT=$?
+          echo "exit_code=$REGRESSION_EXIT" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Extract scores and regression output for PR comment
+        id: extract
+        run: |
+          # Ler output da regressão
+          REGRESSION_OUTPUT=$(cat regression-output.txt)
+          echo "regression_output<<ENDOFOUTPUT" >> "$GITHUB_OUTPUT"
+          echo "$REGRESSION_OUTPUT" >> "$GITHUB_OUTPUT"
+          echo "ENDOFOUTPUT" >> "$GITHUB_OUTPUT"
+
+          # Extrair scores do JSON do Lighthouse via Python (sem require/fs no script JS)
+          SCORES_TABLE=$(python3 - <<'PYEOF'
+import json, sys
+try:
+    with open('docs/quality/lighthouse-index.json') as f:
+        data = json.load(f)
+    cats = data['categories']
+    perf  = round(cats['performance']['score'] * 100)
+    acc   = round(cats['accessibility']['score'] * 100)
+    bp    = round(cats['best-practices']['score'] * 100)
+    seo   = round(cats['seo']['score'] * 100)
+    print(f"| Performance | {perf} |")
+    print(f"| Accessibility | {acc} |")
+    print(f"| Best Practices | {bp} |")
+    print(f"| SEO | {seo} |")
+except Exception as e:
+    print("| (erro ao extrair scores) | — |")
+PYEOF
+          )
+          echo "scores_table<<ENDOFSCORES" >> "$GITHUB_OUTPUT"
+          echo "$SCORES_TABLE" >> "$GITHUB_OUTPUT"
+          echo "ENDOFSCORES" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          REGRESSION_OUTPUT: ${{ steps.extract.outputs.regression_output }}
+          SCORES_TABLE: ${{ steps.extract.outputs.scores_table }}
+          REGRESSION_EXIT_CODE: ${{ steps.regression_check.outputs.exit_code }}
+        with:
+          script: |
+            const exitCode = process.env.REGRESSION_EXIT_CODE;
+            const regressionOutput = process.env.REGRESSION_OUTPUT;
+            const scoresTable = process.env.SCORES_TABLE;
+
+            const passed = exitCode === '0';
+            const icon = passed ? '✅' : '❌';
+            const title = passed ? 'Performance OK' : 'Regressão de Performance Detectada';
+
+            const body = [
+              `## ${icon} Lighthouse — ${title}`,
+              '',
+              '### Scores (index.html)',
+              '| Categoria | Score |',
+              '|-----------|-------|',
+              scoresTable,
+              '',
+              '### Análise de Regressão',
+              '```',
+              regressionOutput,
+              '```',
+              '',
+              passed
+                ? '> Sem regressões significativas detectadas.'
+                : '> ⚠️ **Merge bloqueado** — corrija a regressão de performance antes de fazer merge.',
+              '',
+              `_Executado em: ${new Date().toISOString()}_`,
+            ].join('\n');
+
+            // Procurar comment existente para atualizar (evita spam)
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existingComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Lighthouse —')
+            );
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports-${{ github.run_number }}
+          path: docs/quality/lighthouse-*.json
+          retention-days: 30
+
+      - name: Create issue on regression (push to main)
+        if: |
+          github.event_name == 'push' &&
+          steps.regression_check.outputs.exit_code != '0'
+        uses: actions/github-script@v7
+        env:
+          REGRESSION_OUTPUT: ${{ steps.extract.outputs.regression_output }}
+          RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_NUMBER: ${{ github.run_number }}
+        with:
+          script: |
+            const output = process.env.REGRESSION_OUTPUT;
+            const runId = process.env.RUN_ID;
+            const repository = process.env.REPOSITORY;
+            const runNumber = process.env.RUN_NUMBER;
+            const today = new Date().toISOString().split('T')[0];
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Regressao de Performance Detectada — ${today}`,
+              body: [
+                '## Regressão de Performance Lighthouse',
+                '',
+                `Detectada em push para main (run #${runNumber}).`,
+                '',
+                '### Detalhes',
+                '```',
+                output,
+                '```',
+                '',
+                '### Ação Necessária',
+                '1. Verificar as mudanças recentes que podem ter causado a regressão',
+                '2. Rodar `./scripts/qa/run-lighthouse.sh` localmente',
+                '3. Identificar e corrigir o problema',
+                '4. Atualizar baseline se a regressão for intencional',
+                '',
+                `[Ver workflow completo](https://github.com/${repository}/actions/runs/${runId})`,
+              ].join('\n'),
+              labels: ['performance', 'automated', 'bug'],
+            });
+
+      - name: Fail if regression blocked
+        if: steps.regression_check.outputs.exit_code != '0'
+        run: |
+          echo "Performance regression check FAILED. See output above."
+          exit 1
