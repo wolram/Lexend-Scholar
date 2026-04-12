@@ -73,10 +73,10 @@
         <!-- Form -->
         <div class="bg-white rounded-2xl border border-outline p-8 shadow-sm">
           <h2 class="text-xl font-bold mb-6">Envie uma mensagem</h2>
-          <form action="https://app.lexendscholar.com.br/contato" method="POST" class="space-y-4">
+          <form id="contact-form" class="space-y-4">
             <div>
               <label class="block text-sm font-medium mb-1.5" for="name">Nome completo</label>
-              <input type="text" id="name" name="name" required placeholder="Maria da Silva"
+              <input type="text" id="name" name="nome" required placeholder="Maria da Silva"
                      class="w-full px-4 py-3 rounded-lg border border-outline text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
             </div>
             <div>
@@ -85,26 +85,20 @@
                      class="w-full px-4 py-3 rounded-lg border border-outline text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5" for="subject">Assunto</label>
-              <select id="subject" name="subject"
-                      class="w-full px-4 py-3 rounded-lg border border-outline text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option value="demo">Solicitar demonstração</option>
-                <option value="suporte">Suporte técnico</option>
-                <option value="vendas">Vendas / Enterprise</option>
-                <option value="lgpd">Privacidade / LGPD</option>
-                <option value="outro">Outro</option>
-              </select>
+              <label class="block text-sm font-medium mb-1.5" for="escola">Nome da escola</label>
+              <input type="text" id="escola" name="escola" placeholder="Colégio Exemplo"
+                     class="w-full px-4 py-3 rounded-lg border border-outline text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
             </div>
             <div>
               <label class="block text-sm font-medium mb-1.5" for="message">Mensagem</label>
-              <textarea id="message" name="message" required rows="4" placeholder="Como podemos ajudar?"
+              <textarea id="message" name="mensagem" required rows="4" placeholder="Como podemos ajudar?"
                         class="w-full px-4 py-3 rounded-lg border border-outline text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"></textarea>
             </div>
             <button type="submit"
                     class="w-full bg-primary text-white py-3 rounded-lg font-semibold text-sm hover:bg-on-primary-fixed-variant transition-all">
-              Enviar Mensagem
+              Enviar mensagem
             </button>
+            <p id="form-status" style="margin-top:1rem;font-weight:600"></p>
             <p class="text-xs text-secondary text-center">Respondemos em até 24 horas úteis. Suas informações estão protegidas pela nossa <a href="/privacy.html" class="text-primary hover:underline">Política de Privacidade</a>.</p>
           </form>
         </div>
@@ -129,6 +123,46 @@
 
 <!-- Analytics: Plausible (ver docs/eng/analytics.md) -->
 <script defer data-domain="lexendscholar.com.br" src="https://plausible.io/js/script.js"></script>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const status = document.getElementById('form-status');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  status.textContent = '';
+
+  const data = {
+    nome: this.querySelector('[name="nome"]').value,
+    email: this.querySelector('[name="email"]').value,
+    escola: this.querySelector('[name="escola"]')?.value || '',
+    mensagem: this.querySelector('[name="mensagem"]').value
+  };
+
+  try {
+    const res = await fetch('/api/contato', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (res.ok) {
+      status.textContent = '✅ Mensagem enviada! Retornaremos em até 24h.';
+      status.style.color = 'green';
+      this.reset();
+    } else {
+      status.textContent = '❌ Erro: ' + (json.error || 'tente novamente');
+      status.style.color = 'red';
+    }
+  } catch {
+    status.textContent = '❌ Erro de conexão. Tente novamente.';
+    status.style.color = 'red';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Enviar mensagem';
+});
+</script>
 
 </body>
 </html>
