@@ -1,43 +1,6 @@
+// LS-85: Implementar geração de cobranças mensais
 import SwiftUI
 import Charts
-
-// MARK: - Models
-
-enum StatusCobranca: String, CaseIterable {
-    case pendente = "Pendente"
-    case pago = "Pago"
-    case atrasado = "Atrasado"
-    case cancelado = "Cancelado"
-
-    var color: Color {
-        switch self {
-        case .pendente: return SchoolPalette.warning
-        case .pago: return SchoolPalette.success
-        case .atrasado: return SchoolPalette.danger
-        case .cancelado: return SchoolPalette.secondaryText
-        }
-    }
-}
-
-struct Cobranca: Identifiable {
-    let id: String
-    let aluno: String
-    let turma: String
-    let descricao: String
-    let valor: Double
-    let vencimento: Date
-    var status: StatusCobranca
-    let accent: Color
-    var diasAtraso: Int {
-        guard status == .atrasado else { return 0 }
-        let diff = Calendar.current.dateComponents([.day], from: vencimento, to: Date()).day ?? 0
-        return max(0, diff)
-    }
-    var valorComJuros: Double {
-        guard status == .atrasado, diasAtraso > 0 else { return valor }
-        return valor * (1 + 0.00033 * Double(diasAtraso))
-    }
-}
 
 // MARK: - CobrancasView
 
@@ -47,8 +10,11 @@ struct CobrancasView: View {
     @State private var filtroStatus: StatusCobranca? = nil
     @State private var searchText = ""
     @State private var showGerarCobrancas = false
-    @State private var isGenerating = false
     @State private var showGenerateSuccess = false
+    @State private var selectedCobranca: Cobranca? = nil
+    @State private var showRegistrarPagamento = false
+    @State private var showRecibo = false
+    @State private var reciboCobranca: Cobranca? = nil
 
     private var filtradas: [Cobranca] {
         cobrancas.filter { c in
@@ -58,8 +24,15 @@ struct CobrancasView: View {
         }
     }
 
-    private var totalPendente: Double { cobrancas.filter { $0.status == .pendente || $0.status == .atrasado }.map { $0.valor }.reduce(0, +) }
-    private var totalRecebido: Double { cobrancas.filter { $0.status == .pago }.map { $0.valor }.reduce(0, +) }
+    private var totalPendente: Double {
+        cobrancas.filter { $0.status == .pendente || $0.status == .atrasado }.map { $0.valor }.reduce(0, +)
+    }
+    private var totalRecebido: Double {
+        cobrancas.filter { $0.status == .pago }.map { $0.valorPago ?? $0.valor }.reduce(0, +)
+    }
+    private var totalAtrasado: Double {
+        cobrancas.filter { $0.status == .atrasado }.map { $0.valorComJuros }.reduce(0, +)
+    }
 
     var body: some View {
         NavigationStack {
@@ -83,9 +56,30 @@ struct CobrancasView: View {
                 GerarCobrancasSheet { gerado in
                     showGerarCobrancas = false
                     if gerado {
-                        showGenerateSuccess = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { showGenerateSuccess = false }
+                        withAnimation { showGenerateSuccess = true }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation { showGenerateSuccess = false }
+                        }
                     }
+                }
+            }
+            .sheet(isPresented: $showRegistrarPagamento) {
+                if let cobranca = selectedCobranca {
+                    RegistrarPagamentoView(cobranca: cobranca) { paga in
+                        if let idx = cobrancas.firstIndex(where: { $0.id == paga.id }) {
+                            cobrancas[idx] = paga
+                        }
+                        showRegistrarPagamento = false
+                        reciboCobranca = paga
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            showRecibo = true
+                        }
+                    }
+                }
+            }
+            .sheet(isPresented: $showRecibo) {
+                if let cobranca = reciboCobranca {
+                    ReciboView(cobranca: cobranca)
                 }
             }
             .overlay(alignment: .top) {
@@ -99,6 +93,8 @@ struct CobrancasView: View {
         }
     }
 
+    // MARK: - Header
+
     private var headerSection: some View {
         SchoolSectionHeader(
             eyebrow: "Financeiro",
@@ -106,7 +102,7 @@ struct CobrancasView: View {
             subtitle: "\(cobrancas.count) cobranças · \(cobrancas.filter { $0.status == .atrasado }.count) atrasadas"
         ) {
             Button { showGerarCobrancas = true } label: {
-                Label("Gerar", systemImage: "arrow.triangle.2.circlepath")
+                Label("Gerar Cobranças do Mês", systemImage: "arrow.triangle.2.circlepath")
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 16)
@@ -116,6 +112,8 @@ struct CobrancasView: View {
         }
         .padding(.top, 24)
     }
+
+    // MARK: - Mes Selector
 
     private var mesSelector: some View {
         HStack(spacing: 12) {
@@ -144,30 +142,43 @@ struct CobrancasView: View {
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(SchoolPalette.outline))
     }
 
+    // MARK: - Summary Cards
+
     private var summaryCards: some View {
-        HStack(spacing: 12) {
-            summaryCard(label: "A Receber", value: "R$ \(String(format: "%.0f", totalPendente))", color: SchoolPalette.warning, symbol: "clock.fill")
-            summaryCard(label: "Recebido", value: "R$ \(String(format: "%.0f", totalRecebido))", color: SchoolPalette.success, symbol: "checkmark.circle.fill")
+        VStack(spacing: 12) {
+            HStack(spacing: 12) {
+                summaryCard(label: "Recebido", value: totalRecebido, color: SchoolPalette.success, symbol: "checkmark.circle.fill")
+                summaryCard(label: "A Receber", value: totalPendente, color: SchoolPalette.warning, symbol: "clock.fill")
+            }
+            summaryCard(label: "Em Atraso", value: totalAtrasado, color: SchoolPalette.danger, symbol: "exclamationmark.triangle.fill")
+                .frame(maxWidth: .infinity)
         }
     }
 
-    private func summaryCard(label: String, value: String, color: Color, symbol: String) -> some View {
+    private func summaryCard(label: String, value: Double, color: Color, symbol: String) -> some View {
         SchoolCard {
             HStack(spacing: 12) {
-                Image(systemName: symbol)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(color)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(color.opacity(0.12))
+                    .frame(width: 44, height: 44)
+                    .overlay {
+                        Image(systemName: symbol)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(color)
+                    }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(label)
                         .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundStyle(SchoolPalette.secondaryText)
-                    Text(value)
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                    Text(value, format: .currency(code: "BRL"))
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundStyle(SchoolPalette.primaryText)
                 }
             }
         }
     }
+
+    // MARK: - Status Chart
 
     private var statusChart: some View {
         SchoolCard(title: "Distribuição de Status") {
@@ -194,16 +205,21 @@ struct CobrancasView: View {
 
             HStack(spacing: 12) {
                 ForEach(StatusCobranca.allCases, id: \.self) { status in
-                    HStack(spacing: 4) {
-                        Circle().fill(status.color).frame(width: 8, height: 8)
-                        Text(status.rawValue)
-                            .font(.system(size: 10, weight: .semibold, design: .rounded))
-                            .foregroundStyle(SchoolPalette.secondaryText)
+                    let count = cobrancas.filter { $0.status == status }.count
+                    if count > 0 {
+                        HStack(spacing: 4) {
+                            Circle().fill(status.color).frame(width: 8, height: 8)
+                            Text("\(status.rawValue) (\(count))")
+                                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                                .foregroundStyle(SchoolPalette.secondaryText)
+                        }
                     }
                 }
             }
         }
     }
+
+    // MARK: - Filter Section
 
     private var filterSection: some View {
         VStack(spacing: 10) {
@@ -231,18 +247,45 @@ struct CobrancasView: View {
         }
     }
 
+    // MARK: - Cobrancas List
+
     private var cobrancasList: some View {
         LazyVStack(spacing: 10) {
-            ForEach(filtradas) { cobranca in
-                CobrancaCard(cobranca: cobranca)
+            if filtradas.isEmpty {
+                emptyState
+            } else {
+                ForEach(filtradas) { cobranca in
+                    CobrancaCard(cobranca: cobranca) {
+                        selectedCobranca = cobranca
+                        showRegistrarPagamento = true
+                    } onVerRecibo: {
+                        reciboCobranca = cobranca
+                        showRecibo = true
+                    }
+                }
             }
         }
     }
 
+    private var emptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "doc.text.magnifyingglass")
+                .font(.system(size: 40))
+                .foregroundStyle(SchoolPalette.secondaryText.opacity(0.5))
+            Text("Nenhuma cobrança encontrada")
+                .font(.system(size: 15, weight: .medium, design: .rounded))
+                .foregroundStyle(SchoolPalette.secondaryText)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+    }
+
+    // MARK: - Success Banner
+
     private var successBanner: some View {
         HStack(spacing: 10) {
             Image(systemName: "checkmark.circle.fill").foregroundStyle(SchoolPalette.success)
-            Text("Cobranças geradas com sucesso!")
+            Text("Cobranças do mês geradas com sucesso!")
                 .font(.system(size: 14, weight: .semibold, design: .rounded))
                 .foregroundStyle(SchoolPalette.primaryText)
         }
@@ -257,34 +300,69 @@ struct CobrancasView: View {
 
 struct CobrancaCard: View {
     let cobranca: Cobranca
+    let onPagar: () -> Void
+    let onVerRecibo: () -> Void
 
     var body: some View {
-        HStack(spacing: 14) {
-            InitialAvatar(name: cobranca.aluno, accent: cobranca.accent, size: 44)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(cobranca.aluno)
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundStyle(SchoolPalette.primaryText)
-                Text(cobranca.descricao)
-                    .font(.system(size: 12, weight: .medium, design: .rounded))
-                    .foregroundStyle(SchoolPalette.secondaryText)
-                if cobranca.status == .atrasado && cobranca.diasAtraso > 0 {
-                    Text("\(cobranca.diasAtraso) dias em atraso")
-                        .font(.system(size: 11, weight: .bold, design: .rounded))
-                        .foregroundStyle(SchoolPalette.danger)
+        VStack(spacing: 0) {
+            HStack(spacing: 14) {
+                InitialAvatar(name: cobranca.aluno, accent: cobranca.accent, size: 44)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(cobranca.aluno)
+                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                        .foregroundStyle(SchoolPalette.primaryText)
+                    Text("\(cobranca.turma) · \(cobranca.competencia)")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(SchoolPalette.secondaryText)
+                    if cobranca.status == .atrasado && cobranca.diasAtraso > 0 {
+                        Text("\(cobranca.diasAtraso) dias em atraso")
+                            .font(.system(size: 11, weight: .bold, design: .rounded))
+                            .foregroundStyle(SchoolPalette.danger)
+                    }
+                }
+                Spacer()
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(cobranca.status == .atrasado ? cobranca.valorComJuros : cobranca.valor, format: .currency(code: "BRL"))
+                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                        .foregroundStyle(SchoolPalette.primaryText)
+                    StatusChip(text: cobranca.status.rawValue, color: cobranca.status.color)
                 }
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("R$ \(String(format: "%.2f", cobranca.status == .atrasado ? cobranca.valorComJuros : cobranca.valor))")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundStyle(SchoolPalette.primaryText)
-                StatusChip(text: cobranca.status.rawValue, color: cobranca.status.color)
+            .padding(.horizontal, 16).padding(.vertical, 14)
+
+            if cobranca.status == .pendente || cobranca.status == .atrasado {
+                Divider().padding(.horizontal, 16)
+                Button(action: onPagar) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark.circle")
+                            .font(.system(size: 13, weight: .semibold))
+                        Text("Registrar Pagamento")
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    }
+                    .foregroundStyle(SchoolPalette.primary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                }
+            } else if cobranca.status == .pago {
+                Divider().padding(.horizontal, 16)
+                Button(action: onVerRecibo) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: 13, weight: .semibold))
+                        Text("Ver Recibo")
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    }
+                    .foregroundStyle(SchoolPalette.success)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                }
             }
         }
-        .padding(.horizontal, 16).padding(.vertical, 14)
         .background(SchoolPalette.surface, in: RoundedRectangle(cornerRadius: 16))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(cobranca.status == .atrasado ? SchoolPalette.danger.opacity(0.3) : SchoolPalette.outline))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(cobranca.status == .atrasado ? SchoolPalette.danger.opacity(0.3) : SchoolPalette.outline)
+        )
     }
 }
 
@@ -292,7 +370,6 @@ struct CobrancaCard: View {
 
 struct GerarCobrancasSheet: View {
     let onComplete: (Bool) -> Void
-    @Environment(\.dismiss) private var dismiss
     @State private var mesSelecionado = Date()
     @State private var turmasSelecionadas: Set<String> = ["1º Ano A", "2º Ano B", "3º Ano C"]
     @State private var isGenerating = false
@@ -305,7 +382,7 @@ struct GerarCobrancasSheet: View {
                 SchoolCanvasBackground()
                 ScrollView {
                     VStack(spacing: 20) {
-                        SchoolCard(title: "Gerar Cobranças Mensais") {
+                        SchoolCard(title: "Gerar Cobranças Mensais", subtitle: "Selecione o mês e as turmas para gerar cobranças automaticamente") {
                             VStack(alignment: .leading, spacing: 16) {
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("Mês de Referência")
@@ -350,14 +427,22 @@ struct GerarCobrancasSheet: View {
                             }
                         } label: {
                             HStack(spacing: 8) {
-                                if isGenerating { ProgressView().progressViewStyle(.circular).tint(.white).scaleEffect(0.8) }
-                                Text(isGenerating ? "Gerando..." : "Gerar \(turmasSelecionadas.count) Turmas")
+                                if isGenerating {
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .tint(.white)
+                                        .scaleEffect(0.8)
+                                }
+                                Text(isGenerating ? "Gerando..." : "Gerar Cobranças — \(turmasSelecionadas.count) Turma(s)")
                             }
                             .font(.system(size: 15, weight: .bold, design: .rounded))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background(turmasSelecionadas.isEmpty ? SchoolPalette.outline : SchoolPalette.primary, in: RoundedRectangle(cornerRadius: 16))
+                            .background(
+                                turmasSelecionadas.isEmpty ? SchoolPalette.outline : SchoolPalette.primary,
+                                in: RoundedRectangle(cornerRadius: 16)
+                            )
                             .padding(.horizontal, 20)
                         }
                         .disabled(turmasSelecionadas.isEmpty || isGenerating)
@@ -369,29 +454,12 @@ struct GerarCobrancasSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancelar") { onComplete(false) }.tint(SchoolPalette.secondaryText)
+                    Button("Cancelar") { onComplete(false) }
+                        .tint(SchoolPalette.secondaryText)
                 }
             }
         }
     }
-}
-
-// MARK: - Demo Data
-
-extension Cobranca {
-    static let demo: [Cobranca] = {
-        let cal = Calendar.current
-        let base = Date()
-        func d(_ offset: Int) -> Date { cal.date(byAdding: .day, value: offset, to: base) ?? base }
-        return [
-            Cobranca(id: "cb-1", aluno: "Sophia Anderson", turma: "1º Ano A", descricao: "Mensalidade Abril/2026", valor: 850.00, vencimento: d(-5), status: .pago, accent: SchoolPalette.primary),
-            Cobranca(id: "cb-2", aluno: "Elena Rodriguez", turma: "2º Ano B", descricao: "Mensalidade Abril/2026", valor: 1_200.00, vencimento: d(5), status: .pendente, accent: SchoolPalette.violet),
-            Cobranca(id: "cb-3", aluno: "Jordan Lee", turma: "3º Ano C", descricao: "Mensalidade Março/2026", valor: 850.00, vencimento: d(-20), status: .atrasado, accent: SchoolPalette.warning),
-            Cobranca(id: "cb-4", aluno: "Gabriel Souza", turma: "1º Ano A", descricao: "Mensalidade Abril/2026", valor: 425.00, vencimento: d(10), status: .pendente, accent: SchoolPalette.success),
-            Cobranca(id: "cb-5", aluno: "Isabella Martins", turma: "2º Ano B", descricao: "Mensalidade Fevereiro/2026", valor: 1_200.00, vencimento: d(-40), status: .atrasado, accent: SchoolPalette.danger),
-            Cobranca(id: "cb-6", aluno: "Lucas Ferreira", turma: "3º Ano C", descricao: "Mensalidade Abril/2026", valor: 850.00, vencimento: d(5), status: .pago, accent: SchoolPalette.primary)
-        ]
-    }()
 }
 
 #Preview {
