@@ -73,3 +73,6 @@ fun AdaptiveStudentLayout(
 fun WindowSizeClass.isCompact(): Boolean = widthSizeClass == WindowWidthSizeClass.Compact
 
 fun WindowSizeClass.isExpanded(): Boolean = widthSizeClass == WindowWidthSizeClass.Expanded
+
+// LS-156: WindowSizeClass detection — isCompact() for phones, isExpanded() for tablets
+// UI breakpoints: Compact=phone single-pane, Medium=unfolded, Expanded=tablet/desktop dual-pane
