@@ -52,3 +52,6 @@ class SyncWorker @AssistedInject constructor(
                 .build()
     }
 }
+
+// LS-155: Offline support via WorkManager — periodic sync every 15 min when connected,
+// exponential backoff on failure, Room DB as local cache with sync flags per entity
