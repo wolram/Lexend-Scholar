@@ -2,34 +2,42 @@
  * documentos-aluno.js — /api/documentos-aluno
  * Lexend Scholar — Gerenciamento de documentos de aluno (upload, listagem, download, remoção).
  *
- * Os arquivos são armazenados no Supabase Storage, bucket: "student-documents"
- * Os metadados são salvos na tabela: student_documents
+ * Arquivos armazenados no Supabase Storage, bucket: "student-documents"
+ * Metadados salvos na tabela: student_documents (ver migration LS-78)
  *
+ * ─── Rotas ───────────────────────────────────────────────────────────────────
+ * GET    /api/documentos-aluno?student_id=UUID          — lista documentos do aluno
+ * GET    /api/documentos-aluno?id=UUID                  — URL assinada para download
+ * POST   /api/documentos-aluno                          — registra documento após upload
+ * POST   /api/documentos-aluno?action=presigned         — gera URL de upload pré-assinada
+ * DELETE /api/documentos-aluno?id=UUID                  — remove do storage e metadados
+ *
+ * ─── Tipos de documento suportados (category) ────────────────────────────────
+ *   rg              — RG (Registro Geral)
+ *   cpf             — CPF
+ *   certidao        — Certidão de nascimento / casamento
+ *   comprovante     — Comprovante de residência
+ *   laudo           — Laudo médico / psicológico
+ *   historico       — Histórico escolar
+ *   declaracao      — Declaração diversa
+ *   foto            — Foto 3x4
+ *   geral           — Outros documentos
+ *
+ * ─── Tabela ──────────────────────────────────────────────────────────────────
  * CREATE TABLE student_documents (
  *   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
  *   school_id    UUID NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
  *   student_id   UUID NOT NULL REFERENCES students(id) ON DELETE CASCADE,
  *   uploaded_by  UUID NOT NULL REFERENCES users(id),
- *   name         TEXT NOT NULL,          -- nome amigável do documento
- *   filename     TEXT NOT NULL,          -- nome do arquivo no storage
- *   storage_path TEXT NOT NULL,          -- caminho completo no bucket
+ *   name         TEXT NOT NULL,
+ *   filename     TEXT NOT NULL,
+ *   storage_path TEXT NOT NULL,
  *   mime_type    TEXT NOT NULL,
  *   size_bytes   INTEGER NOT NULL,
- *   category     TEXT NOT NULL DEFAULT 'geral', -- 'rg' | 'cpf' | 'historico' | 'laudo' | 'geral'
+ *   category     TEXT NOT NULL DEFAULT 'geral',
  *   public_url   TEXT,
- *   expires_at   TIMESTAMPTZ,            -- para URLs pré-assinadas
  *   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
  * );
- *
- * GET    /api/documentos-aluno?student_id=  — lista documentos do aluno
- * GET    /api/documentos-aluno?id=UUID      — gera URL assinada para download
- * POST   /api/documentos-aluno              — registra documento após upload direto
- * DELETE /api/documentos-aluno?id=UUID      — remove documento e arquivo do storage
- *
- * NOTA: O upload do arquivo deve ser feito diretamente para o Supabase Storage
- * pelo cliente (browser) usando uma URL pré-assinada gerada por esta API.
- * Endpoint adicional:
- * POST /api/documentos-aluno?action=presigned — gera URL de upload pré-assinada
  *
  * Roles: admin, secretary (leitura + escrita), teacher (somente leitura)
  */
@@ -37,13 +45,49 @@
 import { authenticateRequest, apiError, parsePagination } from './_middleware.js';
 import { supabase } from './_supabase.js';
 
-const STORAGE_BUCKET = 'student-documents';
+const STORAGE_BUCKET    = 'student-documents';
 const SIGNED_URL_EXPIRY = 60 * 60; // 1 hour in seconds
 
 const ALLOWED_ROLES = ['admin', 'secretary', 'teacher'];
 const WRITE_ROLES   = ['admin', 'secretary'];
 
-const VALID_CATEGORIES = ['rg', 'cpf', 'historico', 'laudo', 'declaracao', 'foto', 'geral'];
+// Human-readable labels (used in responses for UI display)
+const CATEGORY_LABELS = {
+  rg:          'RG (Registro Geral)',
+  cpf:         'CPF',
+  certidao:    'Certidão de Nascimento / Casamento',
+  comprovante: 'Comprovante de Residência',
+  laudo:       'Laudo Médico / Psicológico',
+  historico:   'Histórico Escolar',
+  declaracao:  'Declaração',
+  foto:        'Foto 3x4',
+  geral:       'Outros',
+};
+
+/**
+ * NOTE — Routing alias:
+ * This handler also serves /api/alunos/:id/documentos when the router
+ * passes student_id from the path param via req.query.student_id or
+ * req.params.id. The webapp router should do:
+ *
+ *   app.use('/api/alunos/:student_id/documentos', (req, _, next) => {
+ *     req.query.student_id = req.params.student_id;
+ *     next();
+ *   }, documentosAlunoHandler);
+ */
+
+// Categories include all document types from LS-77 spec
+const VALID_CATEGORIES = [
+  'rg',           // RG - Registro Geral
+  'cpf',          // CPF
+  'certidao',     // Certidão de nascimento / casamento
+  'comprovante',  // Comprovante de residência
+  'laudo',        // Laudo médico / psicológico
+  'historico',    // Histórico escolar
+  'declaracao',   // Declaração diversa
+  'foto',         // Foto 3x4
+  'geral',        // Outros
+];
 const MAX_FILE_SIZE    = 20 * 1024 * 1024; // 20 MB
 const ALLOWED_MIMES    = [
   'application/pdf',
@@ -113,7 +157,13 @@ export default async function handler(req, res) {
     const { data, error, count } = await query;
     if (error) return apiError(res, 500, 'Erro ao buscar documentos', 'DB_ERROR');
 
-    return res.status(200).json({ data, total: count, limit, offset });
+    // Enrich with category label for UI display
+    const enriched = (data || []).map((doc) => ({
+      ...doc,
+      category_label: CATEGORY_LABELS[doc.category] || doc.category,
+    }));
+
+    return res.status(200).json({ data: enriched, total: count, limit, offset });
   }
 
   // -------------------------------------------------------------------------
