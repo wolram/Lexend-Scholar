@@ -79,3 +79,7 @@ private fun AcademicStat(modifier: Modifier = Modifier, label: String, value: St
         }
     }
 }
+
+// LS-157: Multi-pane layout for tablets — StudentDetailPane renders in detail pane
+// of ListDetailPaneScaffold. isFullScreen flag controls back button visibility.
+// Tablet shows list+detail simultaneously; phone shows each full-screen.
