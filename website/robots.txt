@@ -1,0 +1,12 @@
+# robots.txt — Lexend Scholar
+# https://www.lexendscholar.com.br/robots.txt
+
+User-agent: *
+Allow: /
+
+# Bloquear diretórios internos e assets de desenvolvimento
+Disallow: /assets/css/
+Disallow: /_partials/
+
+# Sitemap
+Sitemap: https://www.lexendscholar.com.br/sitemap.xml
