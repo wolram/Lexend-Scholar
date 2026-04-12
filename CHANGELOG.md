@@ -197,6 +197,251 @@
 - LS-133 Configurar labels e workflows no Linear
 - LS-134 Configurar cross-team dependencies entre projetos
 - LS-135 Criar estrutura do wiki de engenharia
+- LS-136 Escrever guia de onboarding iOS (Xcode + XcodeGen)
+
+### 🐛 Bug Fixes
+
+- LS-32 substituir href='#' por links reais em todas as páginas
+
+### 💼 Other
+
+- Ios/android domain (LS-152, LS-153, LS-154, LS-155, LS-156, LS-157, LS-159)
+
+### 📚 Documentation
+
+- Add multi-agent execution design spec and implementation plan
+- Add multi-agent execution design spec
+- Add multi-agent execution implementation plan
+- LS-191 Documentar falsos positivos do SourceKit
+- LS-30 definir convenção de versionamento semântico
+- LS-33 documentar processo de release iOS (TestFlight → App Store)
+
+### ⚙️ Miscellaneous Tasks
+
+- Initial project import
+- Recover partial work from previous agents
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+- Atualizar CHANGELOG.md [skip ci]
+## [unreleased]
+
+### 🚀 Features
+
+- LS-137 Integrar Stripe Billing para assinaturas recorrentes
+- LS-181 Verificar disponibilidade e registrar marca Lexend Scholar no INPI
+- LS-138 Implementar trial gratuito de 14 dias
+- LS-184 Criar templates de contrato de prestação de serviços
+- LS-139 Implementar geração automática de invoice/recibo
+- LS-140 Implementar webhook Stripe para eventos de assinatura
+- LS-185 Criar templates de NDA e acordos de IP para colaboradores
+- LS-144 Definir modelo de pricing por número de alunos
+- LS-149 Criar budget anual com centros de custo
+- LS-145 Criar proposta comercial e contrato de serviços
+- LS-151 Configurar dashboard financeiro (MRR, ARR, churn, LTV)
+- LS-161 Configurar push notifications via Firebase Cloud Messaging
+- LS-150 Criar modelo de forecasting MRR/ARR
+- LS-163 Implementar in-app billing com Play Billing Library 6+
+- LS-165 Criar App Widgets com Glance para resumo escolar
+- LS-177 Implementar relatório de inadimplência financeira
+- LS-188 Implementar geração de boletim escolar em PDF
+- LS-189 Implementar relatório de frequência por aluno, turma e período
+- LS-169 Pesquisar palavras-chave no App Store (categoria Education)
+- LS-172 Escrever título e subtítulo otimizados para App Store
+- LS-174 Criar screenshots otimizados para conversão (iPhone 6.7" + iPad)
+- LS-176 Produzir preview video do app (15-30 segundos)
+- LS-180 Implementar export de dados XLSX para secretaria
+- LS-178 Criar estratégia de gestão de avaliações e reviews
+- LS-170 Criar Play Store listing em português
+- LS-173 Preencher Data Safety section (dados de alunos menores)
+- LS-175 Configurar internal testing track + closed testing
+- LS-166 Definir critérios de release por plataforma (iOS + web)
+- LS-167 Implementar verificação automática de cobertura (meta: > 80%)
+- LS-168 Realizar testes de acessibilidade WCAG 2.1 AA no website
+- LS-171 Criar checklist de validação manual pré-release
+- LS-160 Executar auditoria Lighthouse no website (meta: score > 90)
+- LS-158 Definir baseline de performance iOS (tempo de abertura, memória)
+- LS-162 Criar load test para API: 100 alunos simultâneos
+- LS-164 Configurar monitoring de performance contínua no CI
+- LS-179 Configurar email marketing (ConvertKit ou MailerLite)
+- LS-137 Integrar Stripe Billing para assinaturas recorrentes
+- LS-182 Criar sequência de email onboarding para novas escolas
+- LS-138 Implementar trial gratuito de 14 dias
+- LS-183 Criar campanha Google Ads para software de gestão escolar
+- LS-139 Implementar geração automática de invoice/recibo
+- LS-186 Criar programa de indicação escola-para-escola
+- LS-140 Implementar webhook Stripe para eventos de assinatura
+- LS-146 Configurar HubSpot CRM gratuito
+- LS-144 Definir modelo de pricing por número de alunos
+- LS-147 Criar script de demo do Lexend Scholar
+- LS-145 Criar proposta comercial e contrato de serviços
+- LS-148 Criar deck de vendas do Lexend Scholar
+- LS-161 Configurar push notifications via Firebase Cloud Messaging
+- LS-163 Implementar in-app billing com Play Billing Library 6+
+- LS-141 Criar ADRs para decisões técnicas principais
+- LS-165 Criar App Widgets com Glance para resumo escolar
+- LS-177 Implementar relatório de inadimplência financeira
+- LS-188 Implementar geração de boletim escolar em PDF
+- LS-189 Implementar relatório de frequência por aluno, turma e período
+- LS-152 Configurar projeto Android com Kotlin e Jetpack Compose
+- LS-153 Integrar Supabase Android SDK para autenticação
+- LS-169 Pesquisar palavras-chave no App Store (categoria Education)
+- LS-169..LS-178 App Store e Play Store — ASO, screenshots, video, reviews, listing, data safety, testing tracks
+- LS-158..LS-168 Quality Gates — critérios de release, cobertura, acessibilidade, Lighthouse, baseline iOS, load test
+- LS-154 Implementar módulo acadêmico básico (alunos, frequência, notas)
+- LS-180 Implementar export de dados XLSX para secretaria
+- LS-164 Configurar GitHub Actions para monitoramento de performance contínua
+- LS-155 Implementar offline support com WorkManager
+- LS-156 Implementar adaptive layouts com WindowSizeClass
+- LS-157 Criar multi-pane layouts para tablet (lista + detalhe)
+- LS-159 Adicionar suporte a foldable devices
+- Create swiftui school management app
+- LS-152 Configurar projeto Android com Kotlin e Jetpack Compose
+- LS-153 Integrar Supabase Android SDK para autenticação
+- LS-154 Implementar módulo acadêmico básico (alunos, frequência, notas)
+- LS-155 Implementar offline support com WorkManager
+- LS-156 Implementar adaptive layouts com WindowSizeClass
+- LS-157 Criar multi-pane layouts para tablet (lista + detalhe)
+- LS-159 Adicionar suporte a foldable devices
+- LS-69 Definir e configurar stack do backend
+- LS-60 Configurar XCTest targets no LexendScholar.xcodeproj
+- LS-1 Provisionar projeto Supabase (produção, staging, dev)
+- LS-54 Implementar gerenciamento de turmas e disciplinas
+- LS-61 Configurar Playwright para testes E2E do website e web app
+- LS-43 Definir arquitetura do Web App (Next.js App Router)
+- LS-55 Implementar fluxo de matrículas
+- LS-70 Implementar endpoints CRUD: alunos, professores, turmas
+- LS-62 Criar factories e fixtures de teste (escola, alunos, turmas)
+- LS-45 Implementar autenticação via Supabase Auth (web)
+- LS-56 Implementar registro de frequência
+- LS-46 Implementar roteamento por perfil de usuário
+- LS-63 Integrar relatórios de cobertura com CI/CD
+- LS-57 Implementar lançamento de notas e avaliações
+- LS-6 a LS-10 Segurança, auditoria, WAF e RTO/RPO
+- LS-64 E2E smoke test de login por todos os perfis
+- LS-71 Implementar endpoints de matrículas e frequência
+- LS-72 Implementar endpoints de avaliações e notas
+- LS-74 Implementar endpoints de financeiro
+- LS-58 Implementar geração de boletim escolar
+- LS-42 Integrar Supabase Swift SDK para autenticação
+- LS-44 Implementar fluxo de login por perfil de usuário
+- LS-48 Criar shell do aplicativo com navegação lateral
+- LS-47 Migrar DemoData para fetch real via Supabase
+- LS-49 Implementar persistência offline com SwiftData + sync
+- LS-65 E2E cadastro completo de aluno
+- LS-50 Implementar Deep Links para notificações
+- LS-52 Implementar CRUD de alunos conectado ao Supabase
+- LS-53 Implementar CRUD de professores
+- LS-36 Implementar cadastro e vínculo de responsáveis
+- LS-48 Criar shell do aplicativo com navegação lateral
+- LS-51 Implementar cards de métricas do dashboard
+- LS-59 Implementar calendário letivo
+- LS-66 E2E registro de frequência de turma completa
+- LS-84 Implementar configuração de mensalidades e contratos
+- LS-67 E2E lançamento de notas e geração de boletim
+- LS-11 a LS-15 Restore, contingência, Sentry iOS, monitoramento e SLA
+- LS-16 Configurar Xcode Cloud workflow para LexendScholar.xcodeproj
+- LS-17 Configurar distribuição automática para TestFlight
+- LS-18 Implementar build por branch (main → prod, feature/* → beta)
+- LS-19 Configurar notificações de build (Slack e email)
+- LS-20 Conectar repositório ao Vercel e configurar deploy
+- LS-21 Configurar preview deployments por Pull Request
+- LS-22 Configurar GitHub Actions para lint e validação
+- LS-23 Documentar rollback procedure para deployments
+- LS-24 Criar Makefile com comandos dev/build/test
+- LS-25 Documentar setup local completo (iOS + Web)
+- LS-26 Configurar SwiftLint como pre-commit hook
+- LS-27 Criar guia de onboarding de engenharia
+- LS-85 Implementar geração de cobranças mensais
+- LS-93 Redigir Termos de Uso (B2B: escola como contratante)
+- LS-79 Implementar fluxo de comunicados por turma
+- LS-73 Implementar registro e histórico de ocorrências
+- LS-80 Implementar mensagens escola-responsável
+- LS-90 Criar screenshots-guide para iPhone 6.7" e iPad
+- LS-91 Configurar privacy nutrition labels
+- LS-81 Criar seed data realista para desenvolvimento
+- LS-92 Revisar conformidade com App Store Guidelines
+- LS-94 Redigir Política de Privacidade (LGPD + dados de menores)
+- LS-190 Configurar push notifications APNs
+- LS-120 Selecionar e configurar ferramenta de suporte (Crisp)
+- LS-29 unificar header e footer em todas as páginas
+- LS-82 Implementar eventos escolares com RSVP
+- LS-86 Implementar registro de pagamentos
+- LS-104 Implementar autenticação via Supabase Auth
+- LS-87 Implementar controle de inadimplência
+- LS-83 Implementar soft delete e índices de performance
+- LS-105 Implementar RLS por role e school_id
+- LS-75 Implementar emissão de declarações como PDF
+- LS-106 Implementar auditoria de ações críticas
+- LS-88 Implementar emissão de recibos
+- LS-107 Garantir isolamento multi-tenant entre escolas
+- LS-89 Implementar relatório financeiro geral
+- LS-121 Definir tiers de SLA e regras de roteamento
+- LS-95 Implementar Cookie Policy e consentimento no website
+- LS-122 Integrar tickets de suporte com Linear via webhook Crisp
+- LS-31 automatizar CHANGELOG via conventional commits
+- LS-96 Redigir Política de Uso Aceitável (AUP)
+- LS-76 Documentar API com OpenAPI/Swagger
+- LS-99 Checklist completo de conformidade App Store
+- LS-100 Mapeamento de fluxo de dados (data flow mapping)
+- LS-101 Criar ROPA completo (Art. 37 LGPD)
+- LS-77 Implementar gerenciamento de documentos de aluno
+- LS-97 Revisar Apple Developer Program para dados de menores
+- LS-102 Criar template de DPA para escolas clientes
+- LS-103 Implementar processo de atendimento a titulares (DSAR)
+- LS-78 Adicionar tabelas faltantes ao schema escolar
+- LS-123 Redigir primeiros 4 artigos do blog
+- LS-98 COPPA assessment — dados de crianças < 13 anos
+- LS-34 páginas Política de Privacidade, Termos de Uso e LGPD com conteúdo real
+- LS-124 Criar estrutura do help center por perfil
+- LS-35 substituir imagens externas por assets SVG próprios
+- LS-108 Auditar e documentar SchoolPalette existente
+- LS-109 Criar tokens de cor e tipografia no Figma
+- LS-110 Documentar variantes dark mode de todos os componentes
+- LS-111 Definir e documentar componentes web equivalentes
+- LS-112 Criar 5 personas do sistema escolar
+- LS-113 Análise competitiva GestorClass iSistema Classeapp
+- LS-114 Revisar e finalizar telas iOS em alta fidelidade no Figma
+- LS-115 Projetar telas do painel administrativo web
+- LS-125 Escrever artigos essenciais do help center (4 guias)
+- LS-116 Projetar fluxo de matrícula web e iOS
+- LS-117 Projetar módulo de comunicação escola-responsável
+- LS-37 favicon SVG, logo final e meta Open Graph em todas as páginas
+- LS-118 Definir segmento alvo e posicionamento
+- LS-119 Estruturar programa de escolas piloto beta fechado
+- LS-126 Mapear processos críticos do produto
+- LS-38 configurar build Tailwind local (remover dependência de CDN)
+- LS-39 deploy Vercel com domínio e HTTPS
+- LS-127 Documentar SOPs: release, incidente e onboarding
+- LS-40 SEO — sitemap.xml, robots.txt e canonical em todas as páginas
+- LS-128 Nomear DPO e documentar responsabilidades
+- LS-129 Criar plano de resposta a incidentes de dados (LGPD)
+- LS-41 integrar Plausible Analytics em todas as páginas
+- LS-130 Configurar Stripe para assinaturas SaaS do Lexend Scholar
+- LS-131 Definir OKRs do primeiro trimestre Q1 2026
+- LS-132 Configurar ferramentas de contabilidade e NF-e (Conta Azul + NFE.io)
+- LS-133 Configurar labels e workflows no Linear
+- LS-134 Configurar cross-team dependencies entre projetos
+- LS-135 Criar estrutura do wiki de engenharia
 
 ### 🐛 Bug Fixes
 
