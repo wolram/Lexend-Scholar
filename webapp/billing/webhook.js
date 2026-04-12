@@ -1,55 +1,56 @@
 /**
  * Lexend Scholar — Stripe Webhook Handler
- * POST /api/billing/webhook
+ * Endpoint Express POST /webhooks/stripe
  *
  * Eventos tratados:
- *   checkout.session.completed      — subscription iniciada (trial ou paga)
- *   customer.subscription.updated   — upgrade/downgrade de plano ou mudança de status
- *   customer.subscription.deleted   — cancelamento efetivado
- *   invoice.paid                    — pagamento bem-sucedido
- *   invoice.payment_failed          — falha no pagamento
- *   invoice.created                 — nova invoice gerada
+ *   invoice.payment_succeeded          — marcar subscription ativa, gerar recibo, enviar email
+ *   invoice.payment_failed             — log de falha, enviar email de alerta para escola
+ *   customer.subscription.deleted      — marcar escola como churn, iniciar offboarding
+ *   customer.subscription.updated      — atualizar plano no banco (starter/pro/enterprise)
+ *   customer.subscription.trial_will_end — enviar lembrete 3 dias antes do trial expirar
+ *   customer.subscription.created      — marcar trial como iniciado
  *
- * Idempotência: cada evento é registrado em stripe_webhook_events.
- * Se event_id já existe e processed=true, o evento é ignorado.
+ * Idempotência: verifica tabela stripe_webhook_events(event_id) antes de processar.
+ * IMPORTANTE: usar raw body parser (não JSON) para verificação da assinatura Stripe.
  */
 
-import Stripe from 'stripe';
+import express from 'express';
 import { createClient } from '@supabase/supabase-js';
-import { syncInvoiceFromStripe } from './invoice.js';
-import { PLANS } from './stripe_client.js';
+import { stripe } from './stripe_client.js';
+import { generateReceipt, sendReceiptEmail } from './invoice.js';
+import { sendTrialReminder } from './trial.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2024-04-10' });
+const router = express.Router();
 
 function getSupabase() {
-  return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
 }
 
 // ---------------------------------------------------------------------------
-// webhookHandler — entry point
-// Express/Next.js: use raw body parser (NOT json) for Stripe signature verification.
+// POST /webhooks/stripe
 // ---------------------------------------------------------------------------
-export async function webhookHandler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
-
+router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
 
+  // 1. Verificar assinatura Stripe
   try {
-    // req.body must be raw Buffer for signature verification
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error('[Webhook] Signature verification failed:', err.message);
+    console.error('[Webhook] Assinatura inválida:', err.message);
     return res.status(400).json({ error: `Webhook Error: ${err.message}` });
   }
 
   const supabase = getSupabase();
 
-  // --- Idempotency check ---
+  // 2. Idempotência: checar se evento já foi processado
   const { data: existing } = await supabase
     .from('stripe_webhook_events')
     .select('id, processed')
@@ -60,13 +61,13 @@ export async function webhookHandler(req, res) {
     return res.status(200).json({ received: true, skipped: true });
   }
 
-  // --- Log event ---
+  // 3. Registrar evento no banco
   if (!existing) {
     await supabase.from('stripe_webhook_events').insert({
-      event_id: event.id,
+      event_id:   event.id,
       event_type: event.type,
-      payload: event,
-      processed: false,
+      payload:    event,
+      processed:  false,
     });
   }
 
@@ -75,197 +76,244 @@ export async function webhookHandler(req, res) {
   try {
     await routeEvent(event, supabase);
   } catch (err) {
-    console.error(`[Webhook] Error processing ${event.type}:`, err);
+    console.error(`[Webhook] Erro ao processar ${event.type}:`, err);
     processingError = err.message;
   }
 
-  // Mark as processed (even if error — to avoid infinite retries on bad data)
+  // 4. Marcar como processado
   await supabase
     .from('stripe_webhook_events')
     .update({ processed: true, error: processingError })
     .eq('event_id', event.id);
 
-  if (processingError) {
-    return res.status(200).json({ received: true, error: processingError });
-  }
-
   return res.status(200).json({ received: true });
-}
+});
 
 // ---------------------------------------------------------------------------
-// routeEvent — dispatches to specific handlers
+// routeEvent — despacha para handlers específicos
 // ---------------------------------------------------------------------------
 async function routeEvent(event, supabase) {
+  const data = event.data.object;
+
   switch (event.type) {
-    case 'checkout.session.completed':
-      await handleCheckoutCompleted(event.data.object, supabase);
+    // Pagamento bem-sucedido: ativar subscription, gerar recibo e enviar email
+    case 'invoice.payment_succeeded':
+      await handlePaymentSucceeded(data, supabase);
       break;
 
-    case 'customer.subscription.updated':
-      await handleSubscriptionUpdated(event.data.object, supabase);
-      break;
-
-    case 'customer.subscription.deleted':
-      await handleSubscriptionDeleted(event.data.object, supabase);
-      break;
-
-    case 'invoice.paid':
-      await handleInvoicePaid(event.data.object, supabase);
-      break;
-
+    // Falha no pagamento: log + email de alerta com link do portal
     case 'invoice.payment_failed':
-      await handleInvoicePaymentFailed(event.data.object, supabase);
+      await handlePaymentFailed(data, supabase);
       break;
 
-    case 'invoice.created':
-      await syncInvoiceFromStripe(event.data.object);
+    // Subscription cancelada: marcar escola como churn + offboarding
+    case 'customer.subscription.deleted':
+      await handleSubscriptionDeleted(data, supabase);
+      break;
+
+    // Plano atualizado: atualizar starter/pro/enterprise no banco
+    case 'customer.subscription.updated':
+      await handleSubscriptionUpdated(data, supabase);
+      break;
+
+    // Trial prestes a expirar: enviar lembrete 3 dias antes
+    case 'customer.subscription.trial_will_end':
+      await handleTrialWillEnd(data, supabase);
+      break;
+
+    // Nova subscription criada: marcar trial como iniciado
+    case 'customer.subscription.created':
+      await handleSubscriptionCreated(data, supabase);
       break;
 
     default:
-      console.log(`[Webhook] Unhandled event type: ${event.type}`);
+      console.log(`[Webhook] Evento não tratado: ${event.type}`);
   }
 }
 
 // ---------------------------------------------------------------------------
-// handleCheckoutCompleted
-// Atualiza escola com subscription_id, status e plano.
+// Handlers individuais
 // ---------------------------------------------------------------------------
-async function handleCheckoutCompleted(session, supabase) {
-  if (session.mode !== 'subscription') return;
 
-  const schoolId = session.metadata?.school_id;
-  if (!schoolId) throw new Error('checkout.session.completed: missing school_id in metadata');
-
-  const subscription = await stripe.subscriptions.retrieve(session.subscription);
-  const priceId = subscription.items.data[0]?.price?.id;
-  const plan = getPlanFromPriceId(priceId);
-
-  await supabase.from('schools').update({
-    stripe_subscription_id: subscription.id,
-    stripe_price_id: priceId,
-    plan,
-    max_students: PLANS[plan]?.maxStudents ?? 100,
-    subscription_status: subscription.status,
-    current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-    current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-    trial_ends_at: subscription.trial_end
-      ? new Date(subscription.trial_end * 1000).toISOString()
-      : null,
-    updated_at: new Date().toISOString(),
-  }).eq('id', schoolId);
-
-  console.log(`[Webhook] Checkout completed for school ${schoolId}, plan ${plan}`);
-}
-
-// ---------------------------------------------------------------------------
-// handleSubscriptionUpdated
-// ---------------------------------------------------------------------------
-async function handleSubscriptionUpdated(subscription, supabase) {
-  const customerId = subscription.customer;
+async function handlePaymentSucceeded(invoice, supabase) {
+  // Buscar escola pelo stripe_customer_id
   const { data: school } = await supabase
     .from('schools')
-    .select('id')
-    .eq('stripe_customer_id', customerId)
-    .single();
-
-  if (!school) throw new Error(`No school for customer ${customerId}`);
-
-  const priceId = subscription.items.data[0]?.price?.id;
-  const plan = getPlanFromPriceId(priceId);
-
-  await supabase.from('schools').update({
-    stripe_subscription_id: subscription.id,
-    stripe_price_id: priceId,
-    plan,
-    max_students: PLANS[plan]?.maxStudents ?? 100,
-    subscription_status: subscription.status,
-    current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-    current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-    trial_ends_at: subscription.trial_end
-      ? new Date(subscription.trial_end * 1000).toISOString()
-      : null,
-    updated_at: new Date().toISOString(),
-  }).eq('id', school.id);
-
-  console.log(`[Webhook] Subscription updated for school ${school.id}, status ${subscription.status}`);
-}
-
-// ---------------------------------------------------------------------------
-// handleSubscriptionDeleted
-// ---------------------------------------------------------------------------
-async function handleSubscriptionDeleted(subscription, supabase) {
-  const customerId = subscription.customer;
-  const { data: school } = await supabase
-    .from('schools')
-    .select('id')
-    .eq('stripe_customer_id', customerId)
-    .single();
-
-  if (!school) throw new Error(`No school for customer ${customerId}`);
-
-  await supabase.from('schools').update({
-    subscription_status: 'canceled',
-    stripe_subscription_id: null,
-    updated_at: new Date().toISOString(),
-  }).eq('id', school.id);
-
-  console.log(`[Webhook] Subscription canceled for school ${school.id}`);
-}
-
-// ---------------------------------------------------------------------------
-// handleInvoicePaid
-// ---------------------------------------------------------------------------
-async function handleInvoicePaid(invoice, supabase) {
-  // Sync invoice data to Supabase
-  await syncInvoiceFromStripe(invoice);
-
-  // If the invoice is for a subscription, ensure school status is 'active'
-  if (invoice.subscription) {
-    const { data: school } = await supabase
-      .from('schools')
-      .select('id, subscription_status')
-      .eq('stripe_customer_id', invoice.customer)
-      .single();
-
-    if (school && school.subscription_status !== 'active') {
-      await supabase.from('schools').update({
-        subscription_status: 'active',
-        updated_at: new Date().toISOString(),
-      }).eq('id', school.id);
-    }
-  }
-
-  console.log(`[Webhook] Invoice paid: ${invoice.id}`);
-}
-
-// ---------------------------------------------------------------------------
-// handleInvoicePaymentFailed
-// ---------------------------------------------------------------------------
-async function handleInvoicePaymentFailed(invoice, supabase) {
-  await syncInvoiceFromStripe(invoice);
-
-  const { data: school } = await supabase
-    .from('schools')
-    .select('id')
+    .select('id, name, email, plan, subscription_status')
     .eq('stripe_customer_id', invoice.customer)
     .single();
 
-  if (school) {
-    await supabase.from('schools').update({
-      subscription_status: 'past_due',
-      updated_at: new Date().toISOString(),
-    }).eq('id', school.id);
+  if (!school) {
+    console.warn(`[Webhook] handlePaymentSucceeded: escola não encontrada para customer ${invoice.customer}`);
+    return;
   }
 
-  console.warn(`[Webhook] Invoice payment FAILED: ${invoice.id} for customer ${invoice.customer}`);
+  // Marcar subscription como ativa
+  await supabase.from('schools').update({
+    subscription_status: 'active',
+    updated_at: new Date().toISOString(),
+  }).eq('id', school.id);
+
+  // Registrar invoice no banco
+  await supabase.from('billing_invoices').upsert({
+    school_id:             school.id,
+    stripe_invoice_id:     invoice.id,
+    stripe_payment_intent: invoice.payment_intent,
+    amount_due:            invoice.amount_due,
+    amount_paid:           invoice.amount_paid,
+    currency:              invoice.currency,
+    status:                'paid',
+    invoice_url:           invoice.hosted_invoice_url || null,
+    invoice_pdf:           invoice.invoice_pdf || null,
+    period_start:          invoice.period_start
+      ? new Date(invoice.period_start * 1000).toISOString() : null,
+    period_end:            invoice.period_end
+      ? new Date(invoice.period_end * 1000).toISOString() : null,
+    paid_at:               new Date().toISOString(),
+    updated_at:            new Date().toISOString(),
+  }, { onConflict: 'stripe_invoice_id' });
+
+  // Gerar recibo e enviar email
+  if (invoice.payment_intent) {
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        typeof invoice.payment_intent === 'string'
+          ? invoice.payment_intent
+          : invoice.payment_intent.id,
+        { expand: ['customer', 'invoice.subscription'] }
+      );
+
+      const receipt = generateReceipt(paymentIntent);
+      const emailData = sendReceiptEmail(school.email, receipt);
+
+      // TODO: enviar via provedor SMTP/SES configurado
+      console.log(`[Webhook] Recibo gerado para ${school.name}:`, emailData.subject);
+    } catch (err) {
+      console.error('[Webhook] Erro ao gerar recibo:', err.message);
+    }
+  }
+
+  console.log(`[Webhook] Pagamento confirmado — escola: ${school.name}, invoice: ${invoice.id}`);
+}
+
+async function handlePaymentFailed(invoice, supabase) {
+  console.error(`[Webhook] Falha de pagamento — invoice: ${invoice.id}, customer: ${invoice.customer}`);
+
+  const { data: school } = await supabase
+    .from('schools')
+    .select('id, name, email, stripe_customer_id')
+    .eq('stripe_customer_id', invoice.customer)
+    .single();
+
+  if (!school) return;
+
+  await supabase.from('schools').update({
+    subscription_status: 'past_due',
+    updated_at: new Date().toISOString(),
+  }).eq('id', school.id);
+
+  // Gerar link do portal Stripe para regularização
+  const appUrl = process.env.APP_URL || 'https://app.lexendscholar.com.br';
+
+  // TODO: enviar email de alerta
+  console.log(`[Webhook] Email de alerta para ${school.email} — regularizar pagamento em ${appUrl}/billing`);
+}
+
+async function handleSubscriptionDeleted(subscription, supabase) {
+  const { data: school } = await supabase
+    .from('schools')
+    .select('id, name, email')
+    .eq('stripe_customer_id', subscription.customer)
+    .single();
+
+  if (!school) return;
+
+  // Marcar como churn
+  await supabase.from('schools').update({
+    subscription_status:    'canceled',
+    stripe_subscription_id: null,
+    updated_at:             new Date().toISOString(),
+  }).eq('id', school.id);
+
+  // Iniciar fluxo de offboarding — email com link para exportar dados
+  const appUrl = process.env.APP_URL || 'https://app.lexendscholar.com.br';
+
+  // TODO: enviar email de offboarding
+  console.log(`[Webhook] Churn registrado — escola: ${school.name}. Offboarding email para ${school.email}, exportar dados em ${appUrl}/export`);
+}
+
+async function handleSubscriptionUpdated(subscription, supabase) {
+  const priceId = subscription.items?.data?.[0]?.price?.id;
+  const plan    = getPlanFromPriceId(priceId);
+
+  const { data: school } = await supabase
+    .from('schools')
+    .select('id')
+    .eq('stripe_customer_id', subscription.customer)
+    .single();
+
+  if (!school) return;
+
+  await supabase.from('schools').update({
+    plan,
+    stripe_price_id:        priceId,
+    subscription_status:    subscription.status,
+    current_period_start:   new Date(subscription.current_period_start * 1000).toISOString(),
+    current_period_end:     new Date(subscription.current_period_end * 1000).toISOString(),
+    updated_at:             new Date().toISOString(),
+  }).eq('id', school.id);
+
+  console.log(`[Webhook] Subscription atualizada — escola: ${school.id}, plano: ${plan}`);
+}
+
+async function handleTrialWillEnd(subscription, supabase) {
+  const { data: school } = await supabase
+    .from('schools')
+    .select('id, name, email')
+    .eq('stripe_customer_id', subscription.customer)
+    .single();
+
+  if (!school) return;
+
+  // Trial encerra em 3 dias — enviar lembrete
+  const reminder = sendTrialReminder(school.email, school.name, 3);
+
+  // TODO: enviar via provedor SMTP/SES
+  console.log(`[Webhook] Lembrete de trial para ${school.email}:`, reminder.subject);
+}
+
+async function handleSubscriptionCreated(subscription, supabase) {
+  const { data: school } = await supabase
+    .from('schools')
+    .select('id')
+    .eq('stripe_customer_id', subscription.customer)
+    .single();
+
+  if (!school) return;
+
+  const isTrialing = subscription.status === 'trialing';
+
+  await supabase.from('schools').update({
+    stripe_subscription_id: subscription.id,
+    subscription_status:    subscription.status,
+    trial_ends_at: isTrialing && subscription.trial_end
+      ? new Date(subscription.trial_end * 1000).toISOString()
+      : null,
+    current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+    current_period_end:   new Date(subscription.current_period_end * 1000).toISOString(),
+    updated_at:           new Date().toISOString(),
+  }).eq('id', school.id);
+
+  console.log(`[Webhook] Subscription criada para escola ${school.id} — trial: ${isTrialing}`);
 }
 
 // ---------------------------------------------------------------------------
-// getPlanFromPriceId — mapeia price_id Stripe → plano interno
+// Helpers
 // ---------------------------------------------------------------------------
 function getPlanFromPriceId(priceId) {
-  const { STRIPE_PRICE_STARTER, STRIPE_PRICE_PRO, STRIPE_PRICE_ENTERPRISE } = process.env;
-  if (priceId === STRIPE_PRICE_ENTERPRISE) return 'enterprise';
-  if (priceId === STRIPE_PRICE_PRO) return 'pro';
+  if (priceId === process.env.ENTERPRISE_PRICE_ID) return 'enterprise';
+  if (priceId === process.env.PRO_PRICE_ID)        return 'pro';
   return 'starter';
 }
+
+export default router;
