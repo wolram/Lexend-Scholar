@@ -4,36 +4,35 @@
   "name": "lexend-scholar",
   "framework": null,
 
-  "buildCommand": null,
+  "buildCommand": "cd website && npm install && npm run build",
   "outputDirectory": "website",
   "installCommand": null,
   "devCommand": "npx serve website --listen 3000",
 
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/home", "destination": "/home.html" },
-    { "source": "/sobre", "destination": "/about.html" },
-    { "source": "/precos", "destination": "/pricing.html" },
-    { "source": "/contato", "destination": "/contact.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/carreiras", "destination": "/careers.html" }
+    { "source": "/",          "destination": "/index.html"   },
+    { "source": "/sobre",     "destination": "/about.html"   },
+    { "source": "/precos",    "destination": "/pricing.html" },
+    { "source": "/contato",   "destination": "/contact.html" },
+    { "source": "/blog",      "destination": "/blog.html"    },
+    { "source": "/carreiras", "destination": "/careers.html" },
+    { "source": "/privacidade", "destination": "/privacy.html" },
+    { "source": "/termos",    "destination": "/terms.html"   },
+    { "source": "/lgpd",      "destination": "/lgpd.html"    }
   ],
 
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
-        },
+        { "key": "X-Content-Type-Options",  "value": "nosniff" },
+        { "key": "X-Frame-Options",         "value": "DENY" },
+        { "key": "X-XSS-Protection",        "value": "1; mode=block" },
+        { "key": "Referrer-Policy",         "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",      "value": "camera=(), microphone=(), geolocation=()" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://plausible.io; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://plausible.io; frame-ancestors 'none';"
         }
       ]
     },
@@ -52,26 +51,11 @@
   ],
 
   "redirects": [
-    {
-      "source": "/about",
-      "destination": "/sobre",
-      "permanent": false
-    },
-    {
-      "source": "/pricing",
-      "destination": "/precos",
-      "permanent": false
-    },
-    {
-      "source": "/contact",
-      "destination": "/contato",
-      "permanent": false
-    },
-    {
-      "source": "/careers",
-      "destination": "/carreiras",
-      "permanent": false
-    }
+    { "source": "/home",    "destination": "/",        "permanent": true  },
+    { "source": "/about",   "destination": "/sobre",   "permanent": false },
+    { "source": "/pricing", "destination": "/precos",  "permanent": false },
+    { "source": "/contact", "destination": "/contato", "permanent": false },
+    { "source": "/careers", "destination": "/carreiras", "permanent": false }
   ],
 
   "cleanUrls": true,
