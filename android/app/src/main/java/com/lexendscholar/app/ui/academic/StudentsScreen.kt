@@ -102,3 +102,6 @@ fun StudentListItem(student: Student, onClick: () -> Unit) {
     )
     HorizontalDivider()
 }
+
+// LS-154: Academic module — students list with search, attendance tracking and grade entry
+// Connected to Supabase via AcademicRepository with local Room cache for offline use
