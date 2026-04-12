@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contrato de Prestação de Serviços — Lexend Scholar</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #111418; line-height: 1.7; background: #fff; }
+    .page { max-width: 800px; margin: 0 auto; padding: 60px 48px; }
+    .header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid #137fec; }
+    .header h1 { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .header p { color: #617589; font-size: 12px; margin-top: 6px; }
+    h2 { font-size: 14px; font-weight: 700; margin: 28px 0 10px; text-transform: uppercase; }
+    p { margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 12px; }
+    th { background: #f1f3fd; font-size: 12px; }
+    .sig-block { display: flex; gap: 48px; margin-top: 60px; }
+    .sig-line .line { border-bottom: 1px solid #374151; margin-bottom: 8px; height: 40px; }
+    .sig-line p { font-size: 12px; color: #617589; }
+    .footer { margin-top: 40px; text-align: center; font-size: 11px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 16px; }
+    .parties-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+    .parties-box strong { color: #137fec; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>Contrato de Prestação de Serviços de Software (SaaS)</h1>
+    <p>Lexend Scholar — Sistema de Gestão Escolar · Versão 1.0 · {{DATA_CONTRATO}}</p>
+  </div>
+
+  <div class="parties-box">
+    <p><strong>CONTRATANTE:</strong> {{NOME_ESCOLA}}, CNPJ nº {{CNPJ}}, com sede em {{ENDERECO}}, neste ato representada por {{NOME_RESPONSAVEL}}, {{CARGO_RESPONSAVEL}}, doravante denominada <strong>CONTRATANTE</strong>.</p>
+    <br/>
+    <p><strong>CONTRATADA:</strong> Lexend Scholar Tecnologia Ltda., CNPJ nº XX.XXX.XXX/0001-XX, com sede em {{CIDADE_CONTRATADA}}, doravante denominada <strong>CONTRATADA</strong>.</p>
+  </div>
+
+  <p>As partes acima identificadas celebram o presente Contrato de Prestação de Serviços de Software como Serviço (SaaS), regido pelas cláusulas abaixo:</p>
+
+  <h2>Cláusula 1 — Objeto</h2>
+  <p>1.1. A CONTRATADA disponibilizará à CONTRATANTE acesso à plataforma <strong>Lexend Scholar</strong>, sistema de gestão escolar SaaS, nas funcionalidades correspondentes ao plano <strong>{{PLANO_CONTRATADO}}</strong>, conforme descrito no Anexo I.</p>
+  <p>1.2. O acesso se dará exclusivamente via internet, sem instalação de software local.</p>
+
+  <h2>Cláusula 2 — Plano e Preço</h2>
+  <table>
+    <tr><th>Plano</th><th>Limite de alunos</th><th>Valor mensal</th><th>Vencimento</th></tr>
+    <tr><td>{{PLANO_CONTRATADO}}</td><td>{{LIMITE_ALUNOS}}</td><td>R$ {{VALOR_MENSAL}}</td><td>Todo dia {{DIA_VENCIMENTO}}</td></tr>
+  </table>
+  <p>2.1. O valor será cobrado mensalmente via cartão de crédito ou boleto, antecipadamente ao período de uso.</p>
+  <p>2.2. O período de trial gratuito de <strong>14 (quatorze) dias</strong> está incluído e não haverá cobrança durante este período.</p>
+  <p>2.3. O reajuste anual seguirá o IPCA acumulado nos 12 meses anteriores à data de aniversário do contrato, com aviso prévio de 30 dias.</p>
+
+  <h2>Cláusula 3 — Prazo</h2>
+  <p>3.1. O presente contrato vigorará por prazo indeterminado, iniciando-se na data de ativação da conta.</p>
+  <p>3.2. Qualquer das partes poderá rescindi-lo a qualquer momento, sem ônus, mediante comunicação com <strong>30 (trinta) dias</strong> de antecedência.</p>
+  <p>3.3. Em caso de rescisão, o acesso será mantido até o fim do período já pago.</p>
+
+  <h2>Cláusula 4 — Obrigações da CONTRATADA</h2>
+  <ul>
+    <li>Disponibilizar a plataforma com uptime mínimo de <strong>{{SLA_UPTIME}}</strong> mensal (exceto manutenções programadas);</li>
+    <li>Realizar backups diários dos dados, com retenção mínima de 30 dias;</li>
+    <li>Garantir a segurança dos dados por criptografia TLS em trânsito e AES-256 em repouso;</li>
+    <li>Prestar suporte técnico conforme prazos do plano (vide Anexo II — SLA);</li>
+    <li>Notificar a CONTRATANTE com pelo menos 7 dias de antecedência sobre manutenções programadas;</li>
+    <li>Cumprir a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</li>
+  </ul>
+
+  <h2>Cláusula 5 — Obrigações da CONTRATANTE</h2>
+  <ul>
+    <li>Manter os dados de pagamento atualizados para evitar interrupção do serviço;</li>
+    <li>Utilizar a plataforma exclusivamente para fins de gestão escolar legítimos;</li>
+    <li>Não compartilhar credenciais de acesso com terceiros não autorizados;</li>
+    <li>Informar à CONTRATADA, imediatamente, qualquer suspeita de uso indevido da conta;</li>
+    <li>Respeitar os limites de alunos do plano contratado.</li>
+  </ul>
+
+  <h2>Cláusula 6 — Propriedade dos Dados</h2>
+  <p>6.1. Todos os dados inseridos pela CONTRATANTE na plataforma são de sua exclusiva propriedade.</p>
+  <p>6.2. A CONTRATADA atua como <strong>operadora de dados</strong>, conforme a LGPD, e não comercializará nem divulgará dados a terceiros.</p>
+  <p>6.3. Em caso de encerramento do contrato, a CONTRATANTE poderá solicitar exportação completa de seus dados em formato CSV/XLSX em até 30 dias.</p>
+
+  <h2>Cláusula 7 — Limitação de Responsabilidade</h2>
+  <p>7.1. A CONTRATADA não se responsabiliza por perdas decorrentes de uso indevido da plataforma, força maior, falhas de conexão à internet da CONTRATANTE, ou atos de terceiros.</p>
+  <p>7.2. A responsabilidade máxima da CONTRATADA se limita ao valor pago nos últimos 3 (três) meses de contrato.</p>
+
+  <h2>Cláusula 8 — Foro</h2>
+  <p>8.1. Fica eleito o foro da Comarca de São Paulo — SP para dirimir quaisquer dúvidas ou litígios decorrentes do presente contrato, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+
+  <h2>Cláusula 9 — Disposições Gerais</h2>
+  <p>9.1. Este contrato substitui quaisquer acordos verbais ou escritos anteriores entre as partes sobre o mesmo objeto.</p>
+  <p>9.2. Alterações contratuais somente serão válidas mediante aditamento escrito, assinado por ambas as partes.</p>
+  <p>9.3. A tolerância de uma parte em relação ao descumprimento de qualquer cláusula não implica novação ou renúncia de direitos.</p>
+
+  <p>As partes, tendo lido e compreendido as cláusulas deste contrato, assinam-no em 2 (duas) vias de igual teor.</p>
+
+  <p style="margin-top:20px; font-size:12px; color:#617589;">{{CIDADE_CONTRATADA}}, {{DATA_CONTRATO}}</p>
+
+  <div class="sig-block">
+    <div class="sig-line" style="flex:1;">
+      <div class="line"></div>
+      <p><strong>Lexend Scholar Tecnologia Ltda.</strong><br/>CNPJ: XX.XXX.XXX/0001-XX<br/>Representante Legal</p>
+    </div>
+    <div class="sig-line" style="flex:1;">
+      <div class="line"></div>
+      <p><strong>{{NOME_ESCOLA}}</strong><br/>CNPJ: {{CNPJ}}<br/>{{NOME_RESPONSAVEL}} — {{CARGO_RESPONSAVEL}}</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Lexend Scholar Tecnologia Ltda. · contato@lexendscholar.com.br · lexendscholar.com.br
+  </div>
+
+</div>
+</body>
+</html>

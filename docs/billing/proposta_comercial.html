@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Proposta Comercial — Lexend Scholar</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #111418; background: #fff; }
+    .page { max-width: 800px; margin: 0 auto; padding: 60px 48px; }
+    /* Header */
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 2px solid #137fec; }
+    .logo-name { font-size: 22px; font-weight: 700; color: #137fec; letter-spacing: -0.5px; }
+    .logo-sub { font-size: 12px; color: #617589; margin-top: 2px; }
+    .doc-meta { text-align: right; font-size: 12px; color: #617589; line-height: 1.8; }
+    /* Section titles */
+    h1 { font-size: 28px; font-weight: 700; color: #111418; margin-bottom: 8px; }
+    h2 { font-size: 16px; font-weight: 700; color: #137fec; text-transform: uppercase; letter-spacing: 0.08em; margin: 36px 0 12px; }
+    p { font-size: 14px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
+    /* Table */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    th { background: #f1f3fd; color: #111418; font-size: 12px; font-weight: 700; text-align: left; padding: 10px 14px; border: 1px solid #e5e7eb; }
+    td { font-size: 13px; padding: 10px 14px; border: 1px solid #e5e7eb; vertical-align: top; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    .price-cell { font-weight: 700; color: #137fec; text-align: right; }
+    .check { color: #16a34a; font-weight: 700; }
+    .dash { color: #9ca3af; }
+    /* Highlighted row */
+    .popular td { background: #eff6ff; }
+    .popular td:first-child { border-left: 3px solid #137fec; }
+    /* SLA table */
+    .sla-table td:first-child { font-weight: 600; width: 220px; }
+    /* Signature area */
+    .sig-block { display: flex; gap: 48px; margin-top: 48px; }
+    .sig-line { flex: 1; }
+    .sig-line .line { border-bottom: 1px solid #374151; margin-bottom: 8px; height: 40px; }
+    .sig-line p { font-size: 12px; color: #617589; }
+    /* Footer */
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; text-align: center; line-height: 1.6; }
+    /* Validity */
+    .validity-badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 100px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="logo-name">Lexend Scholar</div>
+      <div class="logo-sub">Sistema de Gestão Escolar SaaS</div>
+    </div>
+    <div class="doc-meta">
+      <strong>PROPOSTA COMERCIAL</strong><br/>
+      Data: {{DATA_EMISSAO}}<br/>
+      Validade: 30 dias<br/>
+      Ref.: PC-{{NUMERO_PROPOSTA}}
+    </div>
+  </div>
+
+  <!-- Identificação -->
+  <h1>Proposta Comercial</h1>
+  <p style="color:#617589; font-size:13px;">Plataforma de Gestão Escolar para Escolas Privadas</p>
+
+  <div class="validity-badge">Válida por 30 dias a partir da data de emissão</div>
+
+  <h2>1. Dados do Cliente</h2>
+  <table class="sla-table">
+    <tr><td>Escola / Instituição</td><td>{{NOME_ESCOLA}}</td></tr>
+    <tr><td>CNPJ</td><td>{{CNPJ}}</td></tr>
+    <tr><td>Responsável</td><td>{{NOME_RESPONSAVEL}}</td></tr>
+    <tr><td>Cargo</td><td>{{CARGO_RESPONSAVEL}}</td></tr>
+    <tr><td>E-mail</td><td>{{EMAIL}}</td></tr>
+    <tr><td>Telefone</td><td>{{TELEFONE}}</td></tr>
+    <tr><td>Nº de alunos ativos</td><td>{{NUM_ALUNOS}}</td></tr>
+  </table>
+
+  <h2>2. Sobre o Lexend Scholar</h2>
+  <p>
+    O <strong>Lexend Scholar</strong> é uma plataforma SaaS (Software as a Service) de gestão escolar desenvolvida
+    especialmente para escolas privadas brasileiras. Integra gestão de alunos, frequência, notas, comunicação com
+    responsáveis, relatórios financeiros e boletins digitais em uma única plataforma acessível de qualquer dispositivo.
+  </p>
+  <p>Sem instalação de servidor. Sem contratos de longo prazo. Suporte em português.</p>
+
+  <h2>3. Planos e Preços</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Recurso</th>
+        <th style="text-align:center;">Starter</th>
+        <th style="text-align:center;">Pro</th>
+        <th style="text-align:center;">Enterprise</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Alunos ativos</td><td style="text-align:center;">até 100</td><td style="text-align:center;">até 500</td><td style="text-align:center;">Ilimitados</td></tr>
+      <tr><td>Gestão de alunos e turmas</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Controle de frequência</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Boletim digital</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Comunicados para responsáveis</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr class="popular"><td>Relatórios avançados (PDF/XLSX)</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr class="popular"><td>Push notifications para responsáveis</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr class="popular"><td>Relatório de inadimplência</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Multi-unidades</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Acesso à API REST</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>Onboarding dedicado</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="dash">—</td><td style="text-align:center;" class="check">✓</td></tr>
+      <tr><td>SLA garantido</td><td style="text-align:center;">99,5%</td><td style="text-align:center;">99,5%</td><td style="text-align:center;">99,9%</td></tr>
+      <tr>
+        <td><strong>Valor mensal</strong></td>
+        <td class="price-cell">R$ 297,00</td>
+        <td class="price-cell">R$ 697,00</td>
+        <td class="price-cell">R$ 1.497,00</td>
+      </tr>
+      <tr>
+        <td><strong>Valor anual (10% desconto)</strong></td>
+        <td class="price-cell">R$ 3.207,60</td>
+        <td class="price-cell">R$ 7.527,60</td>
+        <td class="price-cell">R$ 16.167,60</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12px; color:#617589;">* Todos os planos incluem 14 dias de trial gratuito. Sem cobrança até o fim do período de teste.</p>
+
+  <h2>4. Plano Recomendado para {{NOME_ESCOLA}}</h2>
+  <p>
+    Com base nos <strong>{{NUM_ALUNOS}} alunos ativos</strong> informados, recomendamos o plano
+    <strong>{{PLANO_RECOMENDADO}}</strong> por <strong>{{VALOR_RECOMENDADO}}/mês</strong>.
+  </p>
+
+  <h2>5. Condições Comerciais</h2>
+  <table class="sla-table">
+    <tr><td>Forma de pagamento</td><td>Cartão de crédito (Visa, Mastercard, Amex) ou boleto bancário</td></tr>
+    <tr><td>Periodicidade</td><td>Mensal ou anual (10% de desconto no plano anual)</td></tr>
+    <tr><td>Reajuste anual</td><td>IPCA acumulado no período de 12 meses</td></tr>
+    <tr><td>Cancelamento</td><td>A qualquer momento, sem multa. Acesso mantido até fim do período pago.</td></tr>
+    <tr><td>Trial gratuito</td><td>14 dias com acesso completo ao plano contratado</td></tr>
+    <tr><td>Implantação</td><td>Imediata (plano Pro/Starter) ou até 5 dias úteis (Enterprise)</td></tr>
+  </table>
+
+  <h2>6. Níveis de Serviço (SLA)</h2>
+  <table class="sla-table">
+    <tr><td>Disponibilidade garantida</td><td>99,5% mensal (Starter/Pro) · 99,9% (Enterprise)</td></tr>
+    <tr><td>Suporte técnico</td><td>E-mail: até 48h (Starter) · até 4h (Pro) · até 1h (Enterprise)</td></tr>
+    <tr><td>Backup de dados</td><td>Diário, retenção de 30 dias</td></tr>
+    <tr><td>Janela de manutenção</td><td>Sábados das 02:00–06:00 (horário de Brasília)</td></tr>
+    <tr><td>Proteção de dados</td><td>LGPD-compliant · criptografia TLS em trânsito · AES-256 em repouso</td></tr>
+  </table>
+
+  <h2>7. Próximos Passos</h2>
+  <p>
+    1. Aceite esta proposta assinando abaixo ou por e-mail de confirmação.<br/>
+    2. Acesse <strong>app.lexendscholar.com.br</strong> e crie sua conta escolar.<br/>
+    3. Selecione o plano contratado e inicie o trial de 14 dias.<br/>
+    4. Nossa equipe de onboarding entrará em contato em até 1 dia útil.
+  </p>
+
+  <!-- Signatures -->
+  <div class="sig-block">
+    <div class="sig-line">
+      <div class="line"></div>
+      <p><strong>Lexend Scholar Tecnologia Ltda.</strong><br/>CNPJ: XX.XXX.XXX/0001-XX<br/>Data: ___/___/______</p>
+    </div>
+    <div class="sig-line">
+      <div class="line"></div>
+      <p><strong>{{NOME_ESCOLA}}</strong><br/>CNPJ: {{CNPJ}}<br/>{{NOME_RESPONSAVEL}} — {{CARGO_RESPONSAVEL}}<br/>Data: ___/___/______</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Lexend Scholar Tecnologia Ltda. · contato@lexendscholar.com.br · lexendscholar.com.br<br/>
+    Esta proposta é confidencial e destinada exclusivamente ao destinatário identificado acima.
+  </div>
+
+</div>
+</body>
+</html>
