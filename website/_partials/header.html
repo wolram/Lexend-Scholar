@@ -1,0 +1,49 @@
+<!-- LEXEND SCHOLAR — Header Partial
+     Uso: copie este bloco dentro de <body>, antes de <main>.
+     Altere o atributo data-page no <nav> para destacar o item ativo:
+     data-page="pricing" | "blog" | "about" | "contact" | "careers"
+-->
+<header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
+    <a href="/index.html" class="text-xl font-bold text-slate-900 tracking-tighter hover:text-primary transition-colors">
+      Lexend Scholar
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-tight">
+      <a href="/index.html#features"  class="text-slate-600 hover:text-primary transition-colors duration-200">Recursos</a>
+      <a href="/pricing.html"         class="text-slate-600 hover:text-primary transition-colors duration-200">Preços</a>
+      <a href="/blog.html"            class="text-slate-600 hover:text-primary transition-colors duration-200">Blog</a>
+      <a href="/about.html"           class="text-slate-600 hover:text-primary transition-colors duration-200">Sobre</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="https://app.lexendscholar.com.br/login"
+         class="hidden md:inline text-sm font-medium text-slate-600 hover:text-primary transition-colors">
+        Entrar
+      </a>
+      <a href="https://app.lexendscholar.com.br/cadastro"
+         class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-on-primary-fixed-variant active:opacity-80 transition-all shadow-sm">
+        Começar Grátis
+      </a>
+    </div>
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors" aria-label="Abrir menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </nav>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-slate-100 bg-white px-6 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="/index.html#features" class="text-slate-700 hover:text-primary">Recursos</a>
+    <a href="/pricing.html"        class="text-slate-700 hover:text-primary">Preços</a>
+    <a href="/blog.html"           class="text-slate-700 hover:text-primary">Blog</a>
+    <a href="/about.html"          class="text-slate-700 hover:text-primary">Sobre</a>
+    <hr class="border-slate-100"/>
+    <a href="https://app.lexendscholar.com.br/cadastro"
+       class="bg-primary text-white text-center px-5 py-3 rounded-lg font-semibold">
+      Começar Grátis
+    </a>
+  </div>
+  <script>
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</header>

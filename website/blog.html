@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog — Lexend Scholar</title>
+  <meta name="description" content="Artigos, tutoriais e tendências sobre gestão escolar, tecnologia educacional e LGPD para escolas brasileiras."/>
+  <meta property="og:title"       content="Blog — Lexend Scholar"/>
+  <meta property="og:description" content="Conteúdo sobre gestão escolar, tecnologia educacional e LGPD para gestores e diretores de escola."/>
+  <meta property="og:url"         content="https://www.lexendscholar.com.br/blog.html"/>
+  <meta property="og:image"       content="https://www.lexendscholar.com.br/assets/og-image.png"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode:"class", theme: { extend: { colors: { "primary":"#137fec","on-primary-fixed-variant":"#0b5ed7","primary-fixed":"#dbeafe","primary-container":"#dbeafe","on-primary-container":"#0b5ed7","secondary":"#617589","surface":"#ffffff","surface-container-low":"#f6f7f8","surface-container":"#f1f3fd","background":"#f6f7f8","on-surface":"#111418","outline":"#e5e7eb","on-primary":"#ffffff" }, fontFamily: { headline:["Lexend"] } } } }
+  </script>
+  <style>body { font-family: 'Lexend', sans-serif; } .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }</style>
+</head>
+<body class="bg-background text-on-surface">
+
+<header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
+    <a href="/index.html" class="text-xl font-bold text-slate-900 tracking-tighter hover:text-primary transition-colors">Lexend Scholar</a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="/index.html#features" class="text-slate-600 hover:text-primary transition-colors">Recursos</a>
+      <a href="/pricing.html"        class="text-slate-600 hover:text-primary transition-colors">Preços</a>
+      <a href="/blog.html"           class="text-primary font-semibold border-b-2 border-primary pb-0.5">Blog</a>
+      <a href="/about.html"          class="text-slate-600 hover:text-primary transition-colors">Sobre</a>
+    </div>
+    <a href="https://app.lexendscholar.com.br/cadastro"
+       class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-on-primary-fixed-variant transition-all shadow-sm">
+      Começar Grátis
+    </a>
+  </nav>
+</header>
+
+<main class="pt-16">
+  <!-- Hero -->
+  <section class="py-16 bg-surface border-b border-outline">
+    <div class="max-w-4xl mx-auto px-6">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Blog Lexend Scholar</h1>
+      <p class="text-secondary text-lg">Gestão escolar, tecnologia educacional e LGPD. Para diretores e coordenadores que querem estar à frente.</p>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="py-16 bg-surface-container-low">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Featured -->
+      <article class="grid md:grid-cols-2 gap-8 items-center bg-white rounded-2xl border border-outline p-8 mb-12 shadow-sm group hover:shadow-md transition-shadow">
+        <div class="aspect-video rounded-xl bg-primary-container flex items-center justify-center overflow-hidden">
+          <!-- SVG placeholder -->
+          <svg viewBox="0 0 600 338" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <rect width="600" height="338" fill="#dbeafe"/>
+            <text x="300" y="169" text-anchor="middle" dominant-baseline="middle" fill="#0b5ed7" font-size="48" font-family="sans-serif">📊</text>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-bold text-primary uppercase tracking-widest mb-3">Em Destaque · Gestão Escolar</p>
+          <h2 class="text-2xl font-bold mb-4 leading-tight group-hover:text-primary transition-colors">
+            <a href="/blog.html">Como reduzir a inadimplência escolar em 60%: um guia prático</a>
+          </h2>
+          <p class="text-secondary text-sm leading-relaxed mb-6">Descubra as estratégias usadas por mais de 50 escolas brasileiras para automatizar a cobrança, negociar com famílias e manter o fluxo de caixa saudável.</p>
+          <div class="flex items-center gap-4">
+            <div>
+              <p class="text-sm font-semibold">Equipe Lexend Scholar</p>
+              <p class="text-xs text-secondary">10 de abril de 2025 · 8 min de leitura</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Posts Grid -->
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Post 1 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#f1f3fd"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#137fec" font-size="48" font-family="sans-serif">🔒</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">LGPD</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">LGPD nas escolas: o que muda na prática para diretores</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Guia completo sobre obrigações legais, o que pode e o que não pode ser feito com dados de alunos e como se preparar para uma fiscalização.</p>
+            <p class="text-xs text-secondary">5 de abril de 2025 · 6 min</p>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#e0e7ff"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#4f46e5" font-size="48" font-family="sans-serif">📱</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Tecnologia</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">Por que pais preferem receber boletins pelo celular</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Pesquisa com 1.200 responsáveis mostra que 87% preferem comunicação digital. Veja como adaptar sua escola.</p>
+            <p class="text-xs text-secondary">28 de março de 2025 · 4 min</p>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#dbeafe"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#137fec" font-size="48" font-family="sans-serif">📈</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Analytics</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">Como usar dados para prever e evitar a evasão escolar</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Sinais de alerta, indicadores de risco e ações práticas que reduzem a evasão antes que ela aconteça.</p>
+            <p class="text-xs text-secondary">20 de março de 2025 · 7 min</p>
+          </div>
+        </article>
+
+        <!-- Post 4 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#f1f3fd"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#137fec" font-size="48" font-family="sans-serif">🗓️</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Planejamento</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">Calendário acadêmico 2025: modelo gratuito para download</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Modelo editável de calendário escolar alinhado ao Conselho Nacional de Educação, com feriados nacionais.</p>
+            <p class="text-xs text-secondary">10 de março de 2025 · 3 min</p>
+          </div>
+        </article>
+
+        <!-- Post 5 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#dbeafe"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#137fec" font-size="48" font-family="sans-serif">💼</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Gestão</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">5 erros de gestão financeira que toda escola pequena comete</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Erros comuns de controle de caixa, inadimplência e precificação que comprometem a sustentabilidade das escolas.</p>
+            <p class="text-xs text-secondary">1 de março de 2025 · 5 min</p>
+          </div>
+        </article>
+
+        <!-- Post 6 -->
+        <article class="bg-white rounded-xl border border-outline overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="aspect-video bg-surface-container flex items-center justify-center">
+            <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="225" fill="#e0e7ff"/>
+              <text x="200" y="112" text-anchor="middle" dominant-baseline="middle" fill="#4f46e5" font-size="48" font-family="sans-serif">🎓</text>
+            </svg>
+          </div>
+          <div class="p-6">
+            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Case de Sucesso</p>
+            <h3 class="text-lg font-bold mb-3 leading-tight group-hover:text-primary transition-colors">
+              <a href="/blog.html">Colégio Tableau: de planilha para sistema em 3 semanas</a>
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed mb-4">Como o Colégio Tableau em São Paulo migrou 800 alunos para o Lexend Scholar sem interrupção das aulas.</p>
+            <p class="text-xs text-secondary">15 de fevereiro de 2025 · 6 min</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-20 bg-primary text-white text-center">
+    <div class="max-w-xl mx-auto px-6">
+      <h2 class="text-2xl font-extrabold mb-4">Receba nossos artigos por e-mail</h2>
+      <p class="text-blue-100 mb-8 text-sm">Uma vez por semana. Conteúdo prático sobre gestão escolar. Sem spam.</p>
+      <form action="https://app.lexendscholar.com.br/newsletter" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" name="email" required placeholder="seu@email.com.br"
+               class="flex-1 px-4 py-3 rounded-lg text-on-surface text-sm border-0 focus:ring-2 focus:ring-white/50 outline-none"/>
+        <button type="submit"
+                class="bg-white text-primary px-6 py-3 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors whitespace-nowrap">
+          Assinar
+        </button>
+      </form>
+      <p class="text-blue-100/60 text-xs mt-4">Ao assinar, você concorda com nossa <a href="/privacy.html" class="underline hover:text-white">Política de Privacidade</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-slate-50 w-full border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <a href="/index.html" class="font-bold text-slate-900 hover:text-primary transition-colors">Lexend Scholar</a>
+    <div class="flex gap-6 text-xs text-slate-500">
+      <a href="/privacy.html" class="hover:text-primary">Privacidade</a>
+      <a href="/terms.html"   class="hover:text-primary">Termos</a>
+      <a href="/lgpd.html"    class="hover:text-primary">LGPD</a>
+      <a href="/contact.html" class="hover:text-primary">Contato</a>
+    </div>
+    <p class="text-xs text-slate-400">© 2025 Lexend Scholar</p>
+  </div>
+</footer>
+
+</body>
+</html>

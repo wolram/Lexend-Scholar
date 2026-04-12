@@ -1,0 +1,769 @@
+openapi: "3.1.0"
+info:
+  title: Lexend Scholar API
+  version: "1.0.0"
+  description: |
+    Multi-tenant school management REST API.
+    All endpoints require a Supabase JWT in the `Authorization: Bearer <token>` header.
+    Tenant isolation is enforced by `school_id` from the user's JWT `app_metadata`.
+  contact:
+    name: Lexend Scholar Engineering
+
+servers:
+  - url: https://{project}.vercel.app/api
+    description: Production (Vercel)
+    variables:
+      project:
+        default: lexend-scholar
+  - url: http://localhost:3000/api
+    description: Local development
+
+# ──────────────────────────────────────────────────────────────
+# Security
+# ──────────────────────────────────────────────────────────────
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Supabase access_token obtained via supabase.auth.signIn*()
+
+  parameters:
+    limit:
+      name: limit
+      in: query
+      schema: { type: integer, default: 50, maximum: 200 }
+      description: Number of records to return
+    offset:
+      name: offset
+      in: query
+      schema: { type: integer, default: 0 }
+      description: Number of records to skip (pagination)
+    id:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+
+  schemas:
+    Error:
+      type: object
+      required: [error, code]
+      properties:
+        error: { type: string, example: "Student not found" }
+        code:  { type: string, example: "NOT_FOUND" }
+
+    PaginatedMeta:
+      type: object
+      properties:
+        total:  { type: integer }
+        limit:  { type: integer }
+        offset: { type: integer }
+
+    Student:
+      type: object
+      properties:
+        id:              { type: string, format: uuid }
+        school_id:       { type: string, format: uuid }
+        enrollment_code: { type: string, example: "2025001" }
+        full_name:       { type: string, example: "Ana Paula Silva" }
+        birth_date:      { type: string, format: date }
+        gender:          { type: string, enum: [M, F, other] }
+        cpf:             { type: string }
+        email:           { type: string, format: email }
+        phone:           { type: string }
+        address:         { type: string }
+        city:            { type: string }
+        state:           { type: string, maxLength: 2 }
+        zip_code:        { type: string }
+        photo_url:       { type: string, format: uri }
+        active:          { type: boolean, default: true }
+        created_at:      { type: string, format: date-time }
+        updated_at:      { type: string, format: date-time }
+
+    User:
+      type: object
+      properties:
+        id:         { type: string, format: uuid }
+        school_id:  { type: string, format: uuid }
+        email:      { type: string, format: email }
+        full_name:  { type: string }
+        role:       { type: string, enum: [admin, teacher, secretary, guardian, student] }
+        avatar_url: { type: string, format: uri }
+        active:     { type: boolean }
+        created_at: { type: string, format: date-time }
+
+    Class:
+      type: object
+      properties:
+        id:               { type: string, format: uuid }
+        school_id:        { type: string, format: uuid }
+        grade_id:         { type: string, format: uuid }
+        academic_year_id: { type: string, format: uuid }
+        name:             { type: string, example: "10A" }
+        teacher_id:       { type: string, format: uuid }
+        max_students:     { type: integer, default: 40 }
+        created_at:       { type: string, format: date-time }
+
+    Enrollment:
+      type: object
+      properties:
+        id:          { type: string, format: uuid }
+        student_id:  { type: string, format: uuid }
+        class_id:    { type: string, format: uuid }
+        enrolled_at: { type: string, format: date }
+        left_at:     { type: string, format: date, nullable: true }
+        active:      { type: boolean }
+
+    AttendanceRecord:
+      type: object
+      properties:
+        id:          { type: string, format: uuid }
+        school_id:   { type: string, format: uuid }
+        class_id:    { type: string, format: uuid }
+        subject_id:  { type: string, format: uuid }
+        student_id:  { type: string, format: uuid }
+        date:        { type: string, format: date }
+        status:      { type: string, enum: [present, absent, late, excused] }
+        notes:       { type: string, nullable: true }
+        recorded_by: { type: string, format: uuid }
+        created_at:  { type: string, format: date-time }
+
+    GradeRecord:
+      type: object
+      properties:
+        id:                 { type: string, format: uuid }
+        school_id:          { type: string, format: uuid }
+        student_id:         { type: string, format: uuid }
+        class_id:           { type: string, format: uuid }
+        subject_id:         { type: string, format: uuid }
+        academic_period_id: { type: string, format: uuid }
+        score:              { type: number, format: float, minimum: 0 }
+        max_score:          { type: number, format: float, default: 10 }
+        grade_type:         { type: string, example: "prova" }
+        description:        { type: string }
+        recorded_by:        { type: string, format: uuid }
+        created_at:         { type: string, format: date-time }
+        updated_at:         { type: string, format: date-time }
+
+    FinancialRecord:
+      type: object
+      properties:
+        id:             { type: string, format: uuid }
+        school_id:      { type: string, format: uuid }
+        student_id:     { type: string, format: uuid }
+        description:    { type: string, example: "Mensalidade Maio/2025" }
+        amount:         { type: number, format: float, example: 850.00 }
+        due_date:       { type: string, format: date }
+        paid_date:      { type: string, format: date, nullable: true }
+        payment_method: { type: string, example: "pix" }
+        payment_status: { type: string, enum: [pending, paid, failed, refunded] }
+        days_overdue:   { type: integer }
+        notes:          { type: string }
+        created_at:     { type: string, format: date-time }
+        updated_at:     { type: string, format: date-time }
+
+security:
+  - BearerAuth: []
+
+# ──────────────────────────────────────────────────────────────
+# Paths
+# ──────────────────────────────────────────────────────────────
+paths:
+
+  # ── ALUNOS ────────────────────────────────────────────────────
+  /crud-academico/alunos:
+    get:
+      tags: [Alunos]
+      summary: List students
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: search, in: query, schema: { type: string } }
+        - { name: active, in: query, schema: { type: boolean } }
+      responses:
+        "200":
+          description: Paginated list of students
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedMeta'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Student' }
+        "401": { description: Unauthorized }
+    post:
+      tags: [Alunos]
+      summary: Create a student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [full_name, enrollment_code]
+              properties:
+                full_name:       { type: string }
+                enrollment_code: { type: string }
+                birth_date:      { type: string, format: date }
+                gender:          { type: string, enum: [M, F, other] }
+                cpf:             { type: string }
+                email:           { type: string, format: email }
+                phone:           { type: string }
+      responses:
+        "201": { description: Student created }
+        "400": { description: Validation error }
+        "409": { description: Duplicate enrollment_code }
+
+  /crud-academico/alunos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Alunos]
+      summary: Get a student by ID (includes guardians and enrollments)
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Student' }
+        "404": { description: Not found }
+    patch:
+      tags: [Alunos]
+      summary: Update a student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name: { type: string }
+                email:     { type: string, format: email }
+                phone:     { type: string }
+                photo_url: { type: string, format: uri }
+      responses:
+        "200": { description: Updated student }
+        "404": { description: Not found }
+    delete:
+      tags: [Alunos]
+      summary: Soft-delete a student (sets active=false)
+      responses:
+        "200": { description: Deactivated }
+        "404": { description: Not found }
+
+  # ── PROFESSORES ───────────────────────────────────────────────
+  /crud-academico/professores:
+    get:
+      tags: [Professores]
+      summary: List users (staff)
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: role, in: query, schema: { type: string, enum: [admin, teacher, secretary, guardian, student] } }
+        - { name: search, in: query, schema: { type: string } }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedMeta'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/User' }
+    post:
+      tags: [Professores]
+      summary: Create a user (admin/secretary only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, full_name]
+              properties:
+                email:     { type: string, format: email }
+                full_name: { type: string }
+                role:      { type: string, enum: [admin, teacher, secretary] }
+      responses:
+        "201": { description: User created }
+        "403": { description: Forbidden }
+        "409": { description: Email already registered }
+
+  /crud-academico/professores/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Professores]
+      summary: Get a user by ID (includes class assignments)
+      responses:
+        "200": { description: User with class subjects }
+        "404": { description: Not found }
+    patch:
+      tags: [Professores]
+      summary: Update a user
+      responses:
+        "200": { description: Updated }
+        "404": { description: Not found }
+    delete:
+      tags: [Professores]
+      summary: Soft-delete a user (admin only)
+      responses:
+        "200": { description: Deactivated }
+        "403": { description: Forbidden }
+
+  # ── TURMAS ────────────────────────────────────────────────────
+  /crud-academico/turmas:
+    get:
+      tags: [Turmas]
+      summary: List classes
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: academic_year_id, in: query, schema: { type: string, format: uuid } }
+        - { name: grade_id, in: query, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Paginated list }
+    post:
+      tags: [Turmas]
+      summary: Create a class
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [grade_id, academic_year_id, name]
+              properties:
+                grade_id:         { type: string, format: uuid }
+                academic_year_id: { type: string, format: uuid }
+                name:             { type: string, example: "10A" }
+                teacher_id:       { type: string, format: uuid }
+                max_students:     { type: integer, default: 40 }
+      responses:
+        "201": { description: Class created }
+
+  /crud-academico/turmas/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Turmas]
+      summary: Get class details (includes subjects, teacher, enrollment count)
+      responses:
+        "200": { description: Class details }
+        "404": { description: Not found }
+    patch:
+      tags: [Turmas]
+      summary: Update a class
+      responses:
+        "200": { description: Updated }
+    delete:
+      tags: [Turmas]
+      summary: Delete a class (admin only)
+      responses:
+        "204": { description: Deleted }
+        "403": { description: Forbidden }
+
+  # ── MATRÍCULAS ────────────────────────────────────────────────
+  /matriculas-frequencia/matriculas:
+    get:
+      tags: [Matrículas]
+      summary: List enrollments
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: class_id, in: query, schema: { type: string, format: uuid } }
+        - { name: student_id, in: query, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Paginated enrollments }
+    post:
+      tags: [Matrículas]
+      summary: Enroll a student in a class
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [student_id, class_id]
+              properties:
+                student_id:  { type: string, format: uuid }
+                class_id:    { type: string, format: uuid }
+                enrolled_at: { type: string, format: date }
+      responses:
+        "201": { description: Enrolled }
+        "409": { description: Already enrolled or class full }
+
+  /matriculas-frequencia/matriculas/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Matrículas]
+      summary: Get enrollment by ID
+      responses:
+        "200": { description: Enrollment }
+        "404": { description: Not found }
+    patch:
+      tags: [Matrículas]
+      summary: Update enrollment (transfer, set left_at)
+      responses:
+        "200": { description: Updated }
+    delete:
+      tags: [Matrículas]
+      summary: Unenroll student (soft delete)
+      responses:
+        "200": { description: Unenrolled }
+
+  # ── FREQUÊNCIA ────────────────────────────────────────────────
+  /matriculas-frequencia/frequencia:
+    get:
+      tags: [Frequência]
+      summary: List attendance records
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: class_id, in: query, schema: { type: string, format: uuid } }
+        - { name: student_id, in: query, schema: { type: string, format: uuid } }
+        - { name: subject_id, in: query, schema: { type: string, format: uuid } }
+        - { name: date, in: query, schema: { type: string, format: date } }
+        - { name: date_from, in: query, schema: { type: string, format: date } }
+        - { name: date_to, in: query, schema: { type: string, format: date } }
+      responses:
+        "200": { description: Paginated attendance records }
+    post:
+      tags: [Frequência]
+      summary: Record attendance (single or bulk array)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/AttendanceRecord'
+                - type: array
+                  items: { $ref: '#/components/schemas/AttendanceRecord' }
+      responses:
+        "201": { description: Attendance recorded (upserted) }
+
+  /matriculas-frequencia/frequencia/summary:
+    get:
+      tags: [Frequência]
+      summary: Get attendance summary for a student
+      parameters:
+        - { name: student_id, in: query, required: true, schema: { type: string, format: uuid } }
+        - { name: class_id, in: query, schema: { type: string, format: uuid } }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      present:         { type: integer }
+                      absent:          { type: integer }
+                      late:            { type: integer }
+                      excused:         { type: integer }
+                      total:           { type: integer }
+                      attendance_rate: { type: number }
+
+  /matriculas-frequencia/frequencia/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Frequência]
+      summary: Get attendance record by ID
+      responses:
+        "200": { description: Record }
+        "404": { description: Not found }
+    patch:
+      tags: [Frequência]
+      summary: Update status or notes
+      responses:
+        "200": { description: Updated }
+    delete:
+      tags: [Frequência]
+      summary: Delete attendance record
+      responses:
+        "204": { description: Deleted }
+
+  # ── NOTAS ─────────────────────────────────────────────────────
+  /avaliacoes-notas/notas:
+    get:
+      tags: [Notas]
+      summary: List grade records
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: student_id, in: query, schema: { type: string, format: uuid } }
+        - { name: class_id, in: query, schema: { type: string, format: uuid } }
+        - { name: subject_id, in: query, schema: { type: string, format: uuid } }
+        - { name: academic_period_id, in: query, schema: { type: string, format: uuid } }
+        - { name: grade_type, in: query, schema: { type: string } }
+      responses:
+        "200": { description: Paginated grade records }
+    post:
+      tags: [Notas]
+      summary: Create a grade record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [student_id, class_id, subject_id, academic_period_id]
+              properties:
+                student_id:         { type: string, format: uuid }
+                class_id:           { type: string, format: uuid }
+                subject_id:         { type: string, format: uuid }
+                academic_period_id: { type: string, format: uuid }
+                score:              { type: number }
+                max_score:          { type: number, default: 10 }
+                grade_type:         { type: string, example: "prova" }
+                description:        { type: string }
+      responses:
+        "201": { description: Grade created }
+        "422": { description: Score out of range }
+
+  /avaliacoes-notas/notas/bulk:
+    post:
+      tags: [Notas]
+      summary: Bulk create grade records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/GradeRecord' }
+      responses:
+        "201": { description: Grades created }
+
+  /avaliacoes-notas/notas/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Notas]
+      summary: Get a grade record by ID
+      responses:
+        "200": { description: Record }
+        "404": { description: Not found }
+    patch:
+      tags: [Notas]
+      summary: Update score or description
+      responses:
+        "200": { description: Updated }
+    delete:
+      tags: [Notas]
+      summary: Delete a grade record
+      responses:
+        "204": { description: Deleted }
+
+  /avaliacoes-notas/boletim/{student_id}:
+    get:
+      tags: [Notas]
+      summary: Get student report card (boletim) — grades grouped by subject
+      parameters:
+        - { name: student_id, in: path, required: true, schema: { type: string, format: uuid } }
+        - { name: academic_period_id, in: query, schema: { type: string, format: uuid } }
+        - { name: class_id, in: query, schema: { type: string, format: uuid } }
+      responses:
+        "200":
+          description: Boletim
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student:  { $ref: '#/components/schemas/Student' }
+                      subjects:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            subject: { type: object }
+                            grades:  { type: array }
+                            average: { type: number, nullable: true }
+
+  /avaliacoes-notas/estatisticas:
+    get:
+      tags: [Notas]
+      summary: Class grade statistics (mean, min, max, passing rate)
+      parameters:
+        - { name: class_id, in: query, required: true, schema: { type: string, format: uuid } }
+        - { name: subject_id, in: query, schema: { type: string, format: uuid } }
+        - { name: academic_period_id, in: query, schema: { type: string, format: uuid } }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      count:        { type: integer }
+                      mean:         { type: number }
+                      min:          { type: number }
+                      max:          { type: number }
+                      passing_rate: { type: number }
+
+  # ── FINANCEIRO ────────────────────────────────────────────────
+  /financeiro/mensalidades:
+    get:
+      tags: [Financeiro]
+      summary: List financial records
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: student_id, in: query, schema: { type: string, format: uuid } }
+        - { name: payment_status, in: query, schema: { type: string, enum: [pending, paid, failed, refunded] } }
+        - { name: due_from, in: query, schema: { type: string, format: date } }
+        - { name: due_to, in: query, schema: { type: string, format: date } }
+      responses:
+        "200": { description: Paginated financial records }
+    post:
+      tags: [Financeiro]
+      summary: Create a financial record (admin/secretary)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [student_id, description, amount, due_date]
+              properties:
+                student_id:     { type: string, format: uuid }
+                description:    { type: string }
+                amount:         { type: number }
+                due_date:       { type: string, format: date }
+                payment_method: { type: string }
+                notes:          { type: string }
+      responses:
+        "201": { description: Record created }
+        "403": { description: Forbidden }
+
+  /financeiro/mensalidades/gerar-lote:
+    post:
+      tags: [Financeiro]
+      summary: Generate batch monthly charges for all active students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [description, amount, due_date]
+              properties:
+                description: { type: string, example: "Mensalidade Junho/2025" }
+                amount:      { type: number, example: 850.00 }
+                due_date:    { type: string, format: date }
+                class_id:    { type: string, format: uuid, description: "Optional: limit to one class" }
+      responses:
+        "201": { description: Batch created }
+
+  /financeiro/mensalidades/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Financeiro]
+      summary: Get financial record by ID
+      responses:
+        "200": { description: Record }
+        "404": { description: Not found }
+    patch:
+      tags: [Financeiro]
+      summary: Update record (register payment, change status)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_status: { type: string, enum: [pending, paid, failed, refunded] }
+                paid_date:      { type: string, format: date }
+                payment_method: { type: string }
+                notes:          { type: string }
+      responses:
+        "200": { description: Updated }
+    delete:
+      tags: [Financeiro]
+      summary: Delete a pending record (admin only)
+      responses:
+        "204": { description: Deleted }
+        "409": { description: Only pending records can be deleted }
+
+  /financeiro/resumo:
+    get:
+      tags: [Financeiro]
+      summary: Financial summary (total, paid, pending, overdue)
+      parameters:
+        - { name: month, in: query, schema: { type: string, example: "2025-05" } }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:         { type: number }
+                      paid:          { type: number }
+                      pending:       { type: number }
+                      failed:        { type: number }
+                      refunded:      { type: number }
+                      overdue:       { type: number }
+                      overdue_count: { type: integer }
+                      total_records: { type: integer }
+
+  /financeiro/inadimplentes:
+    get:
+      tags: [Financeiro]
+      summary: List students with overdue payments grouped by student
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: min_days, in: query, schema: { type: integer, default: 1 }, description: "Minimum days overdue" }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        student:       { $ref: '#/components/schemas/Student' }
+                        total_overdue: { type: number }
+                        records:       { type: array }
+                  total:  { type: integer }
+                  limit:  { type: integer }
+                  offset: { type: integer }
+
+tags:
+  - { name: Alunos,      description: Student management }
+  - { name: Professores, description: Teacher and staff management }
+  - { name: Turmas,      description: Class management }
+  - { name: Matrículas,  description: Student class enrollments }
+  - { name: Frequência,  description: Attendance tracking }
+  - { name: Notas,       description: Grade records and report cards }
+  - { name: Financeiro,  description: Financial records and billing }
