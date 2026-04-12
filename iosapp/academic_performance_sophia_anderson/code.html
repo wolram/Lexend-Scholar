@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sophia Anderson - Academic Performance | Lexend Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#e5e7eb",
+                        "on-surface": "#111418",
+                        "secondary-container": "#e5e7eb",
+                        "surface-container-low": "#f6f7f8",
+                        "surface": "#ffffff",
+                        "primary-fixed-dim": "#137fec",
+                        "on-surface-variant": "#617589",
+                        "on-primary-fixed-variant": "#0b5ed7",
+                        "on-primary-container": "#0b5ed7",
+                        "inverse-on-surface": "#f6f7f8",
+                        "on-secondary-fixed-variant": "#374151",
+                        "primary-container": "#dbeafe",
+                        "error-container": "#fee2e2",
+                        "on-tertiary-fixed": "#312e81",
+                        "on-tertiary-container": "#312e81",
+                        "on-primary-fixed": "#001b3c",
+                        "background": "#f6f7f8",
+                        "tertiary-fixed": "#e0e7ff",
+                        "on-background": "#111418",
+                        "surface-variant": "#f1f3fd",
+                        "surface-dim": "#f6f7f8",
+                        "on-secondary-container": "#111418",
+                        "surface-tint": "#137fec",
+                        "surface-container": "#f1f3fd",
+                        "inverse-surface": "#1a2634",
+                        "secondary-fixed-dim": "#617589",
+                        "on-error-container": "#991b1b",
+                        "tertiary-fixed-dim": "#4f46e5",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#dbeafe",
+                        "on-secondary-fixed": "#111418",
+                        "on-tertiary-fixed-variant": "#4338ca",
+                        "inverse-primary": "#a8c8ff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#ffffff",
+                        "outline-variant": "#374151",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#617589",
+                        "tertiary-container": "#e0e7ff",
+                        "secondary-fixed": "#e5e7eb",
+                        "tertiary": "#4f46e5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "primary": "#137fec",
+                        "error": "#ef4444",
+                        "surface-container-high": "#e5e7eb",
+                        "primary-fixed": "#dbeafe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active { background-color: rgba(19, 127, 236, 0.1); color: #137fec; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col h-screen p-4 gap-2 w-64 bg-[#f6f7f8] dark:bg-slate-950 sticky top-0 shrink-0">
+<div class="flex items-center gap-3 px-2 mb-6">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-lg font-semibold text-[#111418] dark:text-white leading-tight">Main Campus</h1>
+<p class="text-[12px] text-on-surface-variant">Academic Year 2023-24</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-[14px] font-medium rounded-lg bg-[#137fec]/10 text-[#137fec] transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Academic Overview
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[14px] text-[#617589] dark:text-slate-400 hover:text-[#111418] hover:bg-[#f1f3fd] dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+                Performance Analytics
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[14px] text-[#617589] dark:text-slate-400 hover:text-[#111418] hover:bg-[#f1f3fd] dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+                Course Materials
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[14px] text-[#617589] dark:text-slate-400 hover:text-[#111418] hover:bg-[#f1f3fd] dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+                Faculty Directory
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[14px] text-[#617589] dark:text-slate-400 hover:text-[#111418] hover:bg-[#f1f3fd] dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Institutional Settings
+            </a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline/50 flex flex-col gap-1">
+<button class="w-full bg-primary text-white py-2.5 rounded-lg text-[14px] font-semibold shadow-sm hover:opacity-90 mb-4 transition-all">
+                Generate Report
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 text-[14px] text-[#617589] hover:text-[#111418] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[14px] text-[#617589] hover:text-[#111418] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Log Out
+            </a>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center px-6 py-3 w-full bg-[#ffffff] dark:bg-slate-900 shadow-sm sticky top-0 z-10">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#111418] dark:text-white font-headline tracking-tight">Lexend Scholar</span>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#137fec] font-semibold border-b-2 border-[#137fec] pb-1 text-[14px] leading-tight" href="#">Dashboard</a>
+<a class="text-[#137fec] font-semibold border-b-2 border-[#137fec] pb-1 text-[14px] leading-tight" href="#">Grades</a>
+<a class="text-[#617589] dark:text-slate-400 hover:bg-[#f1f3fd] transition-colors px-2 py-1 rounded text-[14px] leading-tight" href="#">Attendance</a>
+<a class="text-[#617589] dark:text-slate-400 hover:bg-[#f1f3fd] transition-colors px-2 py-1 rounded text-[14px] leading-tight" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full text-[14px] border-none focus:ring-2 focus:ring-primary w-64" placeholder="Search records..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container overflow-hidden border border-outline">
+<img alt="Student Profile" class="w-full h-full object-cover" data-alt="professional headshot of a teenage girl with blonde hair and a confident smile, clean studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlNMJOszWryBZ_J0gjva7BTCo7sHEUSIFpj_WDFvDNQNlrqjxBT9I4irRMBARoFESGB8Hec0JiEErAI5QkoKQTa28ZgTh3HaZhb3q7Dxbw0fhl5CVP0Ok2l16cbLpw51SlpxRBfzOumvjJW-UQZe_id8sZDyOzsXvXxUb7MYRZ00nIeVqhe2H4_VO6jf0ItJYeh0qNYcp_wJiucvsqPZ9ksrp91YSgEid2Tj5yaX1zEYBKt3p7or2LWMFx6J481jutM_9X3qElCD_O"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="p-6 md:p-8 max-w-7xl mx-auto w-full">
+<!-- Student Header Section -->
+<section class="mb-8 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+<div class="flex gap-6 items-center">
+<div class="w-24 h-24 rounded-xl overflow-hidden shadow-sm border-4 border-white">
+<img alt="Sophia Anderson" class="w-full h-full object-cover" data-alt="portrait of a focused female student in a high school setting, natural soft light, library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPsYv3x4IH5-W8CliD3dUjvqoWwOvdiNPf77Vu_98Qf4lEVShewbivA_Q4M11y3HxDNjs7HhhQdErVIjtRIXGJxxgDnKskRxyP4g2xa3If5iDsOtqJlHc4QaBpJC5Pr123Z2WQsyV5wtrk0LzyoaEMaFDmx4zy94kMlhgaUvVuyQrzsaoWD_XIBaPFcR1y0aQATYX_FhyIPZ5tRmmjA1oIG1Tyj8h0bxqV7HXUVMUCnsAcc158CT3Xgzhe0qavOLJrJ1wBOMXnhm0W"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-3xl font-bold text-on-surface font-headline tracking-tight">Sophia Anderson</h2>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[12px] font-bold rounded-full">Grade 10-A</span>
+</div>
+<p class="text-on-surface-variant text-[14px] mb-4">Student ID: #2024-8842 • Major: Biological Sciences Track</p>
+<div class="flex gap-4">
+<div class="bg-surface p-3 rounded-lg shadow-sm border border-outline/50 flex flex-col min-w-[100px]">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Current GPA</span>
+<span class="text-2xl font-bold text-primary">3.94</span>
+</div>
+<div class="bg-surface p-3 rounded-lg shadow-sm border border-outline/50 flex flex-col min-w-[100px]">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Credits</span>
+<span class="text-2xl font-bold text-on-surface">24.5</span>
+</div>
+<div class="bg-surface p-3 rounded-lg shadow-sm border border-outline/50 flex flex-col min-w-[100px]">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Rank</span>
+<span class="text-2xl font-bold text-on-surface">Top 5%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 w-full md:w-auto">
+<button class="flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold shadow-sm hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+                        Full Transcript (PDF)
+                    </button>
+<button class="flex items-center justify-center gap-2 bg-white text-secondary px-6 py-3 rounded-lg font-semibold shadow-sm border border-outline hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+                        Contact Advisor
+                    </button>
+</div>
+</section>
+<!-- Filters & Controls -->
+<div class="flex flex-col md:flex-row gap-4 mb-6 justify-between items-end">
+<div class="flex flex-wrap gap-3 w-full md:w-auto">
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-on-surface-variant px-1">Semester</label>
+<select class="bg-white border-outline rounded-lg text-[14px] px-4 py-2 pr-10 focus:ring-primary focus:border-primary">
+<option>Spring 2024</option>
+<option>Fall 2023</option>
+<option>Spring 2023</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-bold text-on-surface-variant px-1">Department</label>
+<select class="bg-white border-outline rounded-lg text-[14px] px-4 py-2 pr-10 focus:ring-primary focus:border-primary">
+<option>All Departments</option>
+<option>Mathematics</option>
+<option>Sciences</option>
+<option>Humanities</option>
+<option>Arts</option>
+</select>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-outline rounded-lg text-[14px] text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="sort">sort</span>
+                        Sort by Grade
+                    </button>
+</div>
+</div>
+<!-- Grade Table Section -->
+<div class="bg-surface rounded-xl shadow-sm border border-outline overflow-hidden">
+<div class="grid grid-cols-12 bg-surface-container-low border-b border-outline px-6 py-4">
+<div class="col-span-5 text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">Class Name</div>
+<div class="col-span-2 text-[12px] font-bold uppercase tracking-wider text-on-surface-variant text-center">Current Grade</div>
+<div class="col-span-3 text-[12px] font-bold uppercase tracking-wider text-on-surface-variant text-center">Progress</div>
+<div class="col-span-2 text-[12px] font-bold uppercase tracking-wider text-on-surface-variant text-right">Action</div>
+</div>
+<!-- Class Entry 1: Advanced Algebra II -->
+<div class="border-b border-outline last:border-b-0">
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="col-span-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="functions">functions</span>
+</div>
+<div>
+<h4 class="font-bold text-[14px]">Advanced Algebra II</h4>
+<p class="text-[12px] text-on-surface-variant">Instructor: Dr. Marcus Thorne</p>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-center">
+<span class="text-xl font-bold text-primary">A</span>
+</div>
+<div class="col-span-3">
+<div class="flex flex-col gap-1.5 px-4">
+<div class="flex justify-between text-[11px] font-bold">
+<span class="text-on-surface-variant">94.2%</span>
+<span class="text-primary">8/12 Units</span>
+</div>
+<div class="w-full bg-primary-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94.2%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-1 text-[13px] font-semibold text-primary hover:underline">
+                                Details
+                                <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Breakdown Section (Expanded State) -->
+<div class="bg-[#fcfdfe] px-10 pb-6 pt-2 border-t border-dashed border-outline">
+<div class="grid grid-cols-3 gap-6">
+<div class="bg-white p-4 rounded-lg border border-outline/50 shadow-sm">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase mb-3">Exams &amp; Quizzes</p>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-[13px]">Midterm Exam</span>
+<span class="text-[13px] font-bold">92%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[13px]">Unit 3 Quiz</span>
+<span class="text-[13px] font-bold">100%</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg border border-outline/50 shadow-sm">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase mb-3">Assignments</p>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-[13px]">Homework 1-4</span>
+<span class="text-[13px] font-bold">98%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[13px]">Graphing Project</span>
+<span class="text-[13px] font-bold">88%</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg border border-outline/50 shadow-sm">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase mb-3">Participation</p>
+<div class="flex flex-col items-center justify-center h-16">
+<span class="text-2xl font-bold text-emerald-600">Excellent</span>
+<span class="text-[11px] text-on-surface-variant">4.0 / 4.0</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Class Entry 2: Organic Chemistry -->
+<div class="border-b border-outline last:border-b-0">
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="col-span-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+</div>
+<div>
+<h4 class="font-bold text-[14px]">Organic Chemistry</h4>
+<p class="text-[12px] text-on-surface-variant">Instructor: Prof. Elena Vasquez</p>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-center">
+<span class="text-xl font-bold text-on-surface">B+</span>
+</div>
+<div class="col-span-3">
+<div class="flex flex-col gap-1.5 px-4">
+<div class="flex justify-between text-[11px] font-bold">
+<span class="text-on-surface-variant">89.1%</span>
+<span class="text-primary">6/10 Labs</span>
+</div>
+<div class="w-full bg-primary-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full w-[89.1%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-1 text-[13px] font-semibold text-primary hover:underline">
+                                Details
+                                <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Class Entry 3: AP World History -->
+<div class="border-b border-outline last:border-b-0">
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="col-span-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+</div>
+<div>
+<h4 class="font-bold text-[14px]">AP World History</h4>
+<p class="text-[12px] text-on-surface-variant">Instructor: Mr. David Chen</p>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-center">
+<span class="text-xl font-bold text-primary">A</span>
+</div>
+<div class="col-span-3">
+<div class="flex flex-col gap-1.5 px-4">
+<div class="flex justify-between text-[11px] font-bold">
+<span class="text-on-surface-variant">96.5%</span>
+<span class="text-primary">12/15 Modules</span>
+</div>
+<div class="w-full bg-primary-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[96.5%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-1 text-[13px] font-semibold text-primary hover:underline">
+                                Details
+                                <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Class Entry 4: Literature & Composition -->
+<div class="border-b border-outline last:border-b-0">
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="col-span-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+</div>
+<div>
+<h4 class="font-bold text-[14px]">Literature &amp; Composition</h4>
+<p class="text-[12px] text-on-surface-variant">Instructor: Ms. Sarah Jenkins</p>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-center">
+<span class="text-xl font-bold text-primary">A-</span>
+</div>
+<div class="col-span-3">
+<div class="flex flex-col gap-1.5 px-4">
+<div class="flex justify-between text-[11px] font-bold">
+<span class="text-on-surface-variant">91.8%</span>
+<span class="text-primary">5/5 Essays</span>
+</div>
+<div class="w-full bg-primary-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[91.8%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-1 text-[13px] font-semibold text-primary hover:underline">
+                                Details
+                                <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grade Breakdown Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Academic Standings Card -->
+<div class="md:col-span-2 bg-surface p-6 rounded-xl shadow-sm border border-outline">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-[16px] font-bold text-on-surface">Grade Distribution Trends</h3>
+<div class="flex gap-2">
+<span class="flex items-center gap-1 text-[11px] font-bold text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span> Current</span>
+<span class="flex items-center gap-1 text-[11px] font-bold text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> Previous</span>
+</div>
+</div>
+<div class="h-48 flex items-end justify-between px-4 pb-2 relative">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-50">
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+</div>
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="w-8 bg-primary rounded-t-sm" style="height: 140px;"></div>
+<span class="text-[11px] font-bold">Math</span>
+</div>
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="w-8 bg-primary rounded-t-sm" style="height: 120px;"></div>
+<span class="text-[11px] font-bold">Science</span>
+</div>
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="w-8 bg-primary rounded-t-sm" style="height: 155px;"></div>
+<span class="text-[11px] font-bold">History</span>
+</div>
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="w-8 bg-primary rounded-t-sm" style="height: 135px;"></div>
+<span class="text-[11px] font-bold">Lit</span>
+</div>
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="w-8 bg-primary rounded-t-sm" style="height: 160px;"></div>
+<span class="text-[11px] font-bold">Arts</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats Sidebar -->
+<div class="bg-surface p-6 rounded-xl shadow-sm border border-outline">
+<h3 class="text-[16px] font-bold text-on-surface mb-4">Upcoming Assessments</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3 p-3 bg-surface-container-low rounded-lg border border-outline/30">
+<div class="p-2 bg-white rounded-md text-error shadow-sm">
+<span class="material-symbols-outlined" data-icon="event_upcoming">event_upcoming</span>
+</div>
+<div>
+<p class="text-[13px] font-bold">Final Project: Chemistry</p>
+<p class="text-[11px] text-on-surface-variant">Due: May 12, 2024</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-surface-container-low rounded-lg border border-outline/30">
+<div class="p-2 bg-white rounded-md text-primary shadow-sm">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</div>
+<div>
+<p class="text-[13px] font-bold">World History Quiz</p>
+<p class="text-[11px] text-on-surface-variant">Scheduled: May 15, 2024</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-surface-container-low rounded-lg border border-outline/30">
+<div class="p-2 bg-white rounded-md text-emerald-600 shadow-sm">
+<span class="material-symbols-outlined" data-icon="draw">draw</span>
+</div>
+<div>
+<p class="text-[13px] font-bold">Portfolio Review</p>
+<p class="text-[11px] text-on-surface-variant">Meeting: May 18, 2024</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
