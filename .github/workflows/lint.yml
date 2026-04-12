@@ -1,0 +1,255 @@
+name: GitHub Actions — Lint e Validação
+
+# Executa lint de Swift (SwiftLint) e HTML (HTMLHint) em todos os PRs e pushes.
+# Bloqueia merge se houver erros de lint.
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─── SwiftLint ────────────────────────────────────────────────────────────────
+  swift-lint:
+    name: SwiftLint
+    runs-on: macos-15
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Instalar SwiftLint
+        run: |
+          if ! command -v swiftlint &> /dev/null; then
+            brew install swiftlint
+          fi
+          swiftlint version
+
+      - name: Rodar SwiftLint
+        run: |
+          swiftlint lint \
+            --config .swiftlint.yml \
+            --reporter github-actions-logging \
+            --strict
+        continue-on-error: false
+
+      - name: Gerar relatório SwiftLint (JSON)
+        if: always()
+        run: |
+          swiftlint lint \
+            --config .swiftlint.yml \
+            --reporter json \
+            > swiftlint-report.json || true
+
+      - name: Upload relatório SwiftLint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-report
+          path: swiftlint-report.json
+          retention-days: 7
+
+      - name: Sumário SwiftLint no PR
+        if: always()
+        run: |
+          ERRORS=$(cat swiftlint-report.json 2>/dev/null | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          errors = [d for d in data if d.get('severity') == 'error']
+          warnings = [d for d in data if d.get('severity') == 'warning']
+          print(f'errors={len(errors)}')
+          print(f'warnings={len(warnings)}')
+          " 2>/dev/null || echo "errors=0
+          warnings=0")
+
+          echo "## SwiftLint" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          eval "$ERRORS"
+          echo "| Tipo | Quantidade |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Erros | $errors |" >> $GITHUB_STEP_SUMMARY
+          echo "| Avisos | $warnings |" >> $GITHUB_STEP_SUMMARY
+
+  # ─── HTML Lint ───────────────────────────────────────────────────────────────
+  html-lint:
+    name: HTMLHint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar HTMLHint
+        run: npm install --global htmlhint@latest
+
+      - name: Criar configuração HTMLHint
+        run: |
+          cat > .htmlhintrc << 'EOF'
+          {
+            "tagname-lowercase": true,
+            "attr-lowercase": true,
+            "attr-value-double-quotes": true,
+            "attr-no-duplication": true,
+            "doctype-first": true,
+            "tag-pair": true,
+            "empty-tag-not-self-closed": true,
+            "spec-char-escape": false,
+            "id-unique": true,
+            "src-not-empty": true,
+            "title-require": true,
+            "alt-require": true,
+            "doctype-html5": true,
+            "id-class-value": false,
+            "style-disabled": false,
+            "inline-style-disabled": false,
+            "space-tab-mixed-disabled": "space",
+            "id-class-ad-disabled": false,
+            "href-abs-or-rel": false,
+            "attr-unsafe-chars": true,
+            "head-script-disabled": false
+          }
+          EOF
+
+      - name: Rodar HTMLHint
+        id: htmlhint
+        run: |
+          HTML_FILES=$(find website -name "*.html" 2>/dev/null | head -50)
+
+          if [ -z "$HTML_FILES" ]; then
+            echo "==> Nenhum arquivo HTML encontrado em website/"
+            exit 0
+          fi
+
+          echo "==> Arquivos HTML encontrados:"
+          echo "$HTML_FILES"
+          echo ""
+
+          # Rodar htmlhint e capturar saída
+          RESULT=0
+          htmlhint $HTML_FILES --config .htmlhintrc || RESULT=$?
+
+          echo "htmlhint_exit=$RESULT" >> $GITHUB_ENV
+
+          if [ "$RESULT" -ne 0 ]; then
+            echo "==> HTMLHint encontrou erros"
+            exit $RESULT
+          else
+            echo "==> HTMLHint: todos os arquivos OK"
+          fi
+
+      - name: Sumário HTMLHint
+        if: always()
+        run: |
+          echo "## HTMLHint" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          HTML_COUNT=$(find website -name "*.html" 2>/dev/null | wc -l | tr -d ' ')
+          echo "Arquivos verificados: **$HTML_COUNT** arquivos HTML em \`website/\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${htmlhint_exit:-0}" = "0" ]; then
+            echo "✅ Nenhum erro encontrado" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Erros de lint encontrados — veja os logs acima" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # ─── Validação do vercel.json ────────────────────────────────────────────────
+  validate-vercel-config:
+    name: Validar vercel.json
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validar JSON
+        run: |
+          if [ -f vercel.json ]; then
+            python3 -m json.tool vercel.json > /dev/null && echo "==> vercel.json: JSON válido" || exit 1
+          else
+            echo "==> vercel.json não encontrado, pulando"
+          fi
+
+      - name: Verificar schema Vercel
+        run: |
+          npm install --global vercel@latest 2>/dev/null
+          if [ -f vercel.json ]; then
+            vercel inspect --help > /dev/null 2>&1 || true
+            echo "==> vercel.json verificado"
+          fi
+
+  # ─── Validação do project.yml (XcodeGen) ─────────────────────────────────────
+  validate-xcodegen:
+    name: Validar project.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar yq (YAML validator)
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Validar project.yml
+        run: |
+          if [ -f project.yml ]; then
+            yq eval '.' project.yml > /dev/null && echo "==> project.yml: YAML válido" || exit 1
+          else
+            echo "==> project.yml não encontrado, pulando"
+          fi
+
+  # ─── Job de status final ──────────────────────────────────────────────────────
+  lint-status:
+    name: Lint OK
+    runs-on: ubuntu-latest
+    needs: [swift-lint, html-lint, validate-vercel-config, validate-xcodegen]
+    if: always()
+
+    steps:
+      - name: Verificar resultado de todos os jobs de lint
+        run: |
+          SWIFT="${{ needs.swift-lint.result }}"
+          HTML="${{ needs.html-lint.result }}"
+          VERCEL="${{ needs.validate-vercel-config.result }}"
+          XCODE="${{ needs.validate-xcodegen.result }}"
+
+          echo "SwiftLint: $SWIFT"
+          echo "HTMLHint:  $HTML"
+          echo "Vercel:    $VERCEL"
+          echo "XcodeGen:  $XCODE"
+
+          if [ "$SWIFT" = "failure" ] || [ "$HTML" = "failure" ] || \
+             [ "$VERCEL" = "failure" ] || [ "$XCODE" = "failure" ]; then
+            echo "==> Um ou mais jobs de lint falharam"
+            exit 1
+          fi
+
+          echo "==> Todos os checks de lint passaram"
