@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assinar Lexend Scholar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: 'Lexend', sans-serif; }
+    .plan-card { transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+    .plan-card.selected { border-color: #137fec; box-shadow: 0 0 0 3px rgba(19,127,236,0.15); }
+  </style>
+</head>
+<body class="bg-[#f6f7f8] min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 px-6 py-4">
+    <div class="max-w-5xl mx-auto flex items-center gap-3">
+      <div class="w-8 h-8 bg-[#137fec] rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <span class="text-[#111418] font-semibold text-lg">Lexend Scholar</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-10">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold text-[#111418] mb-3">Escolha seu plano</h1>
+      <p class="text-[#617589] text-base">14 dias grátis. Sem compromisso. Cancele quando quiser.</p>
+    </div>
+
+    <!-- Plan Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+      <!-- Starter -->
+      <div class="plan-card bg-white rounded-xl border-2 border-gray-200 p-6 cursor-pointer" data-plan="starter" onclick="selectPlan(this)">
+        <div class="text-sm font-semibold text-[#617589] uppercase tracking-wide mb-2">Starter</div>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-3xl font-bold text-[#111418]">R$&nbsp;297</span>
+          <span class="text-[#617589] text-sm mb-1">/mês</span>
+        </div>
+        <p class="text-xs text-[#617589] mb-5">Até 100 alunos</p>
+        <ul class="space-y-2 text-sm text-[#111418]">
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Gestão de alunos e turmas</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Controle de frequência</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Boletim digital</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Suporte por e-mail</li>
+        </ul>
+        <button class="mt-6 w-full py-2.5 rounded-lg border-2 border-[#137fec] text-[#137fec] font-medium text-sm hover:bg-[#137fec] hover:text-white transition-colors">
+          Selecionar Starter
+        </button>
+      </div>
+
+      <!-- Pro (destacado) -->
+      <div class="plan-card bg-white rounded-xl border-2 border-[#137fec] p-6 cursor-pointer relative" data-plan="pro" onclick="selectPlan(this)">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="bg-[#137fec] text-white text-xs font-semibold px-3 py-1 rounded-full">Mais popular</span>
+        </div>
+        <div class="text-sm font-semibold text-[#137fec] uppercase tracking-wide mb-2">Pro</div>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-3xl font-bold text-[#111418]">R$&nbsp;697</span>
+          <span class="text-[#617589] text-sm mb-1">/mês</span>
+        </div>
+        <p class="text-xs text-[#617589] mb-5">Até 500 alunos</p>
+        <ul class="space-y-2 text-sm text-[#111418]">
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Tudo do Starter</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Relatórios avançados</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Export XLSX</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Notificações push</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Suporte prioritário</li>
+        </ul>
+        <button class="mt-6 w-full py-2.5 rounded-lg bg-[#137fec] text-white font-medium text-sm hover:bg-blue-700 transition-colors">
+          Selecionar Pro
+        </button>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="plan-card bg-white rounded-xl border-2 border-gray-200 p-6 cursor-pointer" data-plan="enterprise" onclick="selectPlan(this)">
+        <div class="text-sm font-semibold text-[#617589] uppercase tracking-wide mb-2">Enterprise</div>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-3xl font-bold text-[#111418]">R$&nbsp;1.497</span>
+          <span class="text-[#617589] text-sm mb-1">/mês</span>
+        </div>
+        <p class="text-xs text-[#617589] mb-5">Alunos ilimitados</p>
+        <ul class="space-y-2 text-sm text-[#111418]">
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Tudo do Pro</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Multi-unidades</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> SLA 99.9%</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> Onboarding dedicado</li>
+          <li class="flex items-center gap-2"><span class="text-[#137fec]">✓</span> API access</li>
+        </ul>
+        <button class="mt-6 w-full py-2.5 rounded-lg border-2 border-[#137fec] text-[#137fec] font-medium text-sm hover:bg-[#137fec] hover:text-white transition-colors">
+          Selecionar Enterprise
+        </button>
+      </div>
+    </div>
+
+    <!-- Checkout CTA -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 max-w-md mx-auto text-center">
+      <p class="text-sm text-[#617589] mb-4">Plano selecionado: <strong id="selectedPlanName" class="text-[#111418]">Pro</strong></p>
+      <button
+        id="checkoutBtn"
+        onclick="startCheckout()"
+        class="w-full py-3 bg-[#137fec] text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+      >
+        Começar trial grátis de 14 dias
+      </button>
+      <p class="mt-3 text-xs text-[#617589]">
+        Sem cobrança durante o período de teste. Cartão necessário para ativação.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    let selectedPlan = 'pro';
+
+    function selectPlan(card) {
+      document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedPlan = card.dataset.plan;
+      const names = { starter: 'Starter — R$ 297/mês', pro: 'Pro — R$ 697/mês', enterprise: 'Enterprise — R$ 1.497/mês' };
+      document.getElementById('selectedPlanName').textContent = names[selectedPlan];
+    }
+
+    async function startCheckout() {
+      const btn = document.getElementById('checkoutBtn');
+      btn.disabled = true;
+      btn.textContent = 'Redirecionando...';
+
+      try {
+        const response = await fetch('/api/billing/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ plan: selectedPlan }),
+        });
+
+        if (!response.ok) throw new Error('Falha ao criar sessão de checkout');
+
+        const { url } = await response.json();
+        window.location.href = url;
+      } catch (err) {
+        alert('Erro ao iniciar checkout. Tente novamente.');
+        btn.disabled = false;
+        btn.textContent = 'Começar trial grátis de 14 dias';
+      }
+    }
+
+    // Pre-select Pro on load
+    selectPlan(document.querySelector('[data-plan="pro"]'));
+  </script>
+</body>
+</html>
