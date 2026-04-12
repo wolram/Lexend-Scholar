@@ -164,6 +164,54 @@ components:
         created_at:     { type: string, format: date-time }
         updated_at:     { type: string, format: date-time }
 
+    Ocorrencia:
+      type: object
+      properties:
+        id:               { type: string, format: uuid }
+        school_id:        { type: string, format: uuid }
+        aluno_id:         { type: string, format: uuid, description: "Alias para student_id" }
+        student_id:       { type: string, format: uuid }
+        class_id:         { type: string, format: uuid, nullable: true }
+        tipo:             { type: string, enum: [disciplinar, elogio, saude, outro, administrativo, academico] }
+        descricao:        { type: string }
+        data:             { type: string, format: date }
+        severity:         { type: string, enum: [low, medium, high] }
+        resolved:         { type: boolean }
+        resolved_at:      { type: string, format: date-time, nullable: true }
+        resolution_notes: { type: string, nullable: true }
+        registrado_por:
+          type: object
+          nullable: true
+          properties:
+            id:        { type: string, format: uuid }
+            full_name: { type: string }
+            role:      { type: string }
+        aluno:
+          type: object
+          nullable: true
+          properties:
+            id:              { type: string, format: uuid }
+            full_name:       { type: string }
+            enrollment_code: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    DocumentoAluno:
+      type: object
+      properties:
+        id:           { type: string, format: uuid }
+        school_id:    { type: string, format: uuid }
+        student_id:   { type: string, format: uuid }
+        name:         { type: string, description: "Nome amigável do documento" }
+        filename:     { type: string }
+        storage_path: { type: string }
+        mime_type:    { type: string }
+        size_bytes:   { type: integer }
+        category:     { type: string, enum: [rg, cpf, historico, laudo, declaracao, foto, geral] }
+        public_url:   { type: string, format: uri, nullable: true }
+        uploaded_by:  { type: string, format: uuid }
+        created_at:   { type: string, format: date-time }
+
 security:
   - BearerAuth: []
 
@@ -759,11 +807,283 @@ paths:
                   limit:  { type: integer }
                   offset: { type: integer }
 
+  # ── OCORRÊNCIAS ───────────────────────────────────────────────
+  /ocorrencias:
+    get:
+      tags: [Ocorrências]
+      summary: Listar ocorrências
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - { name: aluno_id,    in: query, schema: { type: string, format: uuid }, description: "Alias para student_id" }
+        - { name: student_id,  in: query, schema: { type: string, format: uuid } }
+        - { name: class_id,    in: query, schema: { type: string, format: uuid } }
+        - { name: tipo,        in: query, schema: { type: string, enum: [disciplinar, elogio, saude, outro, administrativo, academico] } }
+        - { name: severity,    in: query, schema: { type: string, enum: [low, medium, high] } }
+        - { name: resolved,    in: query, schema: { type: boolean } }
+        - { name: id,          in: query, schema: { type: string, format: uuid }, description: "Busca ocorrência por ID" }
+      responses:
+        "200":
+          description: Ocorrências paginadas
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedMeta'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Ocorrencia' }
+              example:
+                data:
+                  - id: "uuid-1"
+                    aluno_id: "uuid-aluno"
+                    tipo: "disciplinar"
+                    descricao: "Uso de celular em sala"
+                    data: "2026-04-12"
+                    severity: "low"
+                    resolved: false
+                    created_at: "2026-04-12T10:00:00Z"
+                total: 1
+                limit: 50
+                offset: 0
+        "401": { description: Não autenticado }
+        "403": { description: Sem permissão }
+    post:
+      tags: [Ocorrências]
+      summary: Criar ocorrência
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [aluno_id, tipo, descricao]
+              properties:
+                aluno_id:    { type: string, format: uuid, description: "ID do aluno (alias: student_id)" }
+                student_id:  { type: string, format: uuid }
+                class_id:    { type: string, format: uuid }
+                tipo:        { type: string, enum: [disciplinar, elogio, saude, outro, administrativo, academico] }
+                descricao:   { type: string, minLength: 5 }
+                data:        { type: string, format: date, description: "Data da ocorrência (default: hoje)" }
+                severity:    { type: string, enum: [low, medium, high], default: low }
+            example:
+              aluno_id: "uuid-aluno"
+              tipo: "disciplinar"
+              descricao: "Atraso reiterado às aulas"
+              severity: "medium"
+              data: "2026-04-12"
+      responses:
+        "201":
+          description: Ocorrência criada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Ocorrencia' }
+        "400": { description: Campos obrigatórios faltando }
+        "404": { description: Aluno não encontrado }
+    put:
+      tags: [Ocorrências]
+      summary: Atualizar ocorrência
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id]
+              properties:
+                id:               { type: string, format: uuid }
+                descricao:        { type: string }
+                tipo:             { type: string, enum: [disciplinar, elogio, saude, outro, administrativo, academico] }
+                severity:         { type: string, enum: [low, medium, high] }
+                resolved:         { type: boolean }
+                resolution_notes: { type: string }
+      responses:
+        "200": { description: Ocorrência atualizada }
+        "403": { description: Sem permissão }
+        "404": { description: Não encontrada }
+    delete:
+      tags: [Ocorrências]
+      summary: Remover ocorrência (admin/secretary)
+      parameters:
+        - { name: id, in: query, required: true, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Removida com sucesso }
+        "403": { description: Sem permissão }
+        "404": { description: Não encontrada }
+
+  # ── DECLARAÇÕES PDF ────────────────────────────────────────────
+  /declaracoes-pdf:
+    get:
+      tags: [Declarações]
+      summary: Emitir declaração (GET — conveniente para browser)
+      parameters:
+        - { name: aluno_id,         in: query, required: true,  schema: { type: string, format: uuid } }
+        - { name: tipo,             in: query, required: true,  schema: { type: string, enum: [matricula, frequencia, conclusao, transferencia, personalizada] } }
+        - { name: academic_year_id, in: query, schema: { type: string, format: uuid } }
+        - { name: finalidade,       in: query, schema: { type: string }, description: "Finalidade da declaração (ex: estágio, banco)" }
+      responses:
+        "200":
+          description: "PDF base64 ou HTML imprimível (dependendo da disponibilidade de jsPDF)"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pdf_base64: { type: string, description: "PDF codificado em base64" }
+                  filename:   { type: string, example: "declaracao_matricula_sophia_1713966000000.pdf" }
+            text/html:
+              schema:
+                type: string
+                description: "HTML imprimível quando PDF não disponível"
+        "400": { description: Parâmetros inválidos }
+        "403": { description: Apenas admin e secretaria }
+        "404": { description: Aluno não encontrado }
+    post:
+      tags: [Declarações]
+      summary: Emitir declaração (POST — recomendado)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [aluno_id, tipo]
+              properties:
+                aluno_id:         { type: string, format: uuid, description: "Alias: student_id" }
+                student_id:       { type: string, format: uuid }
+                tipo:             { type: string, enum: [matricula, frequencia, conclusao, transferencia, personalizada] }
+                academic_year_id: { type: string, format: uuid }
+                finalidade:       { type: string }
+                custom_text:      { type: string, description: "Texto livre (tipo: personalizada)" }
+            example:
+              aluno_id: "uuid-aluno"
+              tipo: "matricula"
+              finalidade: "Apresentar ao banco para financiamento estudantil"
+      responses:
+        "200":
+          description: Declaração gerada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pdf_base64: { type: string }
+                  filename:   { type: string }
+
+  # ── DOCUMENTOS DE ALUNO ────────────────────────────────────────
+  /documentos-aluno:
+    get:
+      tags: [Documentos]
+      summary: Listar ou baixar documentos do aluno
+      parameters:
+        - { name: student_id, in: query, schema: { type: string, format: uuid }, description: "Listar documentos do aluno" }
+        - { name: id,         in: query, schema: { type: string, format: uuid }, description: "Gerar URL assinada para download de um documento" }
+        - { name: category,   in: query, schema: { type: string, enum: [rg, cpf, historico, laudo, declaracao, foto, geral] } }
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        "200":
+          description: Lista de documentos ou URL assinada
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - allOf:
+                      - $ref: '#/components/schemas/PaginatedMeta'
+                      - type: object
+                        properties:
+                          data:
+                            type: array
+                            items: { $ref: '#/components/schemas/DocumentoAluno' }
+                  - type: object
+                    description: URL assinada para documento único
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/DocumentoAluno'
+                          - type: object
+                            properties:
+                              signed_url:  { type: string, format: uri }
+                              expires_in:  { type: integer, description: "Segundos até expirar" }
+        "400": { description: student_id obrigatório }
+        "404": { description: Documento não encontrado }
+    post:
+      tags: [Documentos]
+      summary: "Gerar URL de upload pré-assinada ou registrar metadados após upload"
+      parameters:
+        - { name: action, in: query, schema: { type: string, enum: [presigned] }, description: "Use 'presigned' para gerar URL de upload" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - description: Gerar URL pré-assinada (action=presigned)
+                  type: object
+                  required: [student_id, filename, mime_type]
+                  properties:
+                    student_id: { type: string, format: uuid }
+                    filename:   { type: string }
+                    mime_type:  { type: string, enum: [application/pdf, image/jpeg, image/png, image/webp] }
+                    size_bytes: { type: integer }
+                - description: Registrar documento após upload direto
+                  type: object
+                  required: [student_id, name, filename, storage_path, mime_type, size_bytes]
+                  properties:
+                    student_id:   { type: string, format: uuid }
+                    name:         { type: string, description: "Nome amigável (ex: RG Frente)" }
+                    filename:     { type: string }
+                    storage_path: { type: string }
+                    mime_type:    { type: string }
+                    size_bytes:   { type: integer }
+                    category:     { type: string, enum: [rg, cpf, historico, laudo, declaracao, foto, geral], default: geral }
+      responses:
+        "200":
+          description: URL pré-assinada gerada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      signed_url:   { type: string, format: uri }
+                      token:        { type: string }
+                      storage_path: { type: string }
+        "201":
+          description: Documento registrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/DocumentoAluno' }
+        "400": { description: Validação falhou }
+        "403": { description: Sem permissão }
+    delete:
+      tags: [Documentos]
+      summary: Remover documento e arquivo do Supabase Storage
+      parameters:
+        - { name: id, in: query, required: true, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Removido }
+        "403": { description: Sem permissão }
+        "404": { description: Não encontrado }
+
 tags:
-  - { name: Alunos,      description: Student management }
-  - { name: Professores, description: Teacher and staff management }
-  - { name: Turmas,      description: Class management }
-  - { name: Matrículas,  description: Student class enrollments }
-  - { name: Frequência,  description: Attendance tracking }
-  - { name: Notas,       description: Grade records and report cards }
-  - { name: Financeiro,  description: Financial records and billing }
+  - { name: Alunos,       description: Gerenciamento de alunos }
+  - { name: Professores,  description: Gerenciamento de professores e staff }
+  - { name: Turmas,       description: Gerenciamento de turmas }
+  - { name: Matrículas,   description: Matrículas de alunos em turmas }
+  - { name: Frequência,   description: Registro de frequência }
+  - { name: Notas,        description: Notas e boletim escolar }
+  - { name: Financeiro,   description: Registros financeiros e cobranças }
+  - { name: Ocorrências,  description: Registro e histórico de ocorrências disciplinares/administrativas }
+  - { name: Declarações,  description: Emissão de declarações escolares em PDF }
+  - { name: Documentos,   description: Upload e gerenciamento de documentos do aluno (Supabase Storage) }
