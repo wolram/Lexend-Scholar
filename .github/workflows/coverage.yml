@@ -1,0 +1,293 @@
+name: Tests & Coverage
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_e2e:
+        description: 'Executar testes E2E'
+        required: false
+        default: 'true'
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ────────────────────────────────────────────────────────────
+  # Job 1: Testes E2E Playwright (web app + website)
+  # ────────────────────────────────────────────────────────────
+  e2e-tests:
+    name: E2E Playwright
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || inputs.run_e2e == 'true'
+    timeout-minutes: 20
+
+    services:
+      # Supabase local via CLI para isolamento completo
+      supabase:
+        image: supabase/postgres:15.1.0.117
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      BASE_URL: http://localhost:3000
+      WEBSITE_URL: http://localhost:4000
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.STAGING_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.STAGING_SUPABASE_SERVICE_ROLE_KEY }}
+      TEST_DIRETOR_EMAIL: ${{ secrets.TEST_DIRETOR_EMAIL }}
+      TEST_DIRETOR_PASSWORD: ${{ secrets.TEST_DIRETOR_PASSWORD }}
+      TEST_PROFESSOR_EMAIL: ${{ secrets.TEST_PROFESSOR_EMAIL }}
+      TEST_PROFESSOR_PASSWORD: ${{ secrets.TEST_PROFESSOR_PASSWORD }}
+      TEST_SECRETARIO_EMAIL: ${{ secrets.TEST_SECRETARIO_EMAIL }}
+      TEST_SECRETARIO_PASSWORD: ${{ secrets.TEST_SECRETARIO_PASSWORD }}
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Instalar dependências (webapp)
+        working-directory: webapp
+        run: npm ci
+
+      - name: Instalar dependências (tests/e2e)
+        working-directory: tests/e2e
+        run: npm ci
+
+      - name: Cache browsers Playwright
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('tests/e2e/package-lock.json') }}
+
+      - name: Instalar browsers Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: tests/e2e
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: Build web app
+        working-directory: webapp
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.STAGING_SUPABASE_ANON_KEY }}
+
+      - name: Executar testes E2E
+        working-directory: tests/e2e
+        run: npx playwright test
+        env:
+          CI: true
+
+      - name: Upload relatório Playwright (HTML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload resultados JUnit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results-${{ github.run_id }}
+          path: test-results/junit.xml
+          retention-days: 14
+
+      - name: Upload screenshots de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failures-${{ github.run_id }}
+          path: test-results/
+          retention-days: 7
+
+  # ────────────────────────────────────────────────────────────
+  # Job 2: Cobertura JavaScript/TypeScript (webapp)
+  # ────────────────────────────────────────────────────────────
+  coverage-webapp:
+    name: Cobertura Web App (Vitest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Instalar dependências
+        working-directory: webapp
+        run: npm ci
+
+      - name: Executar testes unitários com cobertura
+        working-directory: webapp
+        run: npm run test:coverage
+        env:
+          CI: true
+
+      - name: Verificar cobertura mínima
+        working-directory: webapp
+        run: |
+          COVERAGE=$(cat coverage/coverage-summary.json | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          total = data['total']
+          lines = total['lines']['pct']
+          branches = total['branches']['pct']
+          functions = total['functions']['pct']
+          print(f'Lines: {lines}% | Branches: {branches}% | Functions: {functions}%')
+          if lines < 60 or branches < 50 or functions < 60:
+              sys.exit(1)
+          ")
+          echo "$COVERAGE"
+
+      - name: Upload relatório de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-webapp-${{ github.run_id }}
+          path: webapp/coverage/
+          retention-days: 14
+
+      - name: Publicar cobertura no PR (comentário)
+        if: github.event_name == 'pull_request'
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: webapp
+          json-summary-path: webapp/coverage/coverage-summary.json
+
+  # ────────────────────────────────────────────────────────────
+  # Job 3: Cobertura iOS (XCTest via xcodebuild)
+  # ────────────────────────────────────────────────────────────
+  coverage-ios:
+    name: Cobertura iOS (XCTest)
+    runs-on: macos-14
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Selecionar Xcode 15
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Cache derivados Xcode
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: xcode-derived-${{ runner.os }}-${{ hashFiles('LexendScholar.xcodeproj/project.pbxproj') }}
+          restore-keys: xcode-derived-${{ runner.os }}-
+
+      - name: Executar testes unitários com cobertura
+        run: |
+          xcodebuild test \
+            -project LexendScholar.xcodeproj \
+            -scheme LexendScholar \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            -only-testing:LexendScholarTests \
+            -enableCodeCoverage YES \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty --color
+
+      - name: Gerar relatório de cobertura JSON
+        run: |
+          xcrun xccov view --report --json TestResults.xcresult > ios-coverage.json
+          xcrun xccov view --report TestResults.xcresult
+
+      - name: Verificar cobertura mínima iOS
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+
+          with open('ios-coverage.json') as f:
+              data = json.load(f)
+
+          # Cobertura geral do target principal
+          targets = data.get('targets', [])
+          app_target = next((t for t in targets if 'LexendScholar' in t.get('name', '')), None)
+
+          if not app_target:
+              print("Target LexendScholar não encontrado no relatório de cobertura")
+              sys.exit(1)
+
+          line_coverage = app_target.get('lineCoverage', 0) * 100
+          print(f"Cobertura de linhas (LexendScholar): {line_coverage:.1f}%")
+
+          if line_coverage < 50:
+              print(f"FALHOU: cobertura {line_coverage:.1f}% abaixo do mínimo de 50%")
+              sys.exit(1)
+          else:
+              print("OK: cobertura dentro do limite mínimo")
+          EOF
+
+      - name: Upload resultado XCTest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xctest-results-${{ github.run_id }}
+          path: TestResults.xcresult
+          retention-days: 14
+
+      - name: Upload cobertura JSON iOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-coverage-${{ github.run_id }}
+          path: ios-coverage.json
+          retention-days: 14
+
+  # ────────────────────────────────────────────────────────────
+  # Job 4: Consolidar status e notificar (depende dos 3 anteriores)
+  # ────────────────────────────────────────────────────────────
+  coverage-summary:
+    name: Resumo de Cobertura
+    runs-on: ubuntu-latest
+    needs: [e2e-tests, coverage-webapp, coverage-ios]
+    if: always()
+
+    steps:
+      - name: Status final
+        run: |
+          echo "=== Resumo dos Jobs ==="
+          echo "E2E Playwright:    ${{ needs.e2e-tests.result }}"
+          echo "Cobertura Web App: ${{ needs.coverage-webapp.result }}"
+          echo "Cobertura iOS:     ${{ needs.coverage-ios.result }}"
+
+          if [[ "${{ needs.e2e-tests.result }}" == "failure" ]] || \
+             [[ "${{ needs.coverage-webapp.result }}" == "failure" ]] || \
+             [[ "${{ needs.coverage-ios.result }}" == "failure" ]]; then
+            echo "Um ou mais jobs falharam."
+            exit 1
+          fi
+
+          echo "Todos os checks passaram."
