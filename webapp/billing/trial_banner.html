@@ -1,0 +1,53 @@
+<!--
+  Lexend Scholar — Trial Banner Component
+  Incluir no topo do layout do app enquanto subscription_status = 'trialing'.
+  Parâmetros de exemplo passados via data attributes ou template engine.
+-->
+<div id="trialBanner" class="hidden border-b px-6 py-2.5" role="alert">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <!-- Ícone urgência -->
+      <svg id="trialBannerIcon" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+      </svg>
+      <span id="trialBannerMsg" class="text-sm font-medium"></span>
+    </div>
+    <a id="trialBannerCta"
+      href="/billing/checkout"
+      class="flex-shrink-0 text-xs font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity">
+      Ver planos
+    </a>
+  </div>
+</div>
+
+<script>
+  (async function () {
+    try {
+      const res = await fetch('/api/billing/trial-status', { credentials: 'include' });
+      if (!res.ok) return;
+      const { isTrialing, daysRemaining, urgency, message, ctaText, ctaUrl } = await res.json();
+
+      if (!isTrialing) return;
+
+      const banner = document.getElementById('trialBanner');
+      const msg = document.getElementById('trialBannerMsg');
+      const cta = document.getElementById('trialBannerCta');
+
+      const colorMap = {
+        critical: 'bg-red-50 border-red-300 text-red-800',
+        high:     'bg-orange-50 border-orange-300 text-orange-800',
+        medium:   'bg-yellow-50 border-yellow-300 text-yellow-800',
+        low:      'bg-blue-50 border-blue-200 text-blue-700',
+      };
+
+      banner.className = `border-b px-6 py-2.5 ${colorMap[urgency] || colorMap.low}`;
+      msg.textContent = message;
+      cta.textContent = ctaText || 'Ver planos';
+      cta.href = ctaUrl || '/billing/checkout';
+      banner.classList.remove('hidden');
+    } catch (e) {
+      // Silently fail — not critical
+    }
+  })();
+</script>
