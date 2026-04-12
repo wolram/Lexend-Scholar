@@ -1,0 +1,158 @@
+name: Vercel — Preview Deployment
+
+# Cria um preview deployment no Vercel para cada Pull Request.
+# Posta o URL do preview como comentário no PR automaticamente.
+#
+# Secrets necessários (configurar em Settings → Secrets):
+#   VERCEL_TOKEN    → token da conta Vercel (vercel.com/account/tokens)
+#   VERCEL_ORG_ID   → org/team ID do projeto no Vercel
+#   VERCEL_PROJECT_ID → project ID (encontrado em .vercel/project.json após `vercel link`)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    paths:
+      - 'website/**'
+      - 'vercel.json'
+
+concurrency:
+  group: vercel-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    name: Deploy Preview no Vercel
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    outputs:
+      preview_url: ${{ steps.deploy.outputs.preview_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull configurações do projeto Vercel
+        run: |
+          vercel pull --yes \
+            --environment=preview \
+            --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Fazer build do projeto
+        run: |
+          vercel build \
+            --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy para Vercel (preview)
+        id: deploy
+        run: |
+          PREVIEW_URL=$(vercel deploy \
+            --prebuilt \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            2>&1 | tail -n 1)
+
+          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+          echo "==> Preview URL: $PREVIEW_URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Comentar URL do preview no PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const previewUrl = '${{ steps.deploy.outputs.preview_url }}';
+            const pr = context.payload.pull_request;
+            const sha = pr.head.sha.substring(0, 7);
+
+            // Verificar se já existe comentário de preview anterior
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+            });
+
+            const botComment = comments.data.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Vercel Preview')
+            );
+
+            const body = `## Vercel Preview
+
+            | | |
+            |---|---|
+            | **URL** | [${previewUrl}](${previewUrl}) |
+            | **Status** | ✅ Pronto |
+            | **Branch** | \`${pr.head.ref}\` |
+            | **Commit** | \`${sha}\` |
+            | **Inspecionar** | [Dashboard Vercel](https://vercel.com/lexendscholar) |
+
+            > Preview atualizado automaticamente a cada push neste PR.`;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: body,
+              });
+            }
+
+  # Job de limpeza: adiciona comentário quando o PR é fechado/merged
+  notify-pr-closed:
+    name: Notificar PR fechado
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed'
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Comentar fechamento do PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const merged = pr.merged;
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+            });
+
+            const botComment = comments.data.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Vercel Preview')
+            );
+
+            if (botComment) {
+              const status = merged ? '🟣 Mergeado' : '🔴 Fechado sem merge';
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: botComment.body + `\n\n---\n**PR ${status}** — preview desativado automaticamente pelo Vercel.`,
+              });
+            }
