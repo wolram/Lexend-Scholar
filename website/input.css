@@ -3,11 +3,8 @@
  * Build: npm run build  (output → assets/css/style.css)
  * Watch: npm run dev
  *
- * ATENÇÃO: Os arquivos HTML ainda carregam o CDN do Tailwind como fallback.
- * Quando o build local estiver configurado no CI, substitua o CDN pelo
- * arquivo compilado:
- *   <!-- Remover: <script src="https://cdn.tailwindcss.com..."></script> -->
- *   <!-- Adicionar: <link rel="stylesheet" href="/assets/css/style.css"/> -->
+ * Todos os HTMLs referenciam /assets/css/style.css (build compilado).
+ * O CDN do Tailwind foi removido em LS-192.
  */
 
 @tailwind base;
