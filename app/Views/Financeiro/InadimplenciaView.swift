@@ -1,11 +1,13 @@
-// LS-87: Implementar controle de inadimplência
+// LS-207: Views financeiras conectadas ao FinancialService
 import SwiftUI
 
 struct InadimplenciaView: View {
-    @State private var cobrancas: [Cobranca] = Cobranca.demo
+    @Environment(FinancialService.self) private var financialService
     @State private var searchText = ""
     @State private var lembreteEnviado: String? = nil
     @State private var showLembrete = false
+
+    private var cobrancas: [Cobranca] { financialService.cobrancas }
 
     private var vencendo7Dias: [Cobranca] {
         let limite = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
@@ -58,6 +60,13 @@ struct InadimplenciaView: View {
                 }
             }
             .navigationBarHidden(true)
+            .task { await financialService.fetchCobrancas() }
+            .overlay {
+                if financialService.isLoading && cobrancas.isEmpty {
+                    ProgressView("Carregando dados...")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                }
+            }
             .overlay(alignment: .top) {
                 if showLembrete, let nome = lembreteEnviado {
                     lembreteSuccessBanner(nome: nome)
@@ -340,5 +349,7 @@ struct InadimplentesCard: View {
 }
 
 #Preview {
+    let service = FinancialService()
     InadimplenciaView()
+        .environment(service)
 }

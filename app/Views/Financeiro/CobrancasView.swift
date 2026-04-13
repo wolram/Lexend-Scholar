@@ -1,11 +1,11 @@
-// LS-85: Implementar geração de cobranças mensais
+// LS-207: Views financeiras conectadas ao FinancialService
 import SwiftUI
 import Charts
 
 // MARK: - CobrancasView
 
 struct CobrancasView: View {
-    @State private var cobrancas: [Cobranca] = Cobranca.demo
+    @Environment(FinancialService.self) private var financialService
     @State private var selectedMes = Date()
     @State private var filtroStatus: StatusCobranca? = nil
     @State private var searchText = ""
@@ -15,6 +15,8 @@ struct CobrancasView: View {
     @State private var showRegistrarPagamento = false
     @State private var showRecibo = false
     @State private var reciboCobranca: Cobranca? = nil
+
+    private var cobrancas: [Cobranca] { financialService.cobrancas }
 
     private var filtradas: [Cobranca] {
         cobrancas.filter { c in
@@ -52,6 +54,7 @@ struct CobrancasView: View {
                 }
             }
             .navigationBarHidden(true)
+            .task { await financialService.fetchCobrancas() }
             .sheet(isPresented: $showGerarCobrancas) {
                 GerarCobrancasSheet { gerado in
                     showGerarCobrancas = false
@@ -66,11 +69,9 @@ struct CobrancasView: View {
             .sheet(isPresented: $showRegistrarPagamento) {
                 if let cobranca = selectedCobranca {
                     RegistrarPagamentoView(cobranca: cobranca) { paga in
-                        if let idx = cobrancas.firstIndex(where: { $0.id == paga.id }) {
-                            cobrancas[idx] = paga
-                        }
                         showRegistrarPagamento = false
                         reciboCobranca = paga
+                        Task { await financialService.fetchCobrancas() }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             showRecibo = true
                         }
@@ -80,6 +81,12 @@ struct CobrancasView: View {
             .sheet(isPresented: $showRecibo) {
                 if let cobranca = reciboCobranca {
                     ReciboView(cobranca: cobranca)
+                }
+            }
+            .overlay {
+                if financialService.isLoading && cobrancas.isEmpty {
+                    ProgressView("Carregando cobranças...")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
                 }
             }
             .overlay(alignment: .top) {
@@ -463,5 +470,7 @@ struct GerarCobrancasSheet: View {
 }
 
 #Preview {
+    let service = FinancialService()
     CobrancasView()
+        .environment(service)
 }

@@ -1,10 +1,12 @@
-// LS-89: Implementar relatório financeiro geral
+// LS-207: Views financeiras conectadas ao FinancialService
 import SwiftUI
 import Charts
 
 struct RelatorioFinanceiroView: View {
-    @State private var cobrancas: [Cobranca] = Cobranca.demo
+    @Environment(FinancialService.self) private var financialService
     @State private var filtroStatus: StatusCobranca? = nil
+
+    private var cobrancas: [Cobranca] { financialService.cobrancas }
 
     // MARK: - Computed
 
@@ -77,6 +79,13 @@ struct RelatorioFinanceiroView: View {
                 }
             }
             .navigationBarHidden(true)
+            .task { await financialService.fetchCobrancas() }
+            .overlay {
+                if financialService.isLoading && cobrancas.isEmpty {
+                    ProgressView("Carregando relatório...")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                }
+            }
         }
     }
 
@@ -308,5 +317,7 @@ struct DadosMes: Identifiable {
 }
 
 #Preview {
+    let service = FinancialService()
     RelatorioFinanceiroView()
+        .environment(service)
 }
