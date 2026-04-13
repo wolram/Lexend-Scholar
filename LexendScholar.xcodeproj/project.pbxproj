@@ -7,20 +7,80 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		033997A2B1EF686CF35708BB /* Cobranca.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A0AB53E166808F95F23276 /* Cobranca.swift */; };
+		0A4F5733C4651F913EF74E67 /* NotasLancamentoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20DF5933017368CAA70D651 /* NotasLancamentoView.swift */; };
+		0C6E2632FBA97C5E3C20CAA0 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D562F8614337855EF5BB96 /* SupabaseService.swift */; };
+		0DC96F0CDE18CEBDE3166AE6 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CE8C5FFBBA2777012D4CF /* SyncService.swift */; };
+		1AC9810AE53E46A5D2923C98 /* MensalidadesConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73035B73713823D65813C417 /* MensalidadesConfigView.swift */; };
+		1B7694FE3B1A349D5CFA72D1 /* RelatorioFinanceiroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AF55508EFEC2C1841451F8 /* RelatorioFinanceiroView.swift */; };
+		2ED1261817EAD5803867A3D5 /* ReciboView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640DC181669A80194970D636 /* ReciboView.swift */; };
+		32147773F3966B981006E5EB /* ProfessorFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413131ABA8BA2D9D91A174B6 /* ProfessorFormView.swift */; };
+		363CD80361F921C283CD4E46 /* AlunoFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576B1B619B40367D49FD230D /* AlunoFormView.swift */; };
+		37BEC5AE7CB51ABCE9E00460 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A607F9EBFB05ED91E22AEAD /* LoginView.swift */; };
+		39BD84473D02A5FB34E9E835 /* CobrancasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23462E383D1D29F867A842A /* CobrancasView.swift */; };
+		3A30A7A72BFA40B847AA9245 /* TurmasListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492CAC214FF6E699ED2C211B /* TurmasListView.swift */; };
+		3E837C2A7BBED5AC5BE73AA5 /* TurmaFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76EDACBC82E66817EC56E7F /* TurmaFormView.swift */; };
+		479E6AB8A8D2DABAB362D3AF /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AE9A88EFCC38BBB6A54B14 /* DeepLinkHandler.swift */; };
 		58275674D05A388038C27365 /* LexendScholarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EF5263B0F189E9A27BC42A /* LexendScholarApp.swift */; };
 		5BFB6FE68CD8690AC782FB50 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA066C214DDF78EDAE982302 /* Models.swift */; };
+		601A9EB8FFA5F06397DA5A66 /* ProfileSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFE8FAB0FB5D58603BA2054 /* ProfileSelectionView.swift */; };
+		6A9BEC0C24E14C3F989E6397 /* FinancialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D52DBB0FF31EB3E8CF60B9 /* FinancialService.swift */; };
+		747436DE62E35B96F7C6884D /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBEEE53D78AAB24E10CC2A3 /* AppShellView.swift */; };
+		7C2CA73FFCDFB1D4B87C6170 /* CalendarioLetivoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A51BBDAB02C125C69F475 /* CalendarioLetivoView.swift */; };
 		8CF9B5D4F3F3CFF7C0DAD516 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E448658D80E404819146A /* MainView.swift */; };
+		94050256D2E9661BEE7EE862 /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DDF3B515624CC9D17AB07E /* SwiftDataModels.swift */; };
+		95B62E0231855490ED3286CA /* AcademicService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C966A3914E97A20F6D087CC /* AcademicService.swift */; };
+		97E5524386C94616B697B0F6 /* InadimplenciaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12749C52BD72A9FBF15690D /* InadimplenciaView.swift */; };
 		A86560F3429C65DC6E8BDCA5 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78AAE3F17EAA5FC9A4BD87 /* DesignSystem.swift */; };
+		AB4DB5FAD7D8D09DAC75AF29 /* RegistrarPagamentoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26681AB0F03F771853F7B79F /* RegistrarPagamentoView.swift */; };
+		B3A729284AB8BF1ABEA5F445 /* ProfessoresListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3853BA4349282BDE20B0E0D /* ProfessoresListView.swift */; };
+		B746E5045D64402BDEBEFF83 /* AlunosListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1EF6E0CA3C3985B72D4AC5 /* AlunosListView.swift */; };
+		BD2FB5A55B0F411EEBC32541 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869225EDE3308CEC42AEF522 /* NotificationService.swift */; };
+		CE745463D889764FC6073BBD /* BoletimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0C3032C794F6E0B29D997 /* BoletimView.swift */; };
+		E55C34562477E01851987657 /* FrequenciaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B64EC08D8D03AA35E70A0 /* FrequenciaView.swift */; };
 		EF3191E81F272B6D54D2B74D /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E61CE4ECE1D6B4017F99C82 /* Charts.framework */; };
+		F44C8843846A004509C93F74 /* MatriculaFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3A69A35B24E6DC95E1888E /* MatriculaFlowView.swift */; };
+		F6BE850A7DCC10E3F5C1F187 /* ResponsavelFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479115F55B6B7A4212ABBB4 /* ResponsavelFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09A0AB53E166808F95F23276 /* Cobranca.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cobranca.swift; sourceTree = "<group>"; };
+		0C966A3914E97A20F6D087CC /* AcademicService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicService.swift; sourceTree = "<group>"; };
 		14540990649E67A7570B6EBB /* LexendScholar.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LexendScholar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E61CE4ECE1D6B4017F99C82 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
+		25AE9A88EFCC38BBB6A54B14 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
+		26681AB0F03F771853F7B79F /* RegistrarPagamentoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarPagamentoView.swift; sourceTree = "<group>"; };
+		2A3AB6FA7DF116FA3812AD9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3479115F55B6B7A4212ABBB4 /* ResponsavelFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsavelFormView.swift; sourceTree = "<group>"; };
+		413131ABA8BA2D9D91A174B6 /* ProfessorFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessorFormView.swift; sourceTree = "<group>"; };
 		44EF5263B0F189E9A27BC42A /* LexendScholarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexendScholarApp.swift; sourceTree = "<group>"; };
+		492CAC214FF6E699ED2C211B /* TurmasListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurmasListView.swift; sourceTree = "<group>"; };
+		4E9B64EC08D8D03AA35E70A0 /* FrequenciaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequenciaView.swift; sourceTree = "<group>"; };
+		531CE8C5FFBBA2777012D4CF /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		576B1B619B40367D49FD230D /* AlunoFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlunoFormView.swift; sourceTree = "<group>"; };
+		57A0C3032C794F6E0B29D997 /* BoletimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoletimView.swift; sourceTree = "<group>"; };
+		5A3A69A35B24E6DC95E1888E /* MatriculaFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatriculaFlowView.swift; sourceTree = "<group>"; };
+		640DC181669A80194970D636 /* ReciboView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReciboView.swift; sourceTree = "<group>"; };
+		65D52DBB0FF31EB3E8CF60B9 /* FinancialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialService.swift; sourceTree = "<group>"; };
+		73035B73713823D65813C417 /* MensalidadesConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensalidadesConfigView.swift; sourceTree = "<group>"; };
+		801E3CFCBB2D34660EFFD645 /* LexendScholar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LexendScholar.entitlements; sourceTree = "<group>"; };
+		80D562F8614337855EF5BB96 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		869225EDE3308CEC42AEF522 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		8C1EF6E0CA3C3985B72D4AC5 /* AlunosListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlunosListView.swift; sourceTree = "<group>"; };
+		8C2A51BBDAB02C125C69F475 /* CalendarioLetivoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarioLetivoView.swift; sourceTree = "<group>"; };
+		94DDF3B515624CC9D17AB07E /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
+		96AF55508EFEC2C1841451F8 /* RelatorioFinanceiroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatorioFinanceiroView.swift; sourceTree = "<group>"; };
+		9A607F9EBFB05ED91E22AEAD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C12749C52BD72A9FBF15690D /* InadimplenciaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InadimplenciaView.swift; sourceTree = "<group>"; };
+		C3853BA4349282BDE20B0E0D /* ProfessoresListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessoresListView.swift; sourceTree = "<group>"; };
 		CA066C214DDF78EDAE982302 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		CBBEEE53D78AAB24E10CC2A3 /* AppShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShellView.swift; sourceTree = "<group>"; };
+		CCFE8FAB0FB5D58603BA2054 /* ProfileSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectionView.swift; sourceTree = "<group>"; };
 		DF78AAE3F17EAA5FC9A4BD87 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		E23462E383D1D29F867A842A /* CobrancasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CobrancasView.swift; sourceTree = "<group>"; };
+		F20DF5933017368CAA70D651 /* NotasLancamentoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotasLancamentoView.swift; sourceTree = "<group>"; };
 		F62E448658D80E404819146A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F76EDACBC82E66817EC56E7F /* TurmaFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurmaFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +95,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045893AB9D8C4DD0BA0D263D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0C966A3914E97A20F6D087CC /* AcademicService.swift */,
+				25AE9A88EFCC38BBB6A54B14 /* DeepLinkHandler.swift */,
+				65D52DBB0FF31EB3E8CF60B9 /* FinancialService.swift */,
+				869225EDE3308CEC42AEF522 /* NotificationService.swift */,
+				80D562F8614337855EF5BB96 /* SupabaseService.swift */,
+				531CE8C5FFBBA2777012D4CF /* SyncService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		14D97347D91BD048B01C5B4F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				09A0AB53E166808F95F23276 /* Cobranca.swift */,
+				94DDF3B515624CC9D17AB07E /* SwiftDataModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		259D612EA3CE54AA4150B45D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -51,15 +133,84 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		40733E38D9E0D645112D95D1 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				9A607F9EBFB05ED91E22AEAD /* LoginView.swift */,
+				CCFE8FAB0FB5D58603BA2054 /* ProfileSelectionView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		46E90FE38E38BE6CD9BBB03C /* Professores */ = {
+			isa = PBXGroup;
+			children = (
+				C3853BA4349282BDE20B0E0D /* ProfessoresListView.swift */,
+				413131ABA8BA2D9D91A174B6 /* ProfessorFormView.swift */,
+			);
+			path = Professores;
+			sourceTree = "<group>";
+		};
+		5E3ED7C6624F9B25437C8916 /* Financeiro */ = {
+			isa = PBXGroup;
+			children = (
+				E23462E383D1D29F867A842A /* CobrancasView.swift */,
+				C12749C52BD72A9FBF15690D /* InadimplenciaView.swift */,
+				73035B73713823D65813C417 /* MensalidadesConfigView.swift */,
+				640DC181669A80194970D636 /* ReciboView.swift */,
+				26681AB0F03F771853F7B79F /* RegistrarPagamentoView.swift */,
+				96AF55508EFEC2C1841451F8 /* RelatorioFinanceiroView.swift */,
+			);
+			path = Financeiro;
+			sourceTree = "<group>";
+		};
+		61C8C3794E4AB350EBBDCB1F /* Matriculas */ = {
+			isa = PBXGroup;
+			children = (
+				5A3A69A35B24E6DC95E1888E /* MatriculaFlowView.swift */,
+			);
+			path = Matriculas;
+			sourceTree = "<group>";
+		};
+		8099AB9BE71AEAAECB190F6D /* Shell */ = {
+			isa = PBXGroup;
+			children = (
+				CBBEEE53D78AAB24E10CC2A3 /* AppShellView.swift */,
+			);
+			path = Shell;
+			sourceTree = "<group>";
+		};
+		814CF2EA07A5FACAE3CAC8F1 /* Boletim */ = {
+			isa = PBXGroup;
+			children = (
+				57A0C3032C794F6E0B29D997 /* BoletimView.swift */,
+			);
+			path = Boletim;
+			sourceTree = "<group>";
+		};
 		A4E5603953C64CD7A4BDBC31 /* app */ = {
 			isa = PBXGroup;
 			children = (
 				DF78AAE3F17EAA5FC9A4BD87 /* DesignSystem.swift */,
+				2A3AB6FA7DF116FA3812AD9E /* Info.plist */,
+				801E3CFCBB2D34660EFFD645 /* LexendScholar.entitlements */,
 				44EF5263B0F189E9A27BC42A /* LexendScholarApp.swift */,
 				F62E448658D80E404819146A /* MainView.swift */,
 				CA066C214DDF78EDAE982302 /* Models.swift */,
+				14D97347D91BD048B01C5B4F /* Models */,
+				045893AB9D8C4DD0BA0D263D /* Services */,
+				C0926537242CB002DD439B2D /* Views */,
 			);
 			path = app;
+			sourceTree = "<group>";
+		};
+		ADEDB81DA5FCFA8EB2555FB4 /* Turmas */ = {
+			isa = PBXGroup;
+			children = (
+				F76EDACBC82E66817EC56E7F /* TurmaFormView.swift */,
+				492CAC214FF6E699ED2C211B /* TurmasListView.swift */,
+			);
+			path = Turmas;
 			sourceTree = "<group>";
 		};
 		B384EED77718E3973425593A = {
@@ -69,6 +220,66 @@
 				259D612EA3CE54AA4150B45D /* Frameworks */,
 				2B0129E755333958AF88DE76 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		BC23ECE45C87952287E97274 /* Responsaveis */ = {
+			isa = PBXGroup;
+			children = (
+				3479115F55B6B7A4212ABBB4 /* ResponsavelFormView.swift */,
+			);
+			path = Responsaveis;
+			sourceTree = "<group>";
+		};
+		C0926537242CB002DD439B2D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E1EF57396121208AB8CC7123 /* Alunos */,
+				40733E38D9E0D645112D95D1 /* Auth */,
+				814CF2EA07A5FACAE3CAC8F1 /* Boletim */,
+				F5226FC9DFC58F6D086F6350 /* Calendario */,
+				5E3ED7C6624F9B25437C8916 /* Financeiro */,
+				C543AD2124843B3F40003EE7 /* Frequencia */,
+				61C8C3794E4AB350EBBDCB1F /* Matriculas */,
+				F6A3468B6711C5338FFF0E49 /* Notas */,
+				46E90FE38E38BE6CD9BBB03C /* Professores */,
+				BC23ECE45C87952287E97274 /* Responsaveis */,
+				8099AB9BE71AEAAECB190F6D /* Shell */,
+				ADEDB81DA5FCFA8EB2555FB4 /* Turmas */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C543AD2124843B3F40003EE7 /* Frequencia */ = {
+			isa = PBXGroup;
+			children = (
+				4E9B64EC08D8D03AA35E70A0 /* FrequenciaView.swift */,
+			);
+			path = Frequencia;
+			sourceTree = "<group>";
+		};
+		E1EF57396121208AB8CC7123 /* Alunos */ = {
+			isa = PBXGroup;
+			children = (
+				576B1B619B40367D49FD230D /* AlunoFormView.swift */,
+				8C1EF6E0CA3C3985B72D4AC5 /* AlunosListView.swift */,
+			);
+			path = Alunos;
+			sourceTree = "<group>";
+		};
+		F5226FC9DFC58F6D086F6350 /* Calendario */ = {
+			isa = PBXGroup;
+			children = (
+				8C2A51BBDAB02C125C69F475 /* CalendarioLetivoView.swift */,
+			);
+			path = Calendario;
+			sourceTree = "<group>";
+		};
+		F6A3468B6711C5338FFF0E49 /* Notas */ = {
+			isa = PBXGroup;
+			children = (
+				F20DF5933017368CAA70D651 /* NotasLancamentoView.swift */,
+			);
+			path = Notas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,10 +341,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95B62E0231855490ED3286CA /* AcademicService.swift in Sources */,
+				363CD80361F921C283CD4E46 /* AlunoFormView.swift in Sources */,
+				B746E5045D64402BDEBEFF83 /* AlunosListView.swift in Sources */,
+				747436DE62E35B96F7C6884D /* AppShellView.swift in Sources */,
+				CE745463D889764FC6073BBD /* BoletimView.swift in Sources */,
+				7C2CA73FFCDFB1D4B87C6170 /* CalendarioLetivoView.swift in Sources */,
+				033997A2B1EF686CF35708BB /* Cobranca.swift in Sources */,
+				39BD84473D02A5FB34E9E835 /* CobrancasView.swift in Sources */,
+				479E6AB8A8D2DABAB362D3AF /* DeepLinkHandler.swift in Sources */,
 				A86560F3429C65DC6E8BDCA5 /* DesignSystem.swift in Sources */,
+				6A9BEC0C24E14C3F989E6397 /* FinancialService.swift in Sources */,
+				E55C34562477E01851987657 /* FrequenciaView.swift in Sources */,
+				97E5524386C94616B697B0F6 /* InadimplenciaView.swift in Sources */,
 				58275674D05A388038C27365 /* LexendScholarApp.swift in Sources */,
+				37BEC5AE7CB51ABCE9E00460 /* LoginView.swift in Sources */,
 				8CF9B5D4F3F3CFF7C0DAD516 /* MainView.swift in Sources */,
+				F44C8843846A004509C93F74 /* MatriculaFlowView.swift in Sources */,
+				1AC9810AE53E46A5D2923C98 /* MensalidadesConfigView.swift in Sources */,
 				5BFB6FE68CD8690AC782FB50 /* Models.swift in Sources */,
+				0A4F5733C4651F913EF74E67 /* NotasLancamentoView.swift in Sources */,
+				BD2FB5A55B0F411EEBC32541 /* NotificationService.swift in Sources */,
+				32147773F3966B981006E5EB /* ProfessorFormView.swift in Sources */,
+				B3A729284AB8BF1ABEA5F445 /* ProfessoresListView.swift in Sources */,
+				601A9EB8FFA5F06397DA5A66 /* ProfileSelectionView.swift in Sources */,
+				2ED1261817EAD5803867A3D5 /* ReciboView.swift in Sources */,
+				AB4DB5FAD7D8D09DAC75AF29 /* RegistrarPagamentoView.swift in Sources */,
+				1B7694FE3B1A349D5CFA72D1 /* RelatorioFinanceiroView.swift in Sources */,
+				F6BE850A7DCC10E3F5C1F187 /* ResponsavelFormView.swift in Sources */,
+				0C6E2632FBA97C5E3C20CAA0 /* SupabaseService.swift in Sources */,
+				94050256D2E9661BEE7EE862 /* SwiftDataModels.swift in Sources */,
+				0DC96F0CDE18CEBDE3166AE6 /* SyncService.swift in Sources */,
+				3E837C2A7BBED5AC5BE73AA5 /* TurmaFormView.swift in Sources */,
+				3A30A7A72BFA40B847AA9245 /* TurmasListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,10 +384,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = app/LexendScholar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = app/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lexend Scholar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -170,10 +412,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = app/LexendScholar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = app/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lexend Scholar";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
