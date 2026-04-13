@@ -4,10 +4,10 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Carreiras — Lexend Scholar</title>
-  <meta name="description" content="Junte-se ao time do Lexend Scholar e ajude a transformar a gestão escolar no Brasil. Vagas remotas para engenharia, produto e design."/>
+  <meta name="description" content="Junte-se ao time do Lexend Scholar e ajude a transformar a gestão escolar no Brasil. Vagas remotas para engenharia iOS e customer success."/>
   <meta property="og:type"        content="website"/>
   <meta property="og:title"       content="Carreiras — Lexend Scholar"/>
-  <meta property="og:description" content="Junte-se ao time do Lexend Scholar. Vagas remotas em engenharia, produto e design para quem quer transformar a educação brasileira."/>
+  <meta property="og:description" content="Junte-se ao time do Lexend Scholar. Vagas remotas em engenharia iOS e customer success para quem quer transformar a educação brasileira."/>
   <meta property="og:url"         content="https://www.lexendscholar.com.br/careers.html"/>
   <meta property="og:image"       content="https://www.lexendscholar.com.br/assets/og-image.png"/>
   <meta name="twitter:card"       content="summary_large_image"/>
@@ -16,14 +16,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="/assets/css/style.css"/>
-  <script id="tailwind-config">
-    tailwind.config = { darkMode:"class", theme: { extend: { colors: { "primary":"#137fec","on-primary-fixed-variant":"#0b5ed7","primary-container":"#dbeafe","on-primary-container":"#0b5ed7","secondary":"#617589","surface":"#ffffff","surface-container-low":"#f6f7f8","surface-container":"#f1f3fd","background":"#f6f7f8","on-surface":"#111418","outline":"#e5e7eb","on-primary":"#ffffff" }, fontFamily: { headline:["Lexend"] } } } }
-  </script>
   <style>body { font-family: 'Lexend', sans-serif; } .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }</style>
 </head>
 <body class="bg-background text-on-surface">
 
-<!-- ===== HEADER — inclui website/_partials/header.html ===== -->
+<!-- ===== HEADER ===== -->
 <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100">
   <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
     <a href="/index.html" class="text-xl font-bold text-slate-900 tracking-tighter hover:text-primary transition-colors">Lexend Scholar</a>
@@ -41,20 +38,36 @@
 </header>
 
 <main class="pt-16">
+
+  <!-- Hero -->
   <section class="py-24 bg-surface">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <span class="inline-block px-3 py-1 rounded-full bg-primary-container text-on-primary-container text-xs font-bold tracking-widest uppercase mb-6">Faça parte do time</span>
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">Construa o futuro da educação brasileira</h1>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">Estamos construindo o futuro da gestão escolar</h1>
       <p class="text-secondary text-lg max-w-2xl mx-auto leading-relaxed">
-        Somos um time remoto, apaixonado por educação e tecnologia. Se você quer trabalho significativo com impacto real, veja nossas vagas abertas.
+        Somos um time remoto, apaixonado por educação e tecnologia. Cada linha de código que escrevemos afeta diretamente a vida de professores, diretores e alunos no Brasil.
       </p>
+      <div class="flex justify-center gap-6 mt-8 flex-wrap">
+        <div class="text-center">
+          <p class="text-3xl font-extrabold text-primary">100%</p>
+          <p class="text-secondary text-sm">Remoto</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-extrabold text-primary">2</p>
+          <p class="text-secondary text-sm">Vagas abertas</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-extrabold text-primary">BR</p>
+          <p class="text-secondary text-sm">Foco no Brasil</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Perks -->
+  <!-- Benefícios -->
   <section class="py-16 bg-surface-container-low">
     <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-2xl font-extrabold text-center mb-12 tracking-tight">Por que trabalhar no Lexend Scholar?</h2>
+      <h2 class="text-2xl font-extrabold text-center mb-10 tracking-tight">Por que trabalhar no Lexend Scholar?</h2>
       <div class="grid md:grid-cols-4 gap-6">
         <div class="bg-white rounded-2xl p-6 border border-outline text-center">
           <span class="material-symbols-outlined text-primary text-3xl mb-3 block">home_work</span>
@@ -80,49 +93,139 @@
     </div>
   </section>
 
-  <!-- Open Roles -->
+  <!-- Vagas abertas -->
   <section class="py-16 bg-surface">
     <div class="max-w-3xl mx-auto px-6">
-      <h2 class="text-2xl font-extrabold mb-8 tracking-tight">Vagas abertas</h2>
-      <div class="space-y-4">
-        <a href="mailto:carreiras@lexendscholar.com.br?subject=Vaga: Engenheiro(a) Full Stack"
-           class="flex items-center justify-between bg-white border border-outline rounded-xl p-6 hover:border-primary hover:shadow-sm transition-all group">
+      <h2 class="text-2xl font-extrabold mb-10 tracking-tight">Vagas abertas</h2>
+
+      <!-- Vaga 1: Engenheiro iOS -->
+      <div class="bg-white border border-outline rounded-2xl p-8 mb-8 shadow-sm">
+        <div class="flex items-start justify-between flex-wrap gap-4 mb-6">
           <div>
-            <p class="font-bold group-hover:text-primary transition-colors">Engenheiro(a) Full Stack</p>
-            <p class="text-secondary text-sm">Remoto · CLT · Engenharia</p>
+            <h3 class="text-xl font-bold mb-2">Engenheiro iOS (Swift/SwiftUI)</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="inline-block px-3 py-1 bg-primary-container text-on-primary-container text-xs font-bold rounded-full">Sênior</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Remoto</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Full-time</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Engenharia</span>
+            </div>
           </div>
-          <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">arrow_forward</span>
-        </a>
-        <a href="mailto:carreiras@lexendscholar.com.br?subject=Vaga: Product Designer"
-           class="flex items-center justify-between bg-white border border-outline rounded-xl p-6 hover:border-primary hover:shadow-sm transition-all group">
+        </div>
+
+        <div class="space-y-6 text-sm">
           <div>
-            <p class="font-bold group-hover:text-primary transition-colors">Product Designer (UI/UX)</p>
-            <p class="text-secondary text-sm">Remoto · CLT · Produto</p>
+            <h4 class="font-bold mb-3 text-on-surface">Sobre a vaga</h4>
+            <p class="text-secondary leading-relaxed">
+              Você vai liderar o desenvolvimento do app iOS do Lexend Scholar — nosso produto principal. O app é nativo em Swift/SwiftUI, focado em performance, offline-first e excelente UX para gestores escolares. Você terá autonomia real para decisões técnicas e influência direta no roadmap do produto.
+            </p>
           </div>
-          <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">arrow_forward</span>
-        </a>
-        <a href="mailto:carreiras@lexendscholar.com.br?subject=Vaga: Customer Success"
-           class="flex items-center justify-between bg-white border border-outline rounded-xl p-6 hover:border-primary hover:shadow-sm transition-all group">
+
           <div>
-            <p class="font-bold group-hover:text-primary transition-colors">Analista de Customer Success</p>
-            <p class="text-secondary text-sm">Remoto · CLT · Sucesso do Cliente</p>
+            <h4 class="font-bold mb-3 text-on-surface">Responsabilidades</h4>
+            <ul class="space-y-2 text-secondary">
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Desenvolver e manter o app iOS em Swift + SwiftUI</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Implementar sincronização offline com Supabase e CoreData</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Garantir acessibilidade (Dynamic Type, VoiceOver)</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Escrever testes unitários e de UI com XCTest</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Colaborar com design para traduzir Figma em componentes SwiftUI de alta qualidade</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Participar de code reviews e definir padrões de arquitetura (TCA ou MVVM)</li>
+            </ul>
           </div>
-          <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">arrow_forward</span>
-        </a>
-        <a href="mailto:carreiras@lexendscholar.com.br?subject=Candidatura Espontanea"
-           class="flex items-center justify-between bg-surface-container-low border border-outline rounded-xl p-6 hover:border-primary hover:shadow-sm transition-all group">
+
           <div>
-            <p class="font-bold group-hover:text-primary transition-colors">Candidatura Espontânea</p>
-            <p class="text-secondary text-sm">Não encontrou a vaga ideal? Nos conta sobre você.</p>
+            <h4 class="font-bold mb-3 text-on-surface">Requisitos</h4>
+            <ul class="space-y-2 text-secondary">
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>5+ anos de desenvolvimento iOS com Swift</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Experiência sólida com SwiftUI (não apenas UIKit)</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Conhecimento de Combine ou async/await e Concurrency</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Experiência com integração de APIs REST/GraphQL</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Familiaridade com CI/CD (Fastlane, GitHub Actions, TestFlight)</li>
+            </ul>
           </div>
-          <span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">arrow_forward</span>
+
+          <div class="bg-surface-container-low rounded-xl p-4">
+            <h4 class="font-bold mb-2 text-on-surface">Como aplicar</h4>
+            <p class="text-secondary leading-relaxed">
+              Envie seu currículo, portfólio ou link de um app publicado na App Store para
+              <a href="mailto:vagas@lexendscholar.com.br?subject=Vaga: Engenheiro iOS (Swift/SwiftUI)" class="text-primary font-semibold hover:underline">vagas@lexendscholar.com.br</a>
+              com o assunto <strong>"Vaga: Engenheiro iOS (Swift/SwiftUI)"</strong>. Conte um pouco sobre sua relação com Swift e o que te atrai em trabalhar com educação.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vaga 2: Customer Success -->
+      <div class="bg-white border border-outline rounded-2xl p-8 shadow-sm">
+        <div class="flex items-start justify-between flex-wrap gap-4 mb-6">
+          <div>
+            <h3 class="text-xl font-bold mb-2">Customer Success</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="inline-block px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-bold rounded-full">Pleno</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Remoto</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Full-time</span>
+              <span class="inline-block px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">Sucesso do Cliente</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6 text-sm">
+          <div>
+            <h4 class="font-bold mb-3 text-on-surface">Sobre a vaga</h4>
+            <p class="text-secondary leading-relaxed">
+              Você será o primeiro ponto de contato das escolas piloto no onboarding do Lexend Scholar. Seu trabalho é garantir que cada escola que começa a usar o produto consiga extrair o máximo valor desde o primeiro dia. Você vai coletar feedback direto do campo, influenciar o roadmap e ajudar a moldar o que significa sucesso para nossos clientes.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-3 text-on-surface">Responsabilidades</h4>
+            <ul class="space-y-2 text-secondary">
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Conduzir onboarding estruturado com escolas piloto</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Criar materiais de treinamento: vídeos, guias rápidos e FAQs</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Realizar check-ins regulares com diretores e secretarias</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Documentar e priorizar feedback de produto junto ao time de engenharia</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Monitorar métricas de adoção e identificar riscos de churn precocemente</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Apoiar expansão de uso dentro da escola (novos professores, módulos)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-3 text-on-surface">Requisitos</h4>
+            <ul class="space-y-2 text-secondary">
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>2+ anos em Customer Success ou Suporte em SaaS B2B</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Excelente comunicação escrita e verbal em português</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Paciência e empatia genuína com usuários não técnicos</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Familiaridade com ferramentas de suporte (Intercom, Zendesk ou similar)</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-size:1.1rem">check_circle</span>Experiência com o setor educacional é um diferencial valioso</li>
+            </ul>
+          </div>
+
+          <div class="bg-surface-container-low rounded-xl p-4">
+            <h4 class="font-bold mb-2 text-on-surface">Como aplicar</h4>
+            <p class="text-secondary leading-relaxed">
+              Envie seu currículo e uma mensagem contando por que você quer trabalhar com educação para
+              <a href="mailto:vagas@lexendscholar.com.br?subject=Vaga: Customer Success" class="text-primary font-semibold hover:underline">vagas@lexendscholar.com.br</a>
+              com o assunto <strong>"Vaga: Customer Success"</strong>. Conte como você lida com clientes em situações difíceis.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Candidatura espontânea -->
+      <div class="bg-surface-container-low border border-outline rounded-2xl p-6 mt-8 text-center">
+        <span class="material-symbols-outlined text-primary text-3xl mb-3 block">waving_hand</span>
+        <h3 class="font-bold mb-2">Não encontrou a vaga ideal?</h3>
+        <p class="text-secondary text-sm mb-4">Mande uma candidatura espontânea. Se você é bom no que faz e quer ter impacto real na educação brasileira, queremos conhecer você.</p>
+        <a href="mailto:vagas@lexendscholar.com.br?subject=Candidatura Espontânea"
+           class="inline-block bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-on-primary-fixed-variant transition-all">
+          Enviar candidatura espontânea
         </a>
       </div>
     </div>
   </section>
+
 </main>
 
-<!-- ===== FOOTER — inclui website/_partials/footer.html ===== -->
+<!-- ===== FOOTER ===== -->
 <footer class="bg-slate-50 w-full border-t border-slate-200">
   <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
     <a href="/index.html" class="font-bold text-slate-900 hover:text-primary transition-colors">Lexend Scholar</a>
@@ -136,7 +239,6 @@
   </div>
 </footer>
 
-<!-- Analytics: Plausible (ver docs/eng/analytics.md) -->
 <script defer data-domain="lexendscholar.com.br" src="https://plausible.io/js/script.js"></script>
 
 </body>
