@@ -10,6 +10,7 @@
   "devCommand": "npx serve website --listen 3000",
 
   "rewrites": [
+    { "source": "/api/:path*", "destination": "/webapp/api/:path*" },
     { "source": "/",          "destination": "/index.html"   },
     { "source": "/sobre",     "destination": "/about.html"   },
     { "source": "/precos",    "destination": "/pricing.html" },
